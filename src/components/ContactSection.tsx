@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { m } from 'motion/react';
 import { DeveloperProfile } from '../types/portfolio';
 import { Copy, Check, ArrowUpRight, Mail, Linkedin, Github, Globe } from 'lucide-react';
 import { revealVariant, standardViewport, tapScale } from '../lib/motion';
+
+const ContactReceipt = lazy(() => import('./ContactReceipt'));
 
 interface ContactSectionProps {
   readonly profile: DeveloperProfile;
@@ -56,21 +58,33 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           <span>PROFESSIONAL REACHOUT</span>
         </m.div>
 
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
-          className="max-w-3xl mb-12 space-y-6"
-        >
-          <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.1]">
-            Let's build something exceptional together.
-          </h2>
-          <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans">
-            As Co-Founder of Wayve Enterprises, I'm available for technical contracting, computer vision architecture,
-            full-stack systems engineering, and strategic advisory. Reach out directly or explore my channels on Linktree.
-          </p>
-        </m.div>
+        {/* Header Row: Headline & Bio on Left, Animated Receipt Slot on Right (Desktop) */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-0">
+          <m.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={standardViewport}
+            variants={revealVariant}
+            className="max-w-3xl space-y-6 pb-2 lg:pb-0"
+          >
+            <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.1]">
+              Let's build something exceptional together.
+            </h2>
+            <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans">
+              As Co-Founder of Wayve Enterprises, I'm available for technical contracting, computer vision architecture,
+              full-stack systems engineering, and strategic advisory. Reach out directly or explore my channels on Linktree.
+            </p>
+          </m.div>
+
+          {/* Minimal Animated Receipt Slot: Centered on mobile/tablet, right-aligned on desktop */}
+          <div className="flex justify-center lg:justify-end shrink-0 relative z-0">
+            <div className="w-[220px] lg:w-[240px] h-[280px] overflow-hidden flex flex-col justify-end">
+              <Suspense fallback={<div className="w-[220px] lg:w-[240px] h-[280px]" />}>
+                <ContactReceipt email={profile.email} />
+              </Suspense>
+            </div>
+          </div>
+        </div>
 
         {/* Primary Contact Card */}
         <m.div
@@ -78,7 +92,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="p-8 md:p-12 border border-hairline bg-[#FAFAFA] mb-12 relative"
+          className="p-8 md:p-12 border border-hairline bg-[#FAFAFA] mb-12 relative z-10"
         >
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-8 border-b border-hairline">
             <div>
