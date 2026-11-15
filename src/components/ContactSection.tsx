@@ -78,11 +78,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
           {/* Minimal Animated Receipt Slot: Centered on mobile/tablet, right-aligned on desktop */}
           <div className="flex justify-center lg:justify-end shrink-0 relative z-0">
-            <div className="w-[220px] lg:w-[240px] h-[280px] overflow-hidden flex flex-col justify-end">
-              <Suspense fallback={<div className="w-[220px] lg:w-[240px] h-[280px]" />}>
-                <ContactReceipt email={profile.email} />
-              </Suspense>
-            </div>
+            <Suspense fallback={<div className="w-[220px] lg:w-[240px] h-[280px]" />}>
+              <ContactReceipt email={profile.email} />
+            </Suspense>
           </div>
         </div>
 

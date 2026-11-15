@@ -232,193 +232,195 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     return (
       <span className="text-[#2fb344] font-semibold whitespace-nowrap inline-block">
         <span className="inline-block mr-0.5">•</span>
-        <span aria-hidden="true">
-          <span>{revealed}</span>
-          <span className="invisible">{hidden}</span>
+        <span>{revealed}</span>
+        <span className="invisible" aria-hidden="true">
+          {hidden}
         </span>
-        <span className="sr-only">OPEN</span>
       </span>
     );
   };
 
   return (
-    <div ref={containerRef} className="group flex flex-col items-center relative select-none">
+    <div ref={containerRef} className="group relative flex flex-col items-center select-none">
       {/* Screen reader live announcement region */}
       <div className="sr-only" aria-live="polite" role="status">
         {ariaAnnouncement}
       </div>
 
-      {/* Printable Receipt Paper Strip */}
-      <div
-        onClick={() => handleTear()}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        role="button"
-        aria-label={`Project inquiry receipt. Click or press Enter to tear and copy ${email}.`}
-        className={`w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-2 will-change-transform ${
-          stage === 'ready' ? 'receipt-hover-ready' : ''
-        }`}
-        style={{
-          clipPath: ZIGZAG_CLIP,
-          animation:
-            stage === 'printing' && !isReducedMotion
-              ? `receiptPrintStep ${printDurationSec}s steps(16, end) forwards`
-              : stage === 'settling' && !isReducedMotion
-              ? 'receiptSettle 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
-              : stage === 'tearing' && !isReducedMotion
-              ? 'receiptTear 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards'
-              : undefined,
-          transform:
-            stage === 'idle' && !isReducedMotion
-              ? 'translateY(100%)'
-              : stage === 'waiting'
-              ? 'translateY(100%) opacity-0'
-              : stage === 'ready' || isReducedMotion
-              ? 'translateY(0)'
-              : undefined,
-        }}
-      >
-        {/* Torn top edge hairline decoration */}
-        <div className="w-full h-[5px] overflow-hidden" aria-hidden="true">
-          <svg
-            className="w-full h-[5px] text-[#D6D5CF] dark:text-[rgba(242,242,239,0.16)] block"
-            preserveAspectRatio="none"
-            viewBox="0 0 100 5"
-          >
-            <path
-              d="M0,4 L2.5,0 L5,4 L7.5,0 L10,4 L12.5,0 L15,4 L17.5,0 L20,4 L22.5,0 L25,4 L27.5,0 L30,4 L32.5,0 L35,4 L37.5,0 L40,4 L42.5,0 L45,4 L47.5,0 L50,4 L52.5,0 L55,4 L57.5,0 L60,4 L62.5,0 L65,4 L67.5,0 L70,4 L72.5,0 L75,4 L77.5,0 L80,4 L82.5,0 L85,4 L87.5,0 L90,4 L92.5,0 L95,4 L97.5,0 L100,4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              vectorEffect="non-scaling-stroke"
+      {/* Overflow-hidden slot wrapper: paper rises upward out of this slot */}
+      <div className="w-[220px] lg:w-[240px] h-[280px] overflow-hidden flex flex-col justify-end relative z-0">
+        {/* Printable Receipt Paper Strip */}
+        <div
+          onClick={() => handleTear()}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+          role="button"
+          aria-label={`Project inquiry receipt. Click or press Enter to tear and copy ${email}.`}
+          className={`contact-receipt-paper w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-2 will-change-transform ${
+            stage === 'ready' ? 'receipt-hover-ready' : ''
+          }`}
+          style={{
+            clipPath: ZIGZAG_CLIP,
+            animation:
+              stage === 'printing' && !isReducedMotion
+                ? `receiptPrintStep ${printDurationSec}s steps(16, end) forwards`
+                : stage === 'settling' && !isReducedMotion
+                ? 'receiptSettle 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+                : stage === 'tearing' && !isReducedMotion
+                ? 'receiptTear 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards'
+                : undefined,
+            transform:
+              stage === 'idle' && !isReducedMotion
+                ? 'translateY(100%)'
+                : stage === 'waiting'
+                ? 'translateY(100%) opacity-0'
+                : stage === 'ready' || isReducedMotion
+                ? 'translateY(0)'
+                : undefined,
+          }}
+        >
+          {/* Torn top edge hairline decoration */}
+          <div className="w-full h-[5px] overflow-hidden" aria-hidden="true">
+            <svg
+              className="w-full h-[5px] text-[#D6D5CF] dark:text-[rgba(242,242,239,0.16)] block"
+              preserveAspectRatio="none"
+              viewBox="0 0 100 5"
+            >
+              <path
+                d="M0,4 L2.5,0 L5,4 L7.5,0 L10,4 L12.5,0 L15,4 L17.5,0 L20,4 L22.5,0 L25,4 L27.5,0 L30,4 L32.5,0 L35,4 L37.5,0 L40,4 L42.5,0 L45,4 L47.5,0 L50,4 L52.5,0 L55,4 L57.5,0 L60,4 L62.5,0 L65,4 L67.5,0 L70,4 L72.5,0 L75,4 L77.5,0 L80,4 L82.5,0 L85,4 L87.5,0 L90,4 L92.5,0 L95,4 L97.5,0 L100,4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+          </div>
+
+          <div className="px-3.5 pt-1.5 pb-2.5">
+            {/* Line 0: WAYVE ENTERPRISES */}
+            <div
+              className="text-center font-bold tracking-wider mb-0.5 transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 1 || isReducedMotion ? 1 : 0 }}
+            >
+              WAYVE ENTERPRISES
+            </div>
+
+            {/* Line 1: NO. 0027 / 15 NOV 2026 */}
+            <div
+              className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-wider mb-1.5 transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 2 || isReducedMotion ? 1 : 0 }}
+            >
+              {formattedOrder} / {formattedDate}
+            </div>
+
+            {/* Line 2: Dashed Rule */}
+            <div
+              className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-1.5 transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 3 || isReducedMotion ? 1 : 0 }}
+              aria-hidden="true"
             />
-          </svg>
-        </div>
 
-        <div className="px-3.5 pt-2 pb-3">
-          {/* Line 0: WAYVE ENTERPRISES */}
-          <div
-            className="text-center font-bold tracking-wider mb-0.5 transition-opacity duration-150"
-            style={{ opacity: visibleLines >= 1 || isReducedMotion ? 1 : 0 }}
-          >
-            WAYVE ENTERPRISES
-          </div>
+            {/* Lines 3 - 6: Service Lines */}
+            <div className="space-y-0.5 my-1.5">
+              {/* Line 3: CONTRACTING */}
+              <div
+                className="flex justify-between items-baseline transition-opacity duration-150"
+                style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
+              >
+                <span>CONTRACTING</span>
+                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
+                {renderOpenWord(openCounts[0])}
+              </div>
 
-          {/* Line 1: NO. 0027 / 15 NOV 2026 */}
-          <div
-            className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-wider mb-2 transition-opacity duration-150"
-            style={{ opacity: visibleLines >= 2 || isReducedMotion ? 1 : 0 }}
-          >
-            {formattedOrder} / {formattedDate}
-          </div>
+              {/* Line 4: COMPUTER VISION */}
+              <div
+                className="flex justify-between items-baseline transition-opacity duration-150"
+                style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
+              >
+                <span>COMPUTER VISION</span>
+                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
+                {renderOpenWord(openCounts[1])}
+              </div>
 
-          {/* Line 2: Dashed Rule */}
-          <div
-            className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-2 transition-opacity duration-150"
-            style={{ opacity: visibleLines >= 3 || isReducedMotion ? 1 : 0 }}
-            aria-hidden="true"
-          />
+              {/* Line 5: FULL-STACK */}
+              <div
+                className="flex justify-between items-baseline transition-opacity duration-150"
+                style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
+              >
+                <span>FULL-STACK</span>
+                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
+                {renderOpenWord(openCounts[2])}
+              </div>
 
-          {/* Lines 3 - 6: Service Lines */}
-          <div className="space-y-1 my-2">
-            {/* Line 3: CONTRACTING */}
-            <div
-              className="flex justify-between items-baseline transition-opacity duration-150"
-              style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
-            >
-              <span>CONTRACTING</span>
-              <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
-              {renderOpenWord(openCounts[0])}
+              {/* Line 6: ADVISORY */}
+              <div
+                className="flex justify-between items-baseline transition-opacity duration-150"
+                style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
+              >
+                <span>ADVISORY</span>
+                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
+                {renderOpenWord(openCounts[3])}
+              </div>
             </div>
 
-            {/* Line 4: COMPUTER VISION */}
+            {/* Line 7: Dashed Rule */}
             <div
-              className="flex justify-between items-baseline transition-opacity duration-150"
-              style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
-            >
-              <span>COMPUTER VISION</span>
-              <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
-              {renderOpenWord(openCounts[1])}
+              className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-1.5 transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 8 || isReducedMotion ? 1 : 0 }}
+              aria-hidden="true"
+            />
+
+            {/* Lines 8 - 9: SLA & Total */}
+            <div className="space-y-0.5 my-1.5">
+              <div
+                className="text-[#6D6C66] dark:text-[#9A9993] text-[10px] transition-opacity duration-150"
+                style={{ opacity: visibleLines >= 9 || isReducedMotion ? 1 : 0 }}
+              >
+                REPLY WITHIN 24H
+              </div>
+              <div
+                className="font-bold text-[10px] leading-snug transition-opacity duration-150"
+                style={{ opacity: visibleLines >= 10 || isReducedMotion ? 1 : 0 }}
+              >
+                TOTAL: LET'S BUILD SOMETHING EXCEPTIONAL
+              </div>
             </div>
 
-            {/* Line 5: FULL-STACK */}
+            {/* Line 10: Clickable Email Line */}
             <div
-              className="flex justify-between items-baseline transition-opacity duration-150"
-              style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
+              className="my-1.5 pt-1 border-t border-[#EBEBE8] dark:border-[rgba(242,242,239,0.1)] transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 11 || isReducedMotion ? 1 : 0 }}
             >
-              <span>FULL-STACK</span>
-              <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
-              {renderOpenWord(openCounts[2])}
+              <a
+                href={`mailto:${email}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTear(e);
+                }}
+                className="block text-black dark:text-[#f2f2ef] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-1 truncate"
+              >
+                {isCopied ? (
+                  <span className="text-[#2fb344] font-bold tracking-wider">COPIED</span>
+                ) : (
+                  email
+                )}
+              </a>
             </div>
 
-            {/* Line 6: ADVISORY */}
+            {/* Line 11: Sign-off */}
             <div
-              className="flex justify-between items-baseline transition-opacity duration-150"
-              style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
+              className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-widest mt-1.5 transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 12 || isReducedMotion ? 1 : 0 }}
             >
-              <span>ADVISORY</span>
-              <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
-              {renderOpenWord(openCounts[3])}
+              THANK YOU.
             </div>
-          </div>
-
-          {/* Line 7: Dashed Rule */}
-          <div
-            className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-2 transition-opacity duration-150"
-            style={{ opacity: visibleLines >= 8 || isReducedMotion ? 1 : 0 }}
-            aria-hidden="true"
-          />
-
-          {/* Lines 8 - 9: SLA & Total */}
-          <div className="space-y-1 my-2">
-            <div
-              className="text-[#6D6C66] dark:text-[#9A9993] text-[10px] transition-opacity duration-150"
-              style={{ opacity: visibleLines >= 9 || isReducedMotion ? 1 : 0 }}
-            >
-              REPLY WITHIN 24H
-            </div>
-            <div
-              className="font-bold text-[10px] leading-snug transition-opacity duration-150"
-              style={{ opacity: visibleLines >= 10 || isReducedMotion ? 1 : 0 }}
-            >
-              TOTAL: LET'S BUILD SOMETHING EXCEPTIONAL
-            </div>
-          </div>
-
-          {/* Line 10: Clickable Email Line */}
-          <div
-            className="my-2 pt-1 border-t border-[#EBEBE8] dark:border-[rgba(242,242,239,0.1)] transition-opacity duration-150"
-            style={{ opacity: visibleLines >= 11 || isReducedMotion ? 1 : 0 }}
-          >
-            <a
-              href={`mailto:${email}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleTear(e);
-              }}
-              className="block text-black dark:text-[#f2f2ef] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-1 truncate"
-            >
-              {isCopied ? (
-                <span className="text-[#2fb344] font-bold tracking-wider">COPIED</span>
-              ) : (
-                email
-              )}
-            </a>
-          </div>
-
-          {/* Line 11: Sign-off */}
-          <div
-            className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-widest mt-2 transition-opacity duration-150"
-            style={{ opacity: visibleLines >= 12 || isReducedMotion ? 1 : 0 }}
-          >
-            THANK YOU.
           </div>
         </div>
       </div>
 
       {/* Tiny Mono Hint under strip on desktop hover / focus */}
       <div
-        className="text-[9px] font-mono uppercase tracking-widest text-[#8E8D88] dark:text-[#7A7974] text-center pt-1.5 transition-opacity duration-200 pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hidden lg:block"
+        className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 text-[9px] font-mono uppercase tracking-widest text-[#8E8D88] dark:text-[#7A7974] text-center pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hidden lg:block z-20 whitespace-nowrap"
         aria-hidden="true"
       >
         TEAR TO COPY
@@ -455,10 +457,25 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           }
         }
         @media (hover: hover) and (pointer: fine) {
-          .receipt-hover-ready:hover {
-            transform: translateY(-3px) !important;
+          .receipt-hover-ready {
             transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           }
+          .receipt-hover-ready:hover,
+          .receipt-hover-ready:focus-visible {
+            transform: translateY(-3px) !important;
+          }
+        }
+        @media (prefers-color-scheme: dark) {
+          .contact-receipt-paper {
+            background-color: #171716 !important;
+            color: #f2f2ef !important;
+            border-color: rgba(242, 242, 239, 0.16) !important;
+          }
+        }
+        :is(.dark) .contact-receipt-paper {
+          background-color: #171716 !important;
+          color: #f2f2ef !important;
+          border-color: rgba(242, 242, 239, 0.16) !important;
         }
       `}</style>
     </div>
