@@ -10,12 +10,14 @@ import {
   standardViewport,
   tapScale
 } from '../lib/motion';
+import { useRouter } from '../lib/router';
 
 interface HeroProps {
   readonly profile: DeveloperProfile;
 }
 
 export const Hero: React.FC<HeroProps> = ({ profile }) => {
+  const { navigate } = useRouter();
   const words = heroValueStatement.split(' ');
 
   const getCardIcon = (index: string) => {
@@ -62,7 +64,11 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
             className="mt-6 flex flex-wrap items-center gap-3"
           >
             <m.a
-              href="#projects"
+              href="/projects"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/projects');
+              }}
               whileTap={tapScale}
               whileHover={{ scale: 1.02 }}
               className="px-4 py-2 bg-[#121211] text-[#F4F4F2] font-mono text-xs uppercase tracking-wider hover:bg-neutral-800 transition-colors inline-flex items-center gap-1.5 shadow-xs cursor-pointer rounded-sm"
@@ -149,13 +155,16 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
           {specializations.map((item) => (
             <m.div
               key={item.id}
+              onClick={() => navigate('/specializations')}
               initial="hidden"
               whileInView="visible"
               viewport={standardViewport}
               variants={revealVariant}
               whileHover={{ y: -2 }}
+              whileTap={tapScale}
               transition={{ duration: 0.25 }}
-              className="p-6 md:p-8 flex items-start gap-4 hover:bg-[#E5E5E1]/40 transition-colors"
+              className="p-6 md:p-8 flex items-start gap-4 hover:bg-[#E5E5E1]/60 transition-colors cursor-pointer select-none"
+              title="Click to view full capabilities matrix"
             >
               {/* Rounded Gray Icon Box */}
               <div className="w-12 h-12 rounded-xl bg-[#E5E5E1]/80 backdrop-blur-sm flex items-center justify-center shrink-0">

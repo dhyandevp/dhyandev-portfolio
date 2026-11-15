@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { m, AnimatePresence } from 'motion/react';
 import { tapScale, MOTION_EASE } from '../lib/motion';
+import { useRouter } from '../lib/router';
 
 interface MobileMenuProps {
   readonly isOpen: boolean;
@@ -9,6 +10,8 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItems }) => {
+  const { path, navigate } = useRouter();
+
   // Close on Escape key press
   useEffect(() => {
     if (!isOpen) return;
@@ -39,6 +42,13 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItem
     };
   }, [isOpen]);
 
+  const handleItemClick = (e: React.MouseEvent, item: typeof navItems[0]) => {
+    if (item.external) return;
+    e.preventDefault();
+    onClose();
+    navigate(item.href);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -52,21 +62,27 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItem
           aria-modal="true"
           aria-label="Mobile Navigation Menu"
         >
-          {navItems.map((item, idx) => (
-            <m.a
-              key={idx}
-              href={item.href}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noreferrer' : undefined}
-              onClick={onClose}
-              whileTap={tapScale}
-              className={`block px-3 py-2.5 rounded-xl text-neutral-800 hover:text-black hover:bg-neutral-100/70 font-medium transition-colors ${
-                item.external ? 'font-mono text-xs font-semibold' : ''
-              }`}
-            >
-              {item.label}
-            </m.a>
-          ))}
+          {navItems.map((item, idx) => {
+            const active = item.href === '/' ? path === '/' : path === item.href;
+
+            return (
+              <m.a
+                key={idx}
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noreferrer' : undefined}
+                onClick={(e) => handleItemClick(e, item)}
+                whileTap={tapScale}
+                className={`block px-3.5 py-2.5 rounded-xl font-medium transition-colors ${
+                  active
+                    ? 'bg-[#121211] text-[#F4F4F2] font-semibold'
+                    : 'text-neutral-800 hover:text-black hover:bg-neutral-100/70'
+                } ${item.external ? 'font-mono text-xs font-semibold' : ''}`}
+              >
+                {item.label}
+              </m.a>
+            );
+          })}
         </m.div>
       )}
     </AnimatePresence>
