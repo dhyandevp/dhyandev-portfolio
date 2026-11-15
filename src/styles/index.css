@@ -4,21 +4,21 @@
 
 @layer base {
   :root {
-    --bg-canvas: #FFFFFF;
-    --text-ink: #0A0A0A;
-    --border-hairline: #E5E5E5;
+    --bg-canvas: #F4F4F2;
+    --text-ink: #121211;
+    --border-hairline: #D6D5CF;
   }
 
   html {
-    background-color: #FFFFFF;
-    color: #0A0A0A;
+    background-color: #F4F4F2;
+    color: #121211;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
-    background-color: #0A0A0A;
-    color: #FFFFFF;
+    background-color: #121211;
+    color: #F4F4F2;
   }
 
   /* Custom subtle scrollbar */
@@ -28,16 +28,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #FFFFFF;
-    border-left: 1px solid #E5E5E5;
+    background: #F4F4F2;
+    border-left: 1px solid #D6D5CF;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #0A0A0A;
+    background: #121211;
   }
 
   :focus-visible {
-    outline: 2px solid #0A0A0A;
+    outline: 2px solid #121211;
     outline-offset: 2px;
   }
 }
@@ -64,8 +64,8 @@
 
 /* Subtle Dot Grid pattern matching reference */
 .bg-dot-grid {
-  background-color: #FFFFFF;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.13) 1px, transparent 1px);
+  background-color: #F4F4F2;
+  background-image: radial-gradient(circle, rgba(20, 20, 20, 0.16) 1px, transparent 1.2px);
   background-size: 32px 32px;
 }
 

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { MotionConfig } from 'motion/react';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -8,37 +9,44 @@ import { TechnicalNotesSection } from './components/TechnicalNotesSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { developerProfile, featuredProjects } from './data/portfolioData';
+import { initSmoothScroll } from './lib/scroll';
 
 export const App: React.FC = () => {
+  useEffect(() => {
+    const cleanup = initSmoothScroll();
+    return () => cleanup?.();
+  }, []);
   return (
-    <div className="min-h-screen bg-white bg-dot-grid text-black flex flex-col font-sans selection:bg-black selection:text-white">
-      {/* 1. Minimal Header & Side Badges */}
-      <Navigation />
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-[#F4F4F2] bg-dot-grid text-[#121211] flex flex-col font-sans selection:bg-[#121211] selection:text-[#F4F4F2] relative">
+        {/* 1. Floating Pill Navigation Bar */}
+        <Navigation />
 
-      {/* 2. Main Page Content */}
-      <main className="flex-1 w-full" id="main-content">
-        {/* Hero Section */}
-        <Hero profile={developerProfile} />
+        {/* 2. Main Page Content */}
+        <main className="flex-1 w-full pt-16 sm:pt-20" id="main-content">
+          {/* Hero Section */}
+          <Hero profile={developerProfile} />
 
-        {/* Section 01: About & Leadership (Co-Founder @ Wayve Enterprises) */}
-        <AboutSection profile={developerProfile} />
+          {/* Section 01: About & Leadership (Co-Founder @ Wayve Enterprises) */}
+          <AboutSection profile={developerProfile} />
 
-        {/* Section 02: Verified Repositories & Systems (Projects Showcase) */}
-        <ProjectsSection projects={featuredProjects} />
+          {/* Section 02: Verified Repositories & Systems (Projects Showcase) */}
+          <ProjectsSection projects={featuredProjects} />
 
-        {/* Section 03: Specializations & Capabilities */}
-        <SpecializationsSection />
+          {/* Section 03: Specializations & Capabilities */}
+          <SpecializationsSection />
 
-        {/* Section 04: Laboratory Notes & Technical Thinking */}
-        <TechnicalNotesSection />
+          {/* Section 04: Laboratory Notes & Technical Thinking */}
+          <TechnicalNotesSection />
 
-        {/* Section 05: Professional Reachout & Contact */}
-        <ContactSection profile={developerProfile} />
-      </main>
+          {/* Section 05: Professional Reachout & Contact */}
+          <ContactSection profile={developerProfile} />
+        </main>
 
-      {/* 3. Minimal Footer */}
-      <Footer profile={developerProfile} />
-    </div>
+        {/* 3. Footer with Monumental Dhyandev P Wordmark */}
+        <Footer profile={developerProfile} />
+      </div>
+    </MotionConfig>
   );
 };
 
