@@ -44,6 +44,8 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
   const [isInView, setIsInView] = useState(false);
   const [isEmailFlashing, setIsEmailFlashing] = useState(false);
   const [isEmailCopied, setIsEmailCopied] = useState(false);
+  const [activeMobileTargetId, setActiveMobileTargetId] = useState<string | null>(null);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const sectionWidthRef = useRef<number>(1280);
@@ -57,6 +59,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
     const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+    setIsReducedMotion(motionQuery.matches);
     isHoverSupportedRef.current = hoverQuery.matches;
     isReducedMotionRef.current = motionQuery.matches;
 
@@ -64,6 +67,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
       isHoverSupportedRef.current = e.matches;
     };
     const onMotionChange = (e: MediaQueryListEvent) => {
+      setIsReducedMotion(e.matches);
       isReducedMotionRef.current = e.matches;
     };
 
@@ -75,6 +79,23 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
       motionQuery.removeEventListener('change', onMotionChange);
     };
   }, []);
+
+  // Immediate static final state when prefers-reduced-motion is enabled
+  useEffect(() => {
+    if (isReducedMotion && boxes.length > 0) {
+      const fullMap: Record<string, boolean> = {};
+      const fullConf: Record<string, number> = {};
+      boxes.forEach((b) => {
+        fullMap[b.id] = true;
+        fullConf[b.id] = b.confidence;
+      });
+      setDetectedMap(fullMap);
+      setConfidences(fullConf);
+      setDetectionCount(boxes.length);
+      setIsScanning(false);
+      setHasScanned(true);
+    }
+  }, [isReducedMotion, boxes]);
 
   // Measure all [data-vision-target] relative to section container
   const measureTargets = useCallback(() => {
@@ -117,8 +138,13 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
         entries.forEach((entry) => {
           setIsInView(entry.isIntersecting);
           if (entry.isIntersecting && !hasScanned) {
-            setIsScanning(true);
-            setHasScanned(true);
+            if (isReducedMotionRef.current) {
+              setHasScanned(true);
+              setIsScanning(false);
+            } else {
+              setIsScanning(true);
+              setHasScanned(true);
+            }
           }
         });
       },
@@ -177,9 +203,9 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
     };
   }, [isScanning, boxes]);
 
-  // Jitter latency slightly (±3ms) every 400ms when an element is focused and in view
+  // Jitter latency slightly (±3ms) every 400ms when an element is focused and in view (disabled on reduced motion)
   useEffect(() => {
-    if (!isInView || !focusedId) return;
+    if (!isInView || !focusedId || isReducedMotion) return;
 
     const interval = window.setInterval(() => {
       // Base 12ms ± 3ms (9ms to 15ms)
@@ -188,7 +214,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
     }, 400);
 
     return () => window.clearInterval(interval);
-  }, [isInView, focusedId]);
+  }, [isInView, focusedId, isReducedMotion]);
 
   // Handle email copy flash (120ms) and COPIED 1.00 label state (1.5s)
   const triggerEmailCopyState = useCallback(() => {
@@ -215,7 +241,45 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
     }
   }, [emailCopiedTimestamp, triggerEmailCopyState]);
 
-  // Attach hover, keyboard focus, and click listeners to targets in sectionRef
+  // Mobile (<640px) 6-second auto-sequence loop: highlights each element in sequence (0.4s stagger)
+  useEffect(() => {
+    if (isReducedMotion || !isInView || !hasScanned || isScanning || boxes.length === 0) return;
+
+    const isMobileScreen = typeof window !== 'undefined' && (window.innerWidth < 640 || !isHoverSupportedRef.current);
+    if (!isMobileScreen) return;
+
+    let initialTimeout: number;
+    let intervalId: number;
+    const timeouts: number[] = [];
+
+    const runSequence = () => {
+      if (focusedId !== null) return;
+
+      boxes.forEach((box, i) => {
+        const t = window.setTimeout(() => {
+          setActiveMobileTargetId(box.id);
+        }, i * 400);
+        timeouts.push(t);
+      });
+
+      const clearTimer = window.setTimeout(() => {
+        setActiveMobileTargetId(null);
+      }, boxes.length * 400 + 300);
+      timeouts.push(clearTimer);
+    };
+
+    initialTimeout = window.setTimeout(runSequence, 1500);
+    intervalId = window.setInterval(runSequence, 6000);
+
+    return () => {
+      window.clearTimeout(initialTimeout);
+      window.clearInterval(intervalId);
+      timeouts.forEach((t) => window.clearTimeout(t));
+      setActiveMobileTargetId(null);
+    };
+  }, [isReducedMotion, isInView, hasScanned, isScanning, boxes, focusedId]);
+
+  // Attach hover, keyboard focus, tap-to-focus, and click listeners to targets in sectionRef
   useEffect(() => {
     if (!sectionRef.current) return;
     const root = sectionRef.current;
@@ -247,6 +311,17 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
       setFocusedId(null);
     };
 
+    // Tap-to-focus for mobile & tablet
+    const handlePointerDown = (e: PointerEvent) => {
+      const target = (e.target as HTMLElement).closest('[data-vision-target]');
+      if (target) {
+        const id = target.getAttribute('data-vision-target');
+        setFocusedId(id);
+      } else {
+        setFocusedId(null);
+      }
+    };
+
     const handleClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('[data-vision-target="email"]');
       if (target) {
@@ -258,6 +333,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
     root.addEventListener('mouseout', handlePointerOut);
     root.addEventListener('focusin', handleFocusIn);
     root.addEventListener('focusout', handleFocusOut);
+    root.addEventListener('pointerdown', handlePointerDown);
     root.addEventListener('click', handleClick);
 
     return () => {
@@ -265,6 +341,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
       root.removeEventListener('mouseout', handlePointerOut);
       root.removeEventListener('focusin', handleFocusIn);
       root.removeEventListener('focusout', handleFocusOut);
+      root.removeEventListener('pointerdown', handlePointerDown);
       root.removeEventListener('click', handleClick);
     };
   }, [sectionRef, triggerEmailCopyState]);
@@ -431,7 +508,8 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
     };
   }, [boxes, isInView, sectionRef]);
 
-  const focusedBox = boxes.find((b) => b.id === focusedId);
+  const activeTargetId = focusedId || activeMobileTargetId;
+  const focusedBox = boxes.find((b) => b.id === activeTargetId);
 
   return (
     <div
@@ -473,8 +551,8 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
         )}
       </div>
 
-      {/* 2. Scan Sweep Line */}
-      {isScanning && (
+      {/* 2. Scan Sweep Line (disabled on reduced motion) */}
+      {isScanning && !isReducedMotion && (
         <div
           className="absolute top-0 bottom-0 pointer-events-none z-30"
           style={{
@@ -494,7 +572,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
         const isEmailBox = box.id === 'email';
         const isCopied = isEmailCopied && isEmailBox;
         const isFlashing = isEmailFlashing && isEmailBox;
-        const isHighlighted = isCopied || isFocused;
+        const isHighlighted = isCopied || isFocused || activeMobileTargetId === box.id;
 
         return (
           <div
@@ -570,7 +648,7 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
             {/* Micro Label Tag attached to Top-Left */}
             {isDetected && (
               <div
-                className={`absolute -top-[19px] left-0 font-mono text-[9px] sm:text-[10px] uppercase font-semibold px-1.5 py-[2px] leading-tight tracking-wider whitespace-nowrap shadow-xs transition-colors ${
+                className={`absolute -top-[19px] left-0 font-mono text-[9px] lg:text-[10px] uppercase font-semibold px-1.5 py-[2px] leading-tight tracking-wider whitespace-nowrap shadow-xs transition-colors ${
                   isHighlighted ? 'bg-black text-white' : 'bg-black/90 text-white'
                 }`}
               >
