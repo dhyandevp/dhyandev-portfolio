@@ -1,10 +1,8 @@
-import React, { useState, useRef, Suspense } from 'react';
+import React, { useState } from 'react';
 import { m } from 'motion/react';
 import { DeveloperProfile } from '../types/portfolio';
 import { Copy, Check, ArrowUpRight, Mail, Linkedin, Github, Globe } from 'lucide-react';
 import { revealVariant, standardViewport, tapScale } from '../lib/motion';
-
-const VisionDetectionOverlay = React.lazy(() => import('./VisionDetectionOverlay'));
 
 interface ContactSectionProps {
   readonly profile: DeveloperProfile;
@@ -12,12 +10,9 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   const [copied, setCopied] = useState(false);
-  const [emailCopiedTimestamp, setEmailCopiedTimestamp] = useState<number>(0);
-  const sectionRef = useRef<HTMLElement | null>(null);
 
   const handleCopy = async () => {
     setCopied(true);
-    setEmailCopiedTimestamp(Date.now());
     setTimeout(() => setCopied(false), 2000);
 
     try {
@@ -44,21 +39,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   return (
     <section
       id="reachout"
-      ref={sectionRef}
       className="w-full py-20 md:py-32 border-b border-hairline bg-transparent content-visibility-auto relative"
     >
-      {/* Interactive Computer-Vision Detection Overlay */}
-      <Suspense fallback={null}>
-        <VisionDetectionOverlay
-          sectionRef={sectionRef}
-          emailCopiedTimestamp={emailCopiedTimestamp}
-        />
-      </Suspense>
-
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Section Marker */}
         <m.div
-          data-vision-target="section"
           initial="hidden"
           whileInView="visible"
           viewport={standardViewport}
@@ -78,16 +63,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           variants={revealVariant}
           className="max-w-3xl mb-12 space-y-6"
         >
-          <h2
-            data-vision-target="headline"
-            className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.1]"
-          >
+          <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.1]">
             Let's build something exceptional together.
           </h2>
-          <p
-            data-vision-target="bio"
-            className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans"
-          >
+          <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans">
             As Co-Founder of Wayve Enterprises, I'm available for technical contracting, computer vision architecture,
             full-stack systems engineering, and strategic advisory. Reach out directly or explore my channels on Linktree.
           </p>
@@ -95,7 +74,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
         {/* Primary Contact Card */}
         <m.div
-          data-vision-target="email"
           initial="hidden"
           whileInView="visible"
           viewport={standardViewport}
@@ -149,10 +127,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           </div>
 
           {/* SLA & Availability Guarantee */}
-          <div
-            data-vision-target="status"
-            className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-6 font-mono text-xs"
-          >
+          <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-6 font-mono text-xs">
             <div>
               <span className="block text-[10px] text-ink-faint uppercase mb-1">RESPONSE TIME</span>
               <span className="text-black font-semibold">Guaranteed within 24 hours</span>
@@ -177,7 +152,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           className="grid grid-cols-1 sm:grid-cols-3 border border-hairline divide-y sm:divide-y-0 sm:divide-x divide-hairline bg-white"
         >
           <m.a
-            data-vision-target="linkedin"
             href={profile.linkedinUrl}
             target="_blank"
             rel="noreferrer"
@@ -195,7 +169,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           </m.a>
 
           <m.a
-            data-vision-target="github"
             href={profile.githubUrl}
             target="_blank"
             rel="noreferrer"
@@ -213,7 +186,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           </m.a>
 
           <m.a
-            data-vision-target="linktree"
             href={profile.linktreeUrl}
             target="_blank"
             rel="noreferrer"
