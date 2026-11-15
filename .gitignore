@@ -1,0 +1,44 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node / dependencies
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Local Agent, IDE & MCP caches
+.codex
+.gemini
+.agents
+.claude
+skills-lock.json
+.playwright-mcp
+.impeccable/hook.cache.json
+.impeccable/*.local.json
+
+# Local capture screenshots in root
+/*.png
