@@ -12,12 +12,14 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   const [copied, setCopied] = useState(false);
+  const [emailCopiedTimestamp, setEmailCopiedTimestamp] = useState<number>(0);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(profile.email);
       setCopied(true);
+      setEmailCopiedTimestamp(Date.now());
       setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
@@ -32,7 +34,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     >
       {/* Interactive Computer-Vision Detection Overlay */}
       <Suspense fallback={null}>
-        <VisionDetectionOverlay sectionRef={sectionRef} />
+        <VisionDetectionOverlay
+          sectionRef={sectionRef}
+          emailCopiedTimestamp={emailCopiedTimestamp}
+        />
       </Suspense>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
@@ -89,6 +94,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               </span>
               <a
                 href={`mailto:${profile.email}`}
+                onClick={() => handleCopy()}
                 className="font-sans font-bold text-2xl sm:text-3xl md:text-4xl text-black hover:opacity-75 transition-opacity"
               >
                 {profile.email}
