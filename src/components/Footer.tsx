@@ -66,16 +66,29 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
           </a>
         </div>
 
-        {/* 2. Signature Brand Mark */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-4 pb-4">
-          <div className="space-y-1">
-            <div className="font-signature text-4xl sm:text-5xl text-[#121211] select-none tracking-wide">
-              Dhyandev
-            </div>
-            <p className="text-xs font-mono uppercase tracking-wider text-[#6D6C66]">
+        {/* 2. Monumental "Dhyandev P" Headline Typography (Lucas Lima inspired) */}
+        <div className="w-full select-none pt-4 sm:pt-8 pb-4 sm:pb-8 overflow-visible">
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-20px' }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full overflow-visible"
+          >
+            <h2
+              className="font-sans font-bold tracking-tight text-[#121211] leading-[0.98] select-none break-normal overflow-visible whitespace-nowrap cursor-default hover:text-neutral-700 transition-colors duration-300"
+              style={{
+                fontSize: 'clamp(42px, 12.8vw, 172px)',
+                paddingBottom: '0.12em',
+              }}
+              aria-label="Dhyandev P"
+            >
+              Dhyandev P
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm font-mono uppercase tracking-wider text-[#6D6C66]">
               {profile.name} — Co-Founder @ Wayve Enterprises
             </p>
-          </div>
+          </m.div>
         </div>
 
         {/* 3. Bottom Row: Copyright, Location & Back to Top */}
