@@ -255,10 +255,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           variants={revealVariant}
           className="mb-10 text-left"
         >
-          <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#73736C] mb-4">
-            ABOUT
-          </span>
-
           <h2 className="font-sans font-bold text-3xl sm:text-4xl md:text-[46px] text-[#121211] tracking-tight leading-[1.14]">
             I&apos;m Dhyandev, a 16-year-old developer & systems builder in Kerala, India.
           </h2>

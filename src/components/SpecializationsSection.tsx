@@ -7,20 +7,6 @@ export const SpecializationsSection: React.FC = () => {
   return (
     <section id="specializations" className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Section Header */}
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
-          className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline"
-        >
-          <span className="text-black font-semibold">[03]</span>
-          <span>SPECIALIZATIONS</span>
-          <span className="text-hairline">/</span>
-          <span>CAPABILITIES & STACK</span>
-        </m.div>
-
         <m.div
           initial="hidden"
           whileInView="visible"

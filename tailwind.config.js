@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -24,11 +27,12 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        curvy: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
         pixel: ['"Pixelify Sans"', 'Silkscreen', 'monospace'],
         signature: ['Caveat', 'cursive'],
         mono: ['JetBrains Mono', 'Fira Code', 'SFMono-Regular', 'Menlo', 'monospace'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'grid-pattern': "linear-gradient(to right, rgba(49, 94, 189, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(49, 94, 189, 0.05) 1px, transparent 1px)",

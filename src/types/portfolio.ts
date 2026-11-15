@@ -68,8 +68,10 @@ export interface DeveloperProfile {
   readonly location: string;
   readonly timezone: string;
   readonly coordinates: string;
-  readonly bioSummary: string;
+  readonly bioSummary?: string;
   readonly email: string;
+  readonly protonEmail?: string;
+  readonly secondaryEmail?: string;
   readonly githubUrl: string;
   readonly linkedinUrl: string;
   readonly instagramUrl: string;

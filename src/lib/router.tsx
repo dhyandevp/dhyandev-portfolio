@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useTransition } from 'react';
-import { scrollToTop } from './scroll';
+import { scrollToTop, resizeLenis } from './scroll';
 
-export type RoutePath = '/' | '/about' | '/projects' | '/specializations' | '/notes' | '/contact';
+export type RoutePath = '/' | '/about' | '/projects' | '/specializations' | '/notes' | '/contact' | '/resume';
 
 interface RouterContextType {
   path: string;
@@ -17,10 +17,18 @@ export const useRouter = () => useContext(RouterContext);
 
 export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const normalizePath = (rawPath: string): string => {
-    const cleaned = rawPath.replace(/\/+$/, '') || '/';
+    let p = rawPath;
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash.replace(/^#\/?/, '/');
+      if (hash === '/resume' || hash === '/printer' || hash === '/cv') {
+        return '/resume';
+      }
+    }
+    const cleaned = p.replace(/\/+$/, '') || '/';
     // Map alternate aliases to canonical routes
     if (cleaned === '/laboratory') return '/notes';
     if (cleaned === '/reachout') return '/contact';
+    if (cleaned === '/printer' || cleaned === '/cv') return '/resume';
     return cleaned;
   };
 
@@ -32,14 +40,19 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [, startTransition] = useTransition();
 
   useEffect(() => {
-    const handlePopState = () => {
+    const handleUrlChange = () => {
       const newPath = normalizePath(window.location.pathname);
       setPath(newPath);
-      scrollToTop();
+      scrollToTop(true);
+      requestAnimationFrame(() => resizeLenis());
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
   }, []);
 
   const navigate = (to: string) => {
@@ -60,7 +73,8 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     startTransition(() => {
       setPath(targetPath);
     });
-    scrollToTop();
+    scrollToTop(true);
+    requestAnimationFrame(() => resizeLenis());
   };
 
   return (

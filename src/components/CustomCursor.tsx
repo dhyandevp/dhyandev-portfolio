@@ -19,23 +19,37 @@ export const CustomCursor: React.FC = () => {
     let targetY = -100;
     let currentX = -100;
     let currentY = -100;
+    let isVisibleLocal = false;
+    let isPointerLocal = false;
 
     const handleMouseMove = (e: MouseEvent) => {
       targetX = e.clientX;
       targetY = e.clientY;
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleLocal) {
+        isVisibleLocal = true;
+        setIsVisible(true);
+      }
 
       const targetEl = e.target as HTMLElement | null;
       if (targetEl) {
         const clickable = Boolean(
           targetEl.closest('a, button, input, select, textarea, [role="button"]')
         );
-        setIsPointer(clickable);
+        if (clickable !== isPointerLocal) {
+          isPointerLocal = clickable;
+          setIsPointer(clickable);
+        }
       }
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => {
+      isVisibleLocal = false;
+      setIsVisible(false);
+    };
+    const handleMouseEnter = () => {
+      isVisibleLocal = true;
+      setIsVisible(true);
+    };
 
     // High performance single lerp loop with direct DOM transform (zero React re-render lag)
     const loop = () => {
@@ -59,7 +73,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseenter', handleMouseEnter);
       cancelAnimationFrame(rafId);
     };
-  }, [isVisible]);
+  }, []);
 
   if (!isSupported || !isVisible) return null;
 

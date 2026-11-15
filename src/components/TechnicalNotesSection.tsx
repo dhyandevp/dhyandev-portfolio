@@ -13,19 +13,6 @@ export const TechnicalNotesSection: React.FC = () => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline"
-        >
-          <span className="text-black font-semibold">[04]</span>
-          <span>LABORATORY LOGS</span>
-          <span className="text-hairline">/</span>
-          <span>TECHNICAL THINKING</span>
-        </m.div>
-
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
           className="max-w-2xl mb-12"
         >
           <h2 className="font-sans font-bold text-3xl sm:text-4xl text-black tracking-tight mb-3">

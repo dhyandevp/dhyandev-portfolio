@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { m } from 'motion/react';
 import { Project } from '../types/portfolio';
-import { ArrowUpRight, Github, ExternalLink, SlidersHorizontal } from 'lucide-react';
+import { ArrowUpRight, Github, SlidersHorizontal } from 'lucide-react';
 import { revealVariant, standardViewport, tapScale } from '../lib/motion';
 
 interface ProjectsSectionProps {
@@ -26,32 +26,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
   return (
     <section id="projects" className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Section Marker */}
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
-          className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline"
-        >
-          <div className="flex items-center gap-3">
-            <span className="text-black font-semibold">[02]</span>
-            <span>VERIFIED SYSTEMS & REPOSITORIES</span>
-            <span className="text-hairline">/</span>
-            <span>REAL-WORLD ENGINEERING</span>
-          </div>
-
-          <a
-            href="https://linktr.ee/DhyandevRTX"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-black hover:text-neutral-600 transition-colors font-medium lowercase"
-          >
-            <span>linktr.ee/DhyandevRTX</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
-        </m.div>
-
         {/* Section Heading & Category Filter Controls */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <m.div

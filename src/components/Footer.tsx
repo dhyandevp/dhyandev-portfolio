@@ -15,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
 
   return (
     <footer
-      className="w-full pt-12 sm:pt-16 pb-6 sm:pb-10 px-4 sm:px-6 md:px-8 border-t border-[#D6D5CF]/80 bg-transparent overflow-hidden"
+      className="w-full pt-12 sm:pt-16 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:pb-10 px-4 sm:px-6 md:px-8 border-t border-[#D6D5CF]/80 bg-transparent overflow-hidden"
       style={{ containerType: 'inline-size' }}
     >
       <div className="w-full space-y-8 sm:space-y-12">
@@ -84,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
 
             <m.button
               type="button"
-              onClick={scrollToTop}
+              onClick={() => scrollToTop()}
               whileTap={tapScale}
               className="w-8 h-8 sm:w-9 sm:h-9 bg-[#121211] text-white flex items-center justify-center hover:bg-neutral-800 transition-colors cursor-pointer shrink-0 rounded-none shadow-xs"
               aria-label="Scroll back to top"

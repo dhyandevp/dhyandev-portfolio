@@ -83,6 +83,28 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItem
               </m.a>
             );
           })}
+
+          {/* Contact / Open to work mobile pill */}
+          <m.a
+            href="/contact"
+            onClick={(e) => {
+              e.preventDefault();
+              onClose();
+              navigate('/contact');
+            }}
+            whileTap={tapScale}
+            className={`mt-2 flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium transition-colors ${
+              path === '/contact'
+                ? 'bg-[#121211] text-[#F4F4F2] font-semibold'
+                : 'bg-[#EAF5ED] text-[#1D7E36] hover:bg-[#E0EFE3]'
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#2FA049] shrink-0 animate-pulse" />
+              <span>Open to work (Contact)</span>
+            </span>
+            <span className="font-mono text-xs font-semibold">↗</span>
+          </m.a>
         </m.div>
       )}
     </AnimatePresence>

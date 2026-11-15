@@ -93,13 +93,23 @@ export function scrollToElement(elementOrSelector: string | HTMLElement, offset 
   }
 }
 
-export function scrollToTop(): void {
+export function scrollToTop(immediate = false): void {
   if (typeof window === 'undefined') return;
 
   if (lenisInstance) {
-    lenisInstance.scrollTo(0);
+    if (immediate) {
+      lenisInstance.scrollTo(0, { immediate: true });
+    } else {
+      lenisInstance.scrollTo(0);
+    }
   } else {
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, behavior: immediate ? 'auto' : 'smooth' });
+  }
+}
+
+export function resizeLenis(): void {
+  if (lenisInstance) {
+    lenisInstance.resize();
   }
 }
 

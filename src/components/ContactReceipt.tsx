@@ -1,16 +1,28 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { printerAudio } from '../lib/printerSound';
 
-interface ContactReceiptProps {
+export interface TransmissionData {
+  name: string;
+  email: string;
+  phone?: string;
+  comments?: string;
+}
+
+export interface ContactReceiptProps {
   email?: string;
   orderNumber?: number;
+  transmission?: TransmissionData | null;
+  printTrigger?: number;
 }
 
 const ZIGZAG_CLIP =
   'polygon(0% 4px, 2.5% 0px, 5% 4px, 7.5% 0px, 10% 4px, 12.5% 0px, 15% 4px, 17.5% 0px, 20% 4px, 22.5% 0px, 25% 4px, 27.5% 0px, 30% 4px, 32.5% 0px, 35% 4px, 37.5% 0px, 40% 4px, 42.5% 0px, 45% 4px, 47.5% 0px, 50% 4px, 52.5% 0px, 55% 4px, 57.5% 0px, 60% 4px, 62.5% 0px, 65% 4px, 67.5% 0px, 70% 4px, 72.5% 0px, 75% 4px, 77.5% 0px, 80% 4px, 82.5% 0px, 85% 4px, 87.5% 0px, 90% 4px, 92.5% 0px, 95% 4px, 97.5% 0px, 100% 4px, 100% 100%, 0% 100%)';
 
 export const ContactReceipt: React.FC<ContactReceiptProps> = ({
-  email = 'dhyandev027@gmail.com',
+  email = 'dhyandevp@proton.me',
   orderNumber: initialOrder = 27,
+  transmission = null,
+  printTrigger = 0,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
@@ -144,6 +156,15 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     return () => cleanup?.();
   }, [inView, startPrintSequence]);
 
+  // External trigger (e.g. paper airplane landing after form submission)
+  useEffect(() => {
+    if (printTrigger && printTrigger > 0) {
+      setOrderNumber((prev) => prev + 1);
+      printerAudio.playPrintSequence(isMobile ? 1.2 : 1.6);
+      startPrintSequence();
+    }
+  }, [printTrigger, isMobile, startPrintSequence]);
+
   // Handle strip click / tap / keyboard: tear away, copy, and re-print fresh strip
   const handleTear = useCallback(
     async (e?: React.MouseEvent | React.KeyboardEvent) => {
@@ -153,6 +174,8 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
       // If already tearing or waiting, ignore extra clicks
       if (stage === 'tearing' || stage === 'waiting') return;
+
+      printerAudio.playClick();
 
       // 1. Copy email to clipboard (with fallback)
       try {
@@ -248,7 +271,10 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
       </div>
 
       {/* Overflow-hidden slot wrapper: paper rises upward out of this slot */}
-      <div className="w-[220px] lg:w-[240px] h-[280px] overflow-hidden flex flex-col justify-end relative z-0">
+      <div
+        id="receipt-printer-slot"
+        className="w-[220px] lg:w-[240px] h-[280px] overflow-hidden flex flex-col justify-end relative z-0"
+      >
         {/* Printable Receipt Paper Strip */}
         <div
           onClick={() => handleTear()}
@@ -320,48 +346,81 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
               aria-hidden="true"
             />
 
-            {/* Lines 3 - 6: Service Lines */}
-            <div className="space-y-0.5 my-1.5">
-              {/* Line 3: CONTRACTING */}
-              <div
-                className="flex justify-between items-baseline transition-opacity duration-150"
-                style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
-              >
-                <span>CONTRACTING</span>
-                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
-                {renderOpenWord(openCounts[0])}
+            {/* Lines 3 - 6: Service Lines or Submitted Transmission Details */}
+            {transmission ? (
+              <div className="space-y-0.5 my-1.5 text-[10px]">
+                <div
+                  className="flex justify-between items-baseline font-semibold text-black dark:text-white transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span>INQUIRY RELAYED</span>
+                  <span className="text-[#2fb344] font-mono font-semibold">•AIR-DISPATCH</span>
+                </div>
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span className="text-[#6D6C66] dark:text-[#9A9993]">NAME</span>
+                  <span className="truncate max-w-[130px] font-semibold text-right">{transmission.name}</span>
+                </div>
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span className="text-[#6D6C66] dark:text-[#9A9993]">EMAIL</span>
+                  <span className="truncate max-w-[130px] text-right">{transmission.email}</span>
+                </div>
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span className="text-[#6D6C66] dark:text-[#9A9993]">PHONE</span>
+                  <span className="truncate max-w-[130px] text-right">{transmission.phone || 'N/A'}</span>
+                </div>
               </div>
+            ) : (
+              <div className="space-y-0.5 my-1.5">
+                {/* Line 3: CONTRACTING */}
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span>CONTRACTING</span>
+                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
+                  {renderOpenWord(openCounts[0])}
+                </div>
 
-              {/* Line 4: COMPUTER VISION */}
-              <div
-                className="flex justify-between items-baseline transition-opacity duration-150"
-                style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
-              >
-                <span>COMPUTER VISION</span>
-                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
-                {renderOpenWord(openCounts[1])}
-              </div>
+                {/* Line 4: COMPUTER VISION */}
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span>COMPUTER VISION</span>
+                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
+                  {renderOpenWord(openCounts[1])}
+                </div>
 
-              {/* Line 5: FULL-STACK */}
-              <div
-                className="flex justify-between items-baseline transition-opacity duration-150"
-                style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
-              >
-                <span>FULL-STACK</span>
-                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
-                {renderOpenWord(openCounts[2])}
-              </div>
+                {/* Line 5: FULL-STACK */}
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span>FULL-STACK</span>
+                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
+                  {renderOpenWord(openCounts[2])}
+                </div>
 
-              {/* Line 6: ADVISORY */}
-              <div
-                className="flex justify-between items-baseline transition-opacity duration-150"
-                style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
-              >
-                <span>ADVISORY</span>
-                <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
-                {renderOpenWord(openCounts[3])}
+                {/* Line 6: ADVISORY */}
+                <div
+                  className="flex justify-between items-baseline transition-opacity duration-150"
+                  style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
+                >
+                  <span>ADVISORY</span>
+                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
+                  {renderOpenWord(openCounts[3])}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Line 7: Dashed Rule */}
             <div
@@ -373,10 +432,11 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
             {/* Lines 8 - 9: SLA & Total */}
             <div className="space-y-0.5 my-1.5">
               <div
-                className="text-[#6D6C66] dark:text-[#9A9993] text-[10px] transition-opacity duration-150"
+                className="text-[#6D6C66] dark:text-[#9A9993] text-[10px] transition-opacity duration-150 flex justify-between items-baseline"
                 style={{ opacity: visibleLines >= 9 || isReducedMotion ? 1 : 0 }}
               >
-                REPLY WITHIN 24H
+                <span>{transmission ? `DEST: ${email}` : 'REPLY WITHIN 24H'}</span>
+                {transmission && <span className="text-[#2fb344]">•CONFIRMED</span>}
               </div>
               <div
                 className="font-bold text-[10px] leading-snug transition-opacity duration-150"

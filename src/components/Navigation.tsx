@@ -11,19 +11,27 @@ export const Navigation: React.FC = () => {
   const [lang, setLang] = useState<'EN' | 'ML'>('EN');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = lang === 'EN' ? [
+  interface NavItem {
+    label: string;
+    href: string;
+    external?: boolean;
+  }
+
+  const navItems: NavItem[] = lang === 'EN' ? [
     { label: 'Dhyandev P', href: '/' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'Laboratory', href: '/notes' },
     { label: 'About', href: '/about' },
+    { label: 'Projects', href: '/projects' },
     { label: 'Specializations', href: '/specializations' },
+    { label: 'Laboratory', href: '/notes' },
+    { label: 'Resume', href: '/resume' },
     { label: 'Linktree', href: 'https://linktr.ee/DhyandevRTX', external: true }
   ] : [
     { label: 'ധ്യാനദേവ് പി', href: '/' },
-    { label: 'പ്രോജക്ടുകൾ', href: '/projects' },
-    { label: 'ലാബ് കുറിപ്പുകൾ', href: '/notes' },
     { label: 'കുറിച്ച്', href: '/about' },
+    { label: 'പ്രോജക്ടുകൾ', href: '/projects' },
     { label: 'ശേഷികൾ', href: '/specializations' },
+    { label: 'ലാബ് കുറിപ്പുകൾ', href: '/notes' },
+    { label: 'റെസ്യുമെ', href: '/resume' },
     { label: 'ലിങ്ക് ട്രീ', href: 'https://linktr.ee/DhyandevRTX', external: true }
   ];
 
@@ -42,16 +50,16 @@ export const Navigation: React.FC = () => {
     <>
       {/* 1. Ambient Top Blur Gradient Mask for Frosted Scroll Effect */}
       <div
-        className="fixed top-0 inset-x-0 h-24 bg-gradient-to-b from-[#F4F4F2]/90 via-[#F4F4F2]/65 to-transparent backdrop-blur-[6px] pointer-events-none z-40 transition-opacity"
+        className="fixed top-0 inset-x-0 h-[calc(6rem+env(safe-area-inset-top,0px))] bg-gradient-to-b from-[#F4F4F2]/90 via-[#F4F4F2]/65 to-transparent backdrop-blur-[6px] pointer-events-none z-40 transition-opacity will-change-transform transform-gpu"
         aria-hidden="true"
       />
 
       {/* 2. Floating Pill Navigation Header */}
-      <header className="fixed top-3 sm:top-5 inset-x-3 sm:inset-x-8 z-50 flex items-center justify-between gap-3 pointer-events-none">
+      <header className="fixed top-[calc(0.75rem+env(safe-area-inset-top,0px))] sm:top-5 inset-x-3 sm:inset-x-8 z-50 flex items-center justify-between gap-3 pointer-events-none will-change-transform transform-gpu">
         {/* Left Side: Exact Rounded Pill Navigation Capsules */}
         <nav
           aria-label="Primary Navigation"
-          className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1 max-w-[calc(100%-190px)] sm:max-w-none pointer-events-auto"
+          className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1 min-w-0 flex-1 sm:flex-initial pointer-events-auto touch-pan-x overscroll-x-contain"
         >
           {navItems.map((item, idx) => {
             const active = isItemActive(item.href);
@@ -65,8 +73,8 @@ export const Navigation: React.FC = () => {
                 onClick={(e) => handleNavClick(e, item.href, item.external)}
                 whileTap={tapScale}
                 whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.15 }}
-                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[13px] sm:text-sm font-medium transition-all whitespace-nowrap select-none cursor-pointer shadow-xs focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2 ${
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[13px] sm:text-sm font-medium transition-colors duration-150 whitespace-nowrap select-none cursor-pointer shadow-xs focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2 ${
                   active
                     ? 'bg-[#121211] text-[#F4F4F2] font-semibold tracking-tight shadow-sm'
                     : idx === 0
@@ -87,7 +95,7 @@ export const Navigation: React.FC = () => {
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             whileTap={tapScale}
-            className="sm:hidden p-2 rounded-full bg-[#E5E5E1]/90 text-[#121211] shadow-xs"
+            className="sm:hidden p-2 rounded-full bg-[#E5E5E1]/90 text-[#121211] shadow-xs cursor-pointer"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -103,7 +111,7 @@ export const Navigation: React.FC = () => {
               type="button"
               onClick={() => setLang('EN')}
               whileTap={tapScale}
-              className={`relative z-10 px-2.5 sm:px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+              className={`relative z-10 px-2.5 sm:px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-150 cursor-pointer ${
                 lang === 'EN' ? 'text-white' : 'text-[#6D6C66] hover:text-[#121211]'
               }`}
               aria-pressed={lang === 'EN'}
@@ -112,7 +120,7 @@ export const Navigation: React.FC = () => {
                 <m.span
                   layoutId="langPillThumb"
                   className="absolute inset-0 rounded-full bg-[#121211] -z-10 shadow-xs"
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
               )}
               EN
@@ -122,7 +130,7 @@ export const Navigation: React.FC = () => {
               type="button"
               onClick={() => setLang('ML')}
               whileTap={tapScale}
-              className={`relative z-10 px-2.5 sm:px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+              className={`relative z-10 px-2.5 sm:px-3 py-1 rounded-full text-xs font-semibold transition-colors duration-150 cursor-pointer ${
                 lang === 'ML' ? 'text-white' : 'text-[#6D6C66] hover:text-[#121211]'
               }`}
               aria-pressed={lang === 'ML'}
@@ -132,7 +140,7 @@ export const Navigation: React.FC = () => {
                 <m.span
                   layoutId="langPillThumb"
                   className="absolute inset-0 rounded-full bg-[#121211] -z-10 shadow-xs"
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
               )}
               ML
@@ -148,8 +156,8 @@ export const Navigation: React.FC = () => {
             }}
             whileTap={tapScale}
             whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.15 }}
-            className={`inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-md transition-all text-xs sm:text-[13px] font-medium whitespace-nowrap shadow-xs select-none cursor-pointer ${
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className={`inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-md transition-colors duration-150 text-xs sm:text-[13px] font-medium whitespace-nowrap shadow-xs select-none cursor-pointer ${
               path === '/contact'
                 ? 'bg-[#121211] text-[#F4F4F2] font-semibold'
                 : 'bg-[#E5E5E1]/90 hover:bg-[#D8D8D4] text-[#121211]'
@@ -160,7 +168,7 @@ export const Navigation: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3F8A52] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#3F8A52] shadow-[0_0_0_2px_rgba(63,138,82,0.25)]" />
             </span>
-            <span className="hidden xs:inline">{lang === 'EN' ? 'Open to work' : 'ലഭ്യമാണ് (Open)'}</span>
+            <span className="hidden sm:inline">{lang === 'EN' ? 'Open to work' : 'ലഭ്യമാണ് (Open)'}</span>
           </m.a>
         </div>
       </header>
@@ -168,7 +176,7 @@ export const Navigation: React.FC = () => {
       {/* 3. Dynamically Imported Mobile Drawer with Suspense */}
       <Suspense fallback={null}>
         {mobileMenuOpen && (
-          <div className="fixed top-16 inset-x-3 z-40 sm:hidden">
+          <div className="fixed top-[calc(3.75rem+env(safe-area-inset-top,0px))] inset-x-3 z-40 sm:hidden">
             <MobileMenu
               isOpen={mobileMenuOpen}
               onClose={() => setMobileMenuOpen(false)}

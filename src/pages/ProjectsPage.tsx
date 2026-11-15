@@ -15,18 +15,6 @@ export const ProjectsPage: React.FC = () => {
             initial="hidden"
             animate="visible"
             variants={revealVariant}
-            className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-faint mb-6 pb-3 border-b border-hairline"
-          >
-            <span className="text-black font-semibold">[02]</span>
-            <span>VERIFIED SYSTEMS & REPOSITORIES</span>
-            <span className="text-hairline">/</span>
-            <span>12 PRODUCTION BUILDS</span>
-          </m.div>
-
-          <m.div
-            initial="hidden"
-            animate="visible"
-            variants={revealVariant}
             className="max-w-4xl"
           >
             <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.1] mb-4">

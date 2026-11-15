@@ -14,6 +14,36 @@
     color: #121211;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior: none;
+  }
+
+  /* Ensure inputs are at least 16px on touch devices to avoid iOS zoom */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  @media (pointer: coarse) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Kill 300ms tap delay on interactive controls */
+  button, a, [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Disallow accidental text selection on interactive controls */
+  button, [role="button"], .tab, .chip, .drag-handle {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Stop scroll chaining from inner modals/sheets to body */
+  [role="dialog"], .sheet-content {
+    overscroll-behavior: contain;
   }
 
   ::selection {
@@ -91,5 +121,54 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* High-Precision Print Styles for Resume Printer & PDF Export */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    color: #111111 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide background elements, ambient blurs, and portfolio content when printing resume */
+  header, nav, #main-content, footer, .print\:hidden {
+    display: none !important;
+  }
+
+  .resume-paper-container {
+    display: block !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .resume-page {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 12mm 14mm !important;
+    margin: 0 !important;
+    width: 100% !important;
+    min-height: auto !important;
+  }
+
+  .resume-page-1 {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  .resume-page-2 {
+    page-break-before: always !important;
+    break-before: page !important;
   }
 }
