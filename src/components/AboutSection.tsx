@@ -139,18 +139,18 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
       aspectRatio: 'aspect-[3/4]',
     },
     {
-      id: 'wa0044-desk',
-      title: 'Midnight Telemetry & Sim Racing (WA0044)',
-      subtitle: 'Zidane 10 jersey, laptop glow, and 900° force feedback sim wheel',
-      src: '/images/about/wa0044_desk_sim.webp',
-      pixelatedSrc: '/images/about/wa0044_pixelated.webp',
-      rotation: -2,
+      id: 'zidane-river',
+      title: 'Zidane 10 by the River, Kerala',
+      subtitle: 'Contemplating systems by the river under monsoon storm clouds',
+      src: '/images/about/zidane_river.webp',
+      pixelatedSrc: '/images/about/zidane_river_pixelated.webp',
+      rotation: -3,
       desktopPosition: {
-        bottom: '5%',
-        left: '20%',
+        bottom: '3%',
+        left: '26%',
         zIndex: 25,
       },
-      aspectRatio: 'aspect-[4/3]',
+      aspectRatio: 'aspect-[3/4]',
     },
   ];
 
@@ -451,7 +451,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                     onMouseLeave={() => setIsLensHovered(false)}
                     onTouchMove={handleLensTouchMove}
                     onTouchStart={() => setIsLensHovered(true)}
-                    className="overflow-hidden rounded-xl bg-[#0B0D11] aspect-[4/3] w-56 sm:w-68 md:w-76 lg:w-80 relative cursor-crosshair select-none"
+                    className="overflow-hidden rounded-xl bg-[#0B0D11] aspect-[3/4] w-48 sm:w-58 md:w-64 lg:w-70 relative cursor-crosshair select-none"
                   >
                     {/* Base Pixelated Layer */}
                     <img
@@ -532,8 +532,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
               {/* 2x2 Grid */}
               <div className="grid grid-cols-2 gap-3.5">
                 {photoCards.map((card) => {
-                  const isWA0044 = card.id === 'wa0044-desk';
-                  const currentImageSrc = isWA0044 && wa0044Pixelated && card.pixelatedSrc
+                  const isPixelCard = card.id === 'zidane-river';
+                  const currentImageSrc = isPixelCard && wa0044Pixelated && card.pixelatedSrc
                     ? card.pixelatedSrc
                     : card.src;
 
@@ -549,7 +549,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                           alt={card.title}
                           loading="lazy"
                           className="w-full h-full object-cover"
-                          style={isWA0044 && wa0044Pixelated ? { imageRendering: 'pixelated' } : undefined}
+                          style={isPixelCard && wa0044Pixelated ? { imageRendering: 'pixelated' } : undefined}
                         />
                       </div>
                     </div>
@@ -698,17 +698,17 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
               <div className="overflow-hidden rounded-2xl bg-[#0D1117] max-h-[420px] flex items-center justify-center mb-4">
                 <img
                   src={
-                    selectedPhoto.id === 'wa0044-desk'
+                    selectedPhoto.id === 'zidane-river'
                       ? (wa0044Pixelated && selectedPhoto.pixelatedSrc ? selectedPhoto.pixelatedSrc : selectedPhoto.src)
                       : selectedPhoto.src
                   }
                   alt={selectedPhoto.title}
                   className="w-full h-full object-contain max-h-[420px]"
-                  style={selectedPhoto.id === 'wa0044-desk' && wa0044Pixelated ? { imageRendering: 'pixelated' } : undefined}
+                  style={selectedPhoto.id === 'zidane-river' && wa0044Pixelated ? { imageRendering: 'pixelated' } : undefined}
                 />
               </div>
 
-              {selectedPhoto.id === 'wa0044-desk' && (
+              {selectedPhoto.id === 'zidane-river' && (
                 <div className="flex items-center justify-between pt-3 border-t border-[#F0F0EE]">
                   <span className="font-sans text-sm text-[#575651]">
                     Toggle Style:
