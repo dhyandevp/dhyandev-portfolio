@@ -13,9 +13,9 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
 
   const categories = [
     'ALL',
+    'IoT & Embedded Systems',
+    'Systems & Open Source',
     'Computer Vision & AI',
-    'Infrastructure & Systems',
-    'Hardware & Firmware',
     'Full-Stack Systems'
   ];
 
@@ -65,8 +65,8 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
               Production systems, edge pipelines, and hardware instruments.
             </h2>
             <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-sans">
-              Real-world engineering executed across computer vision, automated SDR satellite tracking,
-              zero-trust architecture, and custom micro-controller firmware.
+              Real-world engineering executed across computer vision, decentralized disaster telemetry,
+              GNOME desktop extensions, hardware state machines, and high-performance full-stack web platforms.
             </p>
           </m.div>
 

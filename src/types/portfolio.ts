@@ -1,11 +1,22 @@
 export type ProjectCategory =
   | 'Computer Vision & AI'
   | 'Full-Stack Systems'
+  | 'IoT & Embedded Systems'
+  | 'Systems & Open Source'
   | 'Offline & Local-First'
   | 'Infrastructure & Systems'
   | 'Hardware & Firmware';
 
-export type ProjectStatus = 'ACTIVE' | 'DEPLOYED' | 'STABLE' | 'EXPERIMENT';
+export type ProjectStatus =
+  | 'ACTIVE'
+  | 'DEPLOYED'
+  | 'STABLE'
+  | 'EXPERIMENT'
+  | 'AWARDED'
+  | 'PUBLISHED'
+  | 'PROTOTYPE'
+  | 'PRODUCTION'
+  | 'VERIFIED';
 
 export interface Project {
   readonly id: string;
