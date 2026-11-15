@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 interface ContactReceiptProps {
   email?: string;
@@ -10,14 +10,26 @@ const ZIGZAG_CLIP =
 
 export const ContactReceipt: React.FC<ContactReceiptProps> = ({
   email = 'dhyandev027@gmail.com',
-  orderNumber = 27,
+  orderNumber: initialOrder = 27,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [stage, setStage] = useState<'idle' | 'printing' | 'settling' | 'ready'>('idle');
+  const [orderNumber, setOrderNumber] = useState(initialOrder);
+
+  // Animation lifecycle stage: 'idle' | 'printing' | 'settling' | 'ready' | 'tearing' | 'waiting'
+  const [stage, setStage] = useState<'idle' | 'printing' | 'settling' | 'ready' | 'tearing' | 'waiting'>('idle');
+
+  // Copied label & aria-live state
+  const [isCopied, setIsCopied] = useState(false);
+  const [ariaAnnouncement, setAriaAnnouncement] = useState('');
+
+  // Stagger reveal: visible lines 0 to 12
   const [visibleLines, setVisibleLines] = useState<number>(0);
+
+  // Typewriter char counts for the 4 OPEN service lines (0 to 4 each)
+  const [openCounts, setOpenCounts] = useState<[number, number, number, number]>([0, 0, 0, 0]);
 
   // Format today's date dynamically: e.g. "15 NOV 2026"
   const formattedDate = React.useMemo(() => {
@@ -33,7 +45,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     return `NO. ${String(orderNumber).padStart(4, '0')}`;
   }, [orderNumber]);
 
-  // Check reduced motion and screen width
+  // Check reduced-motion and screen width
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -71,30 +83,46 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     return () => observer.disconnect();
   }, [inView]);
 
-  // Stepped print animation and line-by-line sync
-  useEffect(() => {
-    if (!inView) return;
-
+  // Print sequence with stagger lines and typewriter OPEN
+  const startPrintSequence = useCallback(() => {
     if (isReducedMotion) {
       setStage('ready');
       setVisibleLines(12);
+      setOpenCounts([4, 4, 4, 4]);
       return;
     }
 
     setStage('printing');
     setVisibleLines(0);
+    setOpenCounts([0, 0, 0, 0]);
 
     const printDuration = isMobile ? 1200 : 1600;
     const lineStagger = 100; // 0.1s stagger
 
-    // Reveal lines one by one in sync with the paper (stagger 0.1s, opacity 0 to 1)
     const timers: NodeJS.Timeout[] = [];
+
+    // Reveal lines one by one in sync with the paper (stagger 0.1s, opacity 0 to 1)
     for (let i = 1; i <= 12; i++) {
       const t = setTimeout(() => {
         setVisibleLines(i);
       }, i * lineStagger);
       timers.push(t);
     }
+
+    // Typewriter for the 4 OPEN service lines (lines 4, 5, 6, 7): 30ms per char
+    [0, 1, 2, 3].forEach((serviceIdx) => {
+      const lineRevealTime = (serviceIdx + 4) * lineStagger;
+      for (let charIdx = 1; charIdx <= 4; charIdx++) {
+        const charTimer = setTimeout(() => {
+          setOpenCounts((prev) => {
+            const next = [...prev] as [number, number, number, number];
+            next[serviceIdx] = charIdx;
+            return next;
+          });
+        }, lineRevealTime + charIdx * 30);
+        timers.push(charTimer);
+      }
+    });
 
     // After printing: settle spring (translateY 0 to 3px to 0, 0.35s)
     const settleTimer = setTimeout(() => {
@@ -108,14 +136,128 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     timers.push(settleTimer);
 
     return () => timers.forEach(clearTimeout);
-  }, [inView, isMobile, isReducedMotion]);
+  }, [isMobile, isReducedMotion]);
+
+  useEffect(() => {
+    if (!inView) return;
+    const cleanup = startPrintSequence();
+    return () => cleanup?.();
+  }, [inView, startPrintSequence]);
+
+  // Handle strip click / tap / keyboard: tear away, copy, and re-print fresh strip
+  const handleTear = useCallback(
+    async (e?: React.MouseEvent | React.KeyboardEvent) => {
+      if (e) {
+        e.preventDefault();
+      }
+
+      // If already tearing or waiting, ignore extra clicks
+      if (stage === 'tearing' || stage === 'waiting') return;
+
+      // 1. Copy email to clipboard (with fallback)
+      try {
+        if (navigator?.clipboard?.writeText) {
+          await navigator.clipboard.writeText(email);
+        } else {
+          throw new Error('Clipboard API unavailable');
+        }
+      } catch {
+        try {
+          const textArea = document.createElement('textarea');
+          textArea.value = email;
+          textArea.style.position = 'fixed';
+          textArea.style.opacity = '0';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+        } catch {
+          window.location.href = `mailto:${email}`;
+        }
+      }
+
+      // 2. Announce through aria-live region and show COPIED on email line
+      setIsCopied(true);
+      setAriaAnnouncement(`Email ${email} copied to clipboard.`);
+
+      // 3. prefers-reduced-motion: show copied for 1.5s without tear animation
+      if (isReducedMotion) {
+        setTimeout(() => {
+          setIsCopied(false);
+          setAriaAnnouncement('');
+        }, 1500);
+        return;
+      }
+
+      // 4. Animate tear away: translateY(-28px), rotate 3deg, opacity 0, 0.4s
+      setStage('tearing');
+
+      // 5. After 0.4s tear finishes, wait 0.6s, then print fresh strip with incremented order
+      setTimeout(() => {
+        setStage('waiting');
+
+        setTimeout(() => {
+          setOrderNumber((prev) => prev + 1);
+          setIsCopied(false);
+          setAriaAnnouncement('');
+          startPrintSequence();
+        }, 600);
+      }, 400);
+
+      // Keep COPIED label active for 1.5s
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1500);
+    },
+    [email, isReducedMotion, stage, startPrintSequence]
+  );
+
+  // Keyboard accessibility: Enter or Space triggers tear
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleTear(e);
+    }
+  };
 
   const printDurationSec = isMobile ? 1.2 : 1.6;
 
+  // Typewriter word renderer: constant width via invisible trailing characters
+  const renderOpenWord = (count: number) => {
+    const full = 'OPEN';
+    const revealed = isReducedMotion ? full : full.slice(0, count);
+    const hidden = isReducedMotion ? '' : full.slice(count);
+
+    return (
+      <span className="text-[#2fb344] font-semibold whitespace-nowrap inline-block">
+        <span className="inline-block mr-0.5">•</span>
+        <span aria-hidden="true">
+          <span>{revealed}</span>
+          <span className="invisible">{hidden}</span>
+        </span>
+        <span className="sr-only">OPEN</span>
+      </span>
+    );
+  };
+
   return (
     <div ref={containerRef} className="group flex flex-col items-center relative select-none">
+      {/* Screen reader live announcement region */}
+      <div className="sr-only" aria-live="polite" role="status">
+        {ariaAnnouncement}
+      </div>
+
+      {/* Printable Receipt Paper Strip */}
       <div
-        className="w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative will-change-transform"
+        onClick={() => handleTear()}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-label={`Project inquiry receipt. Click or press Enter to tear and copy ${email}.`}
+        className={`w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-2 will-change-transform ${
+          stage === 'ready' ? 'receipt-hover-ready' : ''
+        }`}
         style={{
           clipPath: ZIGZAG_CLIP,
           animation:
@@ -123,16 +265,18 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
               ? `receiptPrintStep ${printDurationSec}s steps(16, end) forwards`
               : stage === 'settling' && !isReducedMotion
               ? 'receiptSettle 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+              : stage === 'tearing' && !isReducedMotion
+              ? 'receiptTear 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards'
               : undefined,
           transform:
             stage === 'idle' && !isReducedMotion
               ? 'translateY(100%)'
+              : stage === 'waiting'
+              ? 'translateY(100%) opacity-0'
               : stage === 'ready' || isReducedMotion
               ? 'translateY(0)'
               : undefined,
         }}
-        role="region"
-        aria-label="Project inquiry receipt"
       >
         {/* Torn top edge hairline decoration */}
         <div className="w-full h-[5px] overflow-hidden" aria-hidden="true">
@@ -177,45 +321,44 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
           {/* Lines 3 - 6: Service Lines */}
           <div className="space-y-1 my-2">
+            {/* Line 3: CONTRACTING */}
             <div
               className="flex justify-between items-baseline transition-opacity duration-150"
               style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
             >
               <span>CONTRACTING</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
-              <span className="text-[#2fb344] font-semibold whitespace-nowrap">
-                <span className="inline-block mr-0.5">•</span>OPEN
-              </span>
+              {renderOpenWord(openCounts[0])}
             </div>
+
+            {/* Line 4: COMPUTER VISION */}
             <div
               className="flex justify-between items-baseline transition-opacity duration-150"
               style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
             >
               <span>COMPUTER VISION</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
-              <span className="text-[#2fb344] font-semibold whitespace-nowrap">
-                <span className="inline-block mr-0.5">•</span>OPEN
-              </span>
+              {renderOpenWord(openCounts[1])}
             </div>
+
+            {/* Line 5: FULL-STACK */}
             <div
               className="flex justify-between items-baseline transition-opacity duration-150"
               style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
             >
               <span>FULL-STACK</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
-              <span className="text-[#2fb344] font-semibold whitespace-nowrap">
-                <span className="inline-block mr-0.5">•</span>OPEN
-              </span>
+              {renderOpenWord(openCounts[2])}
             </div>
+
+            {/* Line 6: ADVISORY */}
             <div
               className="flex justify-between items-baseline transition-opacity duration-150"
               style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
             >
               <span>ADVISORY</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
-              <span className="text-[#2fb344] font-semibold whitespace-nowrap">
-                <span className="inline-block mr-0.5">•</span>OPEN
-              </span>
+              {renderOpenWord(openCounts[3])}
             </div>
           </div>
 
@@ -249,9 +392,17 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           >
             <a
               href={`mailto:${email}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleTear(e);
+              }}
               className="block text-black dark:text-[#f2f2ef] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-1 truncate"
             >
-              {email}
+              {isCopied ? (
+                <span className="text-[#2fb344] font-bold tracking-wider">COPIED</span>
+              ) : (
+                email
+              )}
             </a>
           </div>
 
@@ -291,6 +442,22 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           }
           100% {
             transform: translateY(0);
+          }
+        }
+        @keyframes receiptTear {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-28px) rotate(3deg);
+            opacity: 0;
+          }
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .receipt-hover-ready:hover {
+            transform: translateY(-3px) !important;
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
           }
         }
       `}</style>
