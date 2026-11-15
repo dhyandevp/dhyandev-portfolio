@@ -36,8 +36,66 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
   return (
     <section className="w-full bg-transparent relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 sm:pt-20 pb-0">
-        {/* 1. Value Proposition Statement with word-by-word mask reveal */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
+        {/* 1. Metadata Tag Row Above Name (media_1794725789753.png) */}
+        <m.div
+          variants={revealVariant}
+          initial="hidden"
+          animate="visible"
+          className="w-full flex justify-end mb-3 sm:mb-4"
+        >
+          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-[11px] sm:text-xs font-sans uppercase tracking-widest text-[#6D6C66]">
+            <span className="font-semibold text-[#121211]">CO-FOUNDER @ WAYVE ENTERPRISES</span>
+            <span className="text-[#D6D5CF] font-mono font-light">+</span>
+            <span>SYSTEMS & APPLIED AI</span>
+            <span className="text-[#D6D5CF] font-mono font-light">+</span>
+            <span>KERALA, IND</span>
+          </div>
+        </m.div>
+
+        {/* 2. The Iconic Colossal Pixel Typography Name + Social Badges (At the Top) */}
+        <m.div
+          variants={revealVariant}
+          initial="hidden"
+          animate="visible"
+          className="w-full pb-8 sm:pb-12 md:pb-16 border-b border-[#D6D5CF]/80 flex flex-wrap items-center gap-3 sm:gap-6"
+        >
+          <div className="font-pixel font-bold text-[11.5vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-[#121211] tracking-tight leading-none select-none">
+            Dhyandev P.
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* LinkedIn Badge Button beside name */}
+            <m.a
+              href={profile.linkedinUrl}
+              target="_blank"
+              rel="noreferrer"
+              whileTap={tapScale}
+              whileHover={{ scale: 1.05 }}
+              className="w-8 h-8 sm:w-10 sm:h-10 border border-[#121211] rounded flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
+              aria-label="LinkedIn profile of Dhyandev P."
+              title="LinkedIn profile"
+            >
+              <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+            </m.a>
+
+            {/* Linktree Badge Button */}
+            <m.a
+              href={profile.linktreeUrl}
+              target="_blank"
+              rel="noreferrer"
+              whileTap={tapScale}
+              whileHover={{ scale: 1.05 }}
+              className="w-8 h-8 sm:w-10 sm:h-10 border border-[#121211] rounded flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
+              aria-label="Linktree of Dhyandev P."
+              title="Linktree profile"
+            >
+              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+            </m.a>
+          </div>
+        </m.div>
+
+        {/* 3. Value Proposition Statement with word-by-word mask reveal */}
+        <div className="max-w-3xl pt-10 sm:pt-14 mb-12 sm:mb-16">
           <m.h1
             variants={wordMaskContainer}
             initial="hidden"
@@ -89,64 +147,6 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
             </m.a>
           </m.div>
         </div>
-
-        {/* 2. Metadata Tag Row Above Name */}
-        <m.div
-          variants={revealVariant}
-          initial="hidden"
-          animate="visible"
-          className="w-full flex justify-end mb-3"
-        >
-          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-[11px] sm:text-xs font-sans uppercase tracking-widest text-[#6D6C66]">
-            <span className="font-semibold text-[#121211]">CO-FOUNDER @ WAYVE ENTERPRISES</span>
-            <span className="text-[#D6D5CF] font-mono font-light">+</span>
-            <span>SYSTEMS & APPLIED AI</span>
-            <span className="text-[#D6D5CF] font-mono font-light">+</span>
-            <span>KERALA, IND</span>
-          </div>
-        </m.div>
-
-        {/* 3. The Iconic Colossal Pixel Typography Name + Social Badges */}
-        <m.div
-          variants={revealVariant}
-          initial="hidden"
-          animate="visible"
-          className="w-full pb-10 sm:pb-14 md:pb-20 border-b border-[#D6D5CF]/80 flex flex-wrap items-center gap-3 sm:gap-6"
-        >
-          <div className="font-pixel font-bold text-[11.5vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-[#121211] tracking-tight leading-none select-none">
-            {profile.name}
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* LinkedIn Badge Button beside name */}
-            <m.a
-              href={profile.linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-8 h-8 sm:w-10 sm:h-10 border border-[#121211] rounded flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
-              aria-label="LinkedIn profile of Dhyandev P."
-              title="LinkedIn profile"
-            >
-              <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-            </m.a>
-
-            {/* Linktree Badge Button */}
-            <m.a
-              href={profile.linktreeUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-8 h-8 sm:w-10 sm:h-10 border border-[#121211] rounded flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
-              aria-label="Linktree of Dhyandev P."
-              title="Linktree profile"
-            >
-              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
-            </m.a>
-          </div>
-        </m.div>
       </div>
 
       {/* 4. Bottom 3-Card Horizontal Specialization Row */}

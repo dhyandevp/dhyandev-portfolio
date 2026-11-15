@@ -10,103 +10,93 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ profile }) => {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="w-full pt-16 pb-12 sm:pb-16 px-6 md:px-12 border-t border-[#D6D5CF]/80 bg-transparent">
-      <div className="max-w-7xl mx-auto space-y-10">
-        {/* 1. Elsewhere Navigation & Direct Email */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 border-b border-[#D6D5CF]/60 font-sans text-sm">
-          <nav aria-label="Elsewhere" className="flex flex-wrap items-center gap-6 sm:gap-8 font-medium text-[#121211]">
-            <m.a
+    <footer className="w-full pt-12 sm:pt-16 pb-8 sm:pb-12 px-6 md:px-12 border-t border-[#D6D5CF]/80 bg-transparent">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
+        {/* Top Header Row: Social Links & Email + Square Top Button (media_1794725967229.png) */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-sans text-xs sm:text-sm">
+          <nav aria-label="Elsewhere" className="flex flex-wrap items-center gap-x-2.5 sm:gap-x-3 text-[#71716A]">
+            <a
               href={profile.linkedinUrl}
               target="_blank"
               rel="noreferrer"
-              whileTap={tapScale}
-              className="hover:text-black transition-colors underline-offset-4 hover:underline"
+              className="hover:text-[#121211] transition-colors"
             >
-              LinkedIn ↗
-            </m.a>
-            <m.a
+              LinkedIn
+            </a>
+            <span className="text-[#A3A299] select-none">·</span>
+            <a
               href={profile.githubUrl}
               target="_blank"
               rel="noreferrer"
-              whileTap={tapScale}
-              className="hover:text-black transition-colors underline-offset-4 hover:underline"
+              className="hover:text-[#121211] transition-colors"
             >
-              GitHub ↗
-            </m.a>
-            <m.a
+              GitHub
+            </a>
+            <span className="text-[#A3A299] select-none">·</span>
+            <a
               href={profile.linktreeUrl}
               target="_blank"
               rel="noreferrer"
-              whileTap={tapScale}
-              className="hover:text-black transition-colors underline-offset-4 hover:underline font-semibold"
+              className="hover:text-[#121211] transition-colors"
             >
-              Linktree ↗
-            </m.a>
+              Linktree
+            </a>
             {profile.instagramUrl && (
-              <m.a
-                href={profile.instagramUrl}
-                target="_blank"
-                rel="noreferrer"
-                whileTap={tapScale}
-                className="hover:text-black transition-colors underline-offset-4 hover:underline"
-              >
-                Instagram ↗
-              </m.a>
+              <>
+                <span className="text-[#A3A299] select-none">·</span>
+                <a
+                  href={profile.instagramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-[#121211] transition-colors"
+                >
+                  Instagram
+                </a>
+              </>
             )}
           </nav>
 
-          <a
-            href={`mailto:${profile.email}`}
-            className="font-mono text-xs sm:text-sm text-[#6D6C66] hover:text-[#121211] transition-colors underline underline-offset-4"
-          >
-            {profile.email}
-          </a>
+          <div className="flex items-center gap-4 sm:gap-5 w-full sm:w-auto justify-between sm:justify-end">
+            <a
+              href={`mailto:${profile.email}`}
+              className="font-sans text-xs sm:text-sm text-[#71716A] hover:text-[#121211] transition-colors"
+            >
+              {profile.email}
+            </a>
+
+            <m.button
+              type="button"
+              onClick={scrollToTop}
+              whileTap={tapScale}
+              className="w-8 h-8 sm:w-9 sm:h-9 bg-[#121211] text-white flex items-center justify-center hover:bg-neutral-800 transition-colors cursor-pointer shrink-0 rounded-none shadow-xs"
+              aria-label="Scroll back to top"
+            >
+              <ArrowUp className="w-4 h-4 text-white" />
+            </m.button>
+          </div>
         </div>
 
-        {/* 2. Monumental "Dhyandev P" Headline Typography (Lucas Lima inspired) */}
-        <div className="w-full select-none pt-4 sm:pt-8 pb-4 sm:pb-8 overflow-visible">
+        {/* Monumental Name Headline Typography — Ends directly with name, no additional bottom footer */}
+        <div className="w-full select-none pt-2 sm:pt-4 overflow-visible">
           <m.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-20px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="w-full overflow-visible"
           >
             <h2
-              className="font-sans font-bold tracking-tight text-[#121211] leading-[0.98] select-none break-normal overflow-visible whitespace-nowrap cursor-default hover:text-neutral-700 transition-colors duration-300"
+              className="font-sans font-bold tracking-tight text-[#121211] leading-[0.95] select-none break-normal overflow-visible whitespace-nowrap cursor-default hover:text-neutral-700 transition-colors duration-300"
               style={{
-                fontSize: 'clamp(42px, 12.8vw, 172px)',
+                fontSize: 'clamp(48px, 13.8vw, 205px)',
                 paddingBottom: '0.12em',
               }}
               aria-label="Dhyandev P"
             >
               Dhyandev P
             </h2>
-            <p className="mt-3 text-xs sm:text-sm font-mono uppercase tracking-wider text-[#6D6C66]">
-              {profile.name} — Co-Founder @ Wayve Enterprises
-            </p>
           </m.div>
-        </div>
-
-        {/* 3. Bottom Row: Copyright, Location & Back to Top */}
-        <div className="pt-6 border-t border-[#D6D5CF]/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs text-[#6D6C66]">
-          <div>© {currentYear} Dhyandev P. All rights reserved.</div>
-          <div className="flex items-center gap-6">
-            <span>{profile.location} · {profile.timezone}</span>
-            <m.button
-              type="button"
-              onClick={scrollToTop}
-              whileTap={tapScale}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#D6D5CF] hover:border-black text-[#121211] text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-full"
-              aria-label="Scroll back to top"
-            >
-              <span>TOP</span>
-              <ArrowUp className="w-3.5 h-3.5" />
-            </m.button>
-          </div>
         </div>
       </div>
     </footer>
