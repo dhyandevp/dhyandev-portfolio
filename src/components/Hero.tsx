@@ -1,14 +1,13 @@
 import React from 'react';
 import { m } from 'motion/react';
-import { Linkedin, Sparkles, Asterisk, ChevronsRight, ExternalLink, ArrowDown } from 'lucide-react';
+import { Sparkles, Asterisk, ChevronsRight, ExternalLink, ArrowDown, Linkedin, Mail } from 'lucide-react';
 import { DeveloperProfile } from '../types/portfolio';
-import { heroValueStatement, specializations } from '../data/portfolioData';
+import { specializations } from '../data/portfolioData';
 import {
-  wordMaskContainer,
-  wordMaskChild,
   revealVariant,
   standardViewport,
-  tapScale
+  tapScale,
+  MOTION_EASE
 } from '../lib/motion';
 
 interface HeroProps {
@@ -16,136 +15,114 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ profile }) => {
-  const words = heroValueStatement.split(' ');
-
   const getCardIcon = (index: string) => {
     switch (index) {
       case '01':
-        return <Sparkles className="w-5 h-5 text-black" />;
+        return <Sparkles className="w-5 h-5 text-[#121211]" />;
       case '02':
-        return <Asterisk className="w-5 h-5 text-black" strokeWidth={2.5} />;
+        return <Asterisk className="w-5 h-5 text-[#121211]" strokeWidth={2.5} />;
       case '03':
-        return <ChevronsRight className="w-5 h-5 text-black" strokeWidth={2.5} />;
+        return <ChevronsRight className="w-5 h-5 text-[#121211]" strokeWidth={2.5} />;
       default:
-        return <Sparkles className="w-5 h-5 text-black" />;
+        return <Sparkles className="w-5 h-5 text-[#121211]" />;
     }
   };
 
   return (
     <section className="w-full bg-transparent relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12 md:pt-16 pb-0">
-        {/* 1. Value Proposition Statement with word-by-word mask reveal */}
-        <div className="max-w-2xl mb-14 md:mb-20">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 sm:pt-24 pb-14 sm:pb-20">
+        {/* 1. Minimal Editorial Bio Statement matching Lucas Lima reference */}
+        <div className="max-w-5xl">
           <m.h1
-            variants={wordMaskContainer}
-            initial="hidden"
-            animate="visible"
-            className="font-sans text-2xl sm:text-3xl md:text-[34px] text-black font-normal leading-[1.35] tracking-tight"
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: MOTION_EASE }}
+            className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-normal leading-[1.24] sm:leading-[1.18] tracking-tight text-[#8E8D88]"
           >
-            {words.map((word, idx) => (
-              <span key={idx} className="inline-block overflow-hidden mr-[0.28em] align-top">
-                <m.span
-                  variants={wordMaskChild}
-                  className="inline-block will-change-transform"
-                >
-                  {word}
-                </m.span>
-              </span>
-            ))}
+            Dhyandev P is a{' '}
+            <span className="text-[#121211] font-medium">development specialist</span>{' '}
+            and{' '}
+            <span className="text-[#121211] font-medium">systems engineer</span>{' '}
+            with a soft spot for complex problems, and a growing obsession with building things in code.
           </m.h1>
 
-          {/* Quick Action Badges */}
+          {/* 2. Metadata & Quick Action Controls */}
           <m.div
-            variants={revealVariant}
-            initial="hidden"
-            animate="visible"
-            className="mt-6 flex flex-wrap items-center gap-3"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: MOTION_EASE }}
+            className="mt-8 sm:mt-12 flex flex-wrap items-center justify-between gap-6 pt-6 border-t border-[#D6D5CF]/60"
           >
-            <m.a
-              href="#projects"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.02 }}
-              className="px-4 py-2 bg-black text-white font-mono text-xs uppercase tracking-wider hover:bg-neutral-800 transition-colors inline-flex items-center gap-1.5 shadow-xs"
-            >
-              <span>EXPLORE PROJECTS</span>
-              <ArrowDown className="w-3.5 h-3.5" />
-            </m.a>
-            <m.a
-              href={profile.linktreeUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.02 }}
-              className="px-4 py-2 border border-hairline bg-[#FAFAFA] text-black font-mono text-xs uppercase tracking-wider hover:border-black transition-colors inline-flex items-center gap-1.5 shadow-xs"
-            >
-              <span>LINKTREE // ALL LINKS</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </m.a>
+            {/* Meta Credentials */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-sans text-[#6D6C66]">
+              <span className="px-3 py-1 rounded-full bg-[#E5E5E1]/90 text-[#121211] font-semibold text-xs tracking-tight shadow-xs">
+                Co-Founder @ Wayve Enterprises
+              </span>
+              <span className="text-[#D6D5CF] hidden sm:inline">/</span>
+              <span>{profile.location}</span>
+              <span className="text-[#D6D5CF] hidden sm:inline">/</span>
+              <span className="font-mono">{profile.timezone}</span>
+            </div>
+
+            {/* Actions & Links */}
+            <div className="flex flex-wrap items-center gap-3">
+              <m.a
+                href="#projects"
+                whileTap={tapScale}
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 450, damping: 28 }}
+                className="px-4 py-2 rounded-full bg-[#121211] text-[#F4F4F2] font-mono text-xs uppercase tracking-wider hover:bg-neutral-800 transition-colors inline-flex items-center gap-1.5 shadow-xs cursor-pointer"
+              >
+                <span>EXPLORE PROJECTS</span>
+                <ArrowDown className="w-3.5 h-3.5" />
+              </m.a>
+
+              <m.a
+                href={profile.linktreeUrl}
+                target="_blank"
+                rel="noreferrer"
+                whileTap={tapScale}
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 450, damping: 28 }}
+                className="px-4 py-2 rounded-full border border-[#D6D5CF] bg-[#E5E5E1]/80 text-[#121211] font-mono text-xs uppercase tracking-wider hover:bg-[#D8D8D4] hover:border-black transition-colors inline-flex items-center gap-1.5 shadow-xs"
+              >
+                <span>LINKTREE</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </m.a>
+
+              <div className="flex items-center gap-1.5 pl-2">
+                <m.a
+                  href={profile.linkedinUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  whileTap={tapScale}
+                  whileHover={{ scale: 1.08 }}
+                  className="w-8 h-8 rounded-full border border-[#D6D5CF] bg-[#E5E5E1]/80 hover:bg-[#121211] hover:text-white hover:border-black flex items-center justify-center text-[#121211] transition-colors"
+                  aria-label="LinkedIn profile"
+                  title="LinkedIn"
+                >
+                  <Linkedin className="w-3.5 h-3.5 fill-current" />
+                </m.a>
+
+                <m.a
+                  href={`mailto:${profile.email}`}
+                  whileTap={tapScale}
+                  whileHover={{ scale: 1.08 }}
+                  className="w-8 h-8 rounded-full border border-[#D6D5CF] bg-[#E5E5E1]/80 hover:bg-[#121211] hover:text-white hover:border-black flex items-center justify-center text-[#121211] transition-colors"
+                  aria-label="Send Email"
+                  title="Email"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                </m.a>
+              </div>
+            </div>
           </m.div>
         </div>
-
-        {/* 2. Metadata Tag Row Above Name */}
-        <m.div
-          variants={revealVariant}
-          initial="hidden"
-          animate="visible"
-          className="w-full flex justify-end mb-4"
-        >
-          <div className="flex flex-wrap items-center gap-4 sm:gap-8 text-[11px] sm:text-xs font-sans uppercase tracking-widest text-ink-muted">
-            <span className="font-semibold text-black">CO-FOUNDER @ WAYVE ENTERPRISES</span>
-            <span className="text-ink-faint font-mono font-light">+</span>
-            <span>SYSTEMS & APPLIED AI</span>
-            <span className="text-ink-faint font-mono font-light">+</span>
-            <span>KERALA, IND</span>
-          </div>
-        </m.div>
-
-        {/* 3. Colossal Pixel Typography Name + Social Buttons */}
-        <m.div
-          variants={revealVariant}
-          initial="hidden"
-          animate="visible"
-          className="w-full pb-12 sm:pb-16 md:pb-24 border-b border-hairline flex flex-wrap items-center gap-3 sm:gap-6"
-        >
-          <div className="font-pixel font-bold text-[11vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-black tracking-tight leading-none select-none">
-            {profile.name}
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* LinkedIn Badge Button beside name */}
-            <m.a
-              href={profile.linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-7 h-7 sm:w-9 sm:h-9 border border-black rounded flex items-center justify-center text-black hover:bg-black hover:text-white transition-colors"
-              aria-label="LinkedIn profile of Dhyandev P."
-              title="LinkedIn profile"
-            >
-              <Linkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
-            </m.a>
-
-            {/* Linktree Badge Button */}
-            <m.a
-              href={profile.linktreeUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-7 h-7 sm:w-9 sm:h-9 border border-black rounded flex items-center justify-center text-black hover:bg-black hover:text-white transition-colors"
-              aria-label="Linktree of Dhyandev P."
-              title="Linktree profile"
-            >
-              <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </m.a>
-          </div>
-        </m.div>
       </div>
 
-      {/* 4. Bottom 3-Card Horizontal Tile Row */}
-      <div className="w-full border-b border-hairline bg-transparent">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-hairline">
+      {/* 3. Bottom 3-Card Horizontal Specialization Row */}
+      <div className="w-full border-t border-b border-[#D6D5CF]/80 bg-transparent">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#D6D5CF]/80">
           {specializations.map((item) => (
             <m.div
               key={item.id}
@@ -164,10 +141,10 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
 
               {/* Title & Concise Punchy Narrative */}
               <div className="space-y-1.5">
-                <h3 className="font-sans font-bold text-base sm:text-lg text-black tracking-tight">
+                <h3 className="font-sans font-bold text-base sm:text-lg text-[#121211] tracking-tight">
                   {item.title}
                 </h3>
-                <p className="font-sans text-xs sm:text-sm text-ink-muted leading-relaxed">
+                <p className="font-sans text-xs sm:text-sm text-[#6D6C66] leading-relaxed">
                   {item.description}
                 </p>
               </div>
