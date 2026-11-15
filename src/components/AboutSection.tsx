@@ -106,8 +106,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
       src: '/images/about/bridge_motorcycle.webp',
       rotation: -8,
       desktopPosition: {
-        top: '8%',
-        left: '5%',
+        top: '6%',
+        left: '4%',
         zIndex: 10,
       },
       aspectRatio: 'aspect-[3/4]',
@@ -119,9 +119,9 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
       src: '/images/about/selfie_school.webp',
       rotation: 3,
       desktopPosition: {
-        top: '3%',
-        left: '34%',
-        zIndex: 14,
+        top: '2%',
+        left: '30%',
+        zIndex: 12,
       },
       aspectRatio: 'aspect-[4/3]',
     },
@@ -132,11 +132,24 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
       src: '/images/about/redbull_f1_helmet.webp',
       rotation: 8,
       desktopPosition: {
-        top: '6%',
-        right: '6%',
-        zIndex: 12,
+        top: '5%',
+        right: '5%',
+        zIndex: 11,
       },
       aspectRatio: 'aspect-[3/4]',
+    },
+    {
+      id: 'bridge-wide',
+      title: 'River Bridge with Motorcycle, Kerala',
+      subtitle: 'Afternoon sun over the river with Bajaj V15 motorcycle on bridge',
+      src: '/images/about/bridge_motorcycle_wide.webp',
+      rotation: -2,
+      desktopPosition: {
+        top: '25%',
+        left: '12%',
+        zIndex: 20,
+      },
+      aspectRatio: 'aspect-[4/3]',
     },
     {
       id: 'zidane-river',
@@ -144,11 +157,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
       subtitle: 'Contemplating systems by the river under monsoon storm clouds',
       src: '/images/about/zidane_river.webp',
       pixelatedSrc: '/images/about/zidane_river_pixelated.webp',
-      rotation: -3,
+      rotation: 4,
       desktopPosition: {
         bottom: '3%',
-        left: '26%',
-        zIndex: 25,
+        right: '18%',
+        zIndex: 28,
       },
       aspectRatio: 'aspect-[3/4]',
     },
@@ -291,14 +304,14 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           <div className="w-full p-4 sm:p-10 md:p-14 rounded-3xl sm:rounded-[36px] bg-white border border-[#E5E5E1] shadow-[0_20px_60px_rgba(0,0,0,0.06)] relative overflow-hidden select-none">
             
             {/* Desktop / Tablet: Floating Stack Canvas */}
-            <div className="hidden sm:block relative w-full h-[470px] md:h-[510px]">
+            <div className="hidden sm:block relative w-full h-[540px] md:h-[620px] lg:h-[660px]">
               
               {/* STICKER 1: Formula 1 Logo 3D Badge (Top-Left) */}
               <m.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.15, rotate: -4 }}
-                className="absolute top-8 left-[23%] z-30 w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-[#242426] to-[#0D0D0E] text-white shadow-[0_12px_28px_rgba(0,0,0,0.3)] border border-white/20 flex items-center justify-center cursor-pointer -rotate-12 transition-transform"
+                className="absolute top-6 left-[22%] z-32 w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-[#242426] to-[#0D0D0E] text-white shadow-[0_12px_28px_rgba(0,0,0,0.3)] border border-white/20 flex items-center justify-center cursor-pointer -rotate-12 transition-transform"
                 title="Formula 1 Racing"
               >
                 <F1Logo className="w-8 h-8" />
@@ -309,18 +322,18 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.15, rotate: 6 }}
-                className="absolute top-5 right-[26%] z-30 flex items-center justify-center p-2 rounded-2xl bg-white shadow-[0_10px_25px_rgba(0,0,0,0.12)] border border-[#E5E5E1] cursor-pointer rotate-12 transition-transform"
+                className="absolute top-4 right-[25%] z-32 flex items-center justify-center p-2 rounded-2xl bg-white shadow-[0_10px_25px_rgba(0,0,0,0.12)] border border-[#E5E5E1] cursor-pointer rotate-12 transition-transform"
                 title="India"
               >
                 <span className="text-2xl sm:text-3xl leading-none">🇮🇳</span>
               </m.div>
 
-              {/* STICKER 3: Claude (Anthropic) Spark 3D Badge (Bottom-Right) */}
+              {/* STICKER 3: Claude (Anthropic) Spark 3D Badge (Bottom-Left) */}
               <m.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.15, rotate: 2 }}
-                className="absolute bottom-10 right-[18%] z-30 w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-[#252220] to-[#12100E] shadow-[0_12px_28px_rgba(0,0,0,0.3)] border border-white/15 flex items-center justify-center cursor-pointer rotate-8 transition-transform"
+                whileHover={{ scale: 1.15, rotate: -3 }}
+                className="absolute bottom-8 left-[7%] z-32 w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-[#252220] to-[#12100E] shadow-[0_12px_28px_rgba(0,0,0,0.3)] border border-white/15 flex items-center justify-center cursor-pointer -rotate-6 transition-transform"
                 title="Claude AI"
               >
                 <ClaudeLogo className="w-7 h-7" />
@@ -345,7 +358,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                 className="absolute cursor-pointer group"
               >
                 <div className="relative p-2 bg-white rounded-2xl shadow-[0_12px_32px_rgba(0,0,0,0.12)] border-[3px] border-white group-hover:shadow-[0_20px_45px_rgba(0,0,0,0.22)] transition-shadow">
-                  <div className="overflow-hidden rounded-xl bg-[#EBEBE8] aspect-[3/4] w-44 sm:w-54 md:w-58 lg:w-62 relative">
+                  <div className="overflow-hidden rounded-xl bg-[#EBEBE8] aspect-[3/4] w-42 sm:w-50 md:w-54 lg:w-58 relative">
                     <img
                       src={photoCards[0].src}
                       alt={photoCards[0].title}
@@ -411,7 +424,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                 className="absolute cursor-pointer group"
               >
                 <div className="relative p-2 bg-white rounded-2xl shadow-[0_12px_32px_rgba(0,0,0,0.12)] border-[3px] border-white group-hover:shadow-[0_20px_45px_rgba(0,0,0,0.22)] transition-shadow">
-                  <div className="overflow-hidden rounded-xl bg-[#EBEBE8] aspect-[3/4] w-44 sm:w-54 md:w-58 lg:w-62 relative">
+                  <div className="overflow-hidden rounded-xl bg-[#EBEBE8] aspect-[3/4] w-42 sm:w-50 md:w-54 lg:w-58 relative">
                     <img
                       src={photoCards[2].src}
                       alt={photoCards[2].title}
@@ -425,10 +438,10 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                 </div>
               </m.div>
 
-              {/* Photo 4 (Center Front): Creative Pixelated Workstation & Sim Setup (WA0044) */}
+              {/* Photo 4: River Bridge with Motorcycle Wide (Center Landscape Centerpiece) */}
               <m.div
                 style={{
-                  bottom: photoCards[3].desktopPosition.bottom,
+                  top: photoCards[3].desktopPosition.top,
                   left: photoCards[3].desktopPosition.left,
                   zIndex: photoCards[3].desktopPosition.zIndex,
                 }}
@@ -436,11 +449,44 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                 whileHover={{
                   scale: 1.05,
                   rotate: 0,
-                  zIndex: 45,
+                  zIndex: 35,
                   transition: { duration: 0.2 },
                 }}
                 whileTap={tapScale}
                 onClick={() => setSelectedPhoto(photoCards[3])}
+                className="absolute cursor-pointer group"
+              >
+                <div className="relative p-2 bg-white rounded-2xl shadow-[0_14px_38px_rgba(0,0,0,0.14)] border-[3px] border-white group-hover:shadow-[0_22px_50px_rgba(0,0,0,0.24)] transition-shadow">
+                  <div className="overflow-hidden rounded-xl bg-[#EBEBE8] aspect-[4/3] w-56 sm:w-68 md:w-80 lg:w-92 relative">
+                    <img
+                      src={photoCards[3].src}
+                      alt={photoCards[3].title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-2 right-2 p-1 rounded-full bg-white/80 backdrop-blur-sm text-black opacity-0 group-hover:opacity-100 transition-opacity shadow-xs">
+                      <Maximize2 className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                </div>
+              </m.div>
+
+              {/* Photo 5 (Foreground): Creative Pixelated Zidane 10 by the River */}
+              <m.div
+                style={{
+                  bottom: photoCards[4].desktopPosition.bottom,
+                  right: photoCards[4].desktopPosition.right,
+                  zIndex: photoCards[4].desktopPosition.zIndex,
+                }}
+                initial={{ rotate: photoCards[4].rotation }}
+                whileHover={{
+                  scale: 1.05,
+                  rotate: 0,
+                  zIndex: 45,
+                  transition: { duration: 0.2 },
+                }}
+                whileTap={tapScale}
+                onClick={() => setSelectedPhoto(photoCards[4])}
                 className="absolute cursor-pointer group"
               >
                 <div className="relative p-2 sm:p-2.5 bg-white rounded-2xl shadow-[0_16px_45px_rgba(0,0,0,0.16)] border-[3px] border-white group-hover:shadow-[0_24px_55px_rgba(0,0,0,0.26)] transition-all">
@@ -451,12 +497,12 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                     onMouseLeave={() => setIsLensHovered(false)}
                     onTouchMove={handleLensTouchMove}
                     onTouchStart={() => setIsLensHovered(true)}
-                    className="overflow-hidden rounded-xl bg-[#0B0D11] aspect-[3/4] w-48 sm:w-58 md:w-64 lg:w-70 relative cursor-crosshair select-none"
+                    className="overflow-hidden rounded-xl bg-[#0B0D11] aspect-[3/4] w-46 sm:w-54 md:w-60 lg:w-66 relative cursor-crosshair select-none"
                   >
                     {/* Base Pixelated Layer */}
                     <img
-                      src={photoCards[3].pixelatedSrc || photoCards[3].src}
-                      alt={photoCards[3].title}
+                      src={photoCards[4].pixelatedSrc || photoCards[4].src}
+                      alt={photoCards[4].title}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-102"
                       style={{ imageRendering: 'pixelated' }}
@@ -479,7 +525,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                       }}
                     >
                       <img
-                        src={photoCards[3].src}
+                        src={photoCards[4].src}
                         alt="Sharp HD focus"
                         className="w-full h-full object-cover"
                       />
@@ -513,11 +559,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
 
             </div>
 
-            {/* Mobile View (<640px): Clean Polaroid Grid */}
-            <div className="sm:hidden space-y-4 pt-2">
+            {/* Mobile View (<640px): Clean Polaroid Stack */}
+            <div className="sm:hidden space-y-4 pt-1">
               
               {/* Mobile Sticker Bar */}
-              <div className="flex items-center justify-center gap-4 pb-2">
+              <div className="flex items-center justify-center gap-4 pb-1">
                 <div className="w-11 h-11 rounded-2xl bg-gradient-to-b from-[#242426] to-[#0D0D0E] shadow-md border border-white/20 flex items-center justify-center">
                   <F1Logo className="w-6 h-6" />
                 </div>
@@ -529,9 +575,27 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                 </div>
               </div>
 
-              {/* 2x2 Grid */}
-              <div className="grid grid-cols-2 gap-3.5">
-                {photoCards.map((card) => {
+              {/* Featured Centerpiece Card: Wide Motorcycle Bridge */}
+              <div
+                onClick={() => setSelectedPhoto(photoCards[3])}
+                className="p-2 bg-white rounded-2xl shadow-md border border-[#E5E5E1] cursor-pointer"
+              >
+                <div className="overflow-hidden rounded-xl bg-[#EBEBE8] aspect-[4/3] relative">
+                  <img
+                    src={photoCards[3].src}
+                    alt={photoCards[3].title}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-2 right-2 p-1 rounded-full bg-white/80 backdrop-blur-sm text-black shadow-xs">
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+              </div>
+
+              {/* 2x2 Grid for Other 4 Photos */}
+              <div className="grid grid-cols-2 gap-3">
+                {[photoCards[0], photoCards[1], photoCards[2], photoCards[4]].map((card) => {
                   const isPixelCard = card.id === 'zidane-river';
                   const currentImageSrc = isPixelCard && wa0044Pixelated && card.pixelatedSrc
                     ? card.pixelatedSrc
