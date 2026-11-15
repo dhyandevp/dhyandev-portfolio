@@ -62,6 +62,22 @@
   background-size: 16px 16px;
 }
 
+/* Subtle Dot Grid pattern matching reference */
+.bg-dot-grid {
+  background-color: #FFFFFF;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.13) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Hide scrollbar for horizontal pill rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Rendering performance: content-visibility for offscreen sections */
 .content-visibility-auto {
   content-visibility: auto;

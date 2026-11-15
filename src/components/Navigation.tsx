@@ -1,179 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import React, { useState } from 'react';
 
 export const Navigation: React.FC = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [lang, setLang] = useState<'EN' | 'ML'>('EN');
 
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-          if (totalScroll > 0) {
-            const currentProgress = Math.min(100, Math.max(0, Math.round((window.scrollY / totalScroll) * 100)));
-            setScrollProgress((prev) => (prev !== currentProgress ? currentProgress : prev));
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToNext = () => {
-    const nextSection = document.getElementById('about') || document.getElementById('reachout');
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
-    }
-  };
+  const navItems = lang === 'EN' ? [
+    { label: 'Dhyandev P.', href: '#' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Laboratory', href: '#notes' },
+    { label: 'About', href: '#about' },
+    { label: 'Specializations', href: '#specializations' },
+    { label: 'Linktree', href: 'https://linktr.ee/DhyandevRTX', external: true }
+  ] : [
+    { label: 'ധ്യാനദേവ് പി.', href: '#' },
+    { label: 'പ്രോജക്ടുകൾ', href: '#projects' },
+    { label: 'ലാബ് കുറിപ്പുകൾ', href: '#notes' },
+    { label: 'കുറിച്ച്', href: '#about' },
+    { label: 'ശേഷികൾ', href: '#specializations' },
+    { label: 'ലിങ്ക് ട്രീ', href: 'https://linktr.ee/DhyandevRTX', external: true }
+  ];
 
   return (
-    <>
-      {/* 1. Left Edge Floating Black Award/Specialist Tab Badge (Image 8) */}
-      <aside
-        aria-label="Awards & Accreditation"
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center bg-black text-white py-4 px-2 w-10 shadow-md select-none"
-      >
-        <span className="font-sans font-bold text-sm mb-3">W.</span>
-        <span
-          className="text-[10px] font-mono tracking-widest uppercase text-white/80 whitespace-nowrap"
-          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md pt-6 pb-4 border-b border-transparent">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-wrap items-center justify-between gap-4">
+        {/* Left Side: Exact Rounded Pill Navigation Links */}
+        <nav
+          aria-label="Primary Navigation"
+          className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 max-w-full"
         >
-          Specialist
-        </span>
-      </aside>
+          {navItems.map((item, idx) => (
+            <a
+              key={idx}
+              href={item.href}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noreferrer' : undefined}
+              className="px-4 py-2 rounded-full bg-[#EFEFEF] hover:bg-[#E5E5E5] text-neutral-900 text-[13px] sm:text-sm font-medium transition-colors whitespace-nowrap select-none cursor-pointer focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
 
-      {/* 2. Right Edge Scroll Indicator (Image 8) */}
-      <div className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-2 select-none">
-        <span className="font-mono text-[10px] text-ink-faint tabular">
-          {scrollProgress}%
-        </span>
-        <div className="w-[1px] h-16 bg-hairline relative">
+        {/* Right Side: Language Toggle & Availability Status Pill */}
+        <div className="flex items-center gap-3 shrink-0">
+          {/* 1. Language Toggle Pill (Matching EN / PT in reference) */}
           <div
-            className="w-[1.5px] bg-black absolute top-0 left-0 transition-all duration-150"
-            style={{ height: `${scrollProgress}%` }}
-          />
+            role="group"
+            aria-label="Language selection"
+            className="bg-[#EAEAEA] p-1 rounded-full flex items-center gap-0.5 select-none"
+          >
+            <button
+              type="button"
+              onClick={() => setLang('EN')}
+              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                lang === 'EN'
+                  ? 'bg-[#222222] text-white shadow-xs'
+                  : 'text-neutral-500 hover:text-black'
+              }`}
+              aria-pressed={lang === 'EN'}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang('ML')}
+              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                lang === 'ML'
+                  ? 'bg-[#222222] text-white shadow-xs'
+                  : 'text-neutral-500 hover:text-black'
+              }`}
+              aria-pressed={lang === 'ML'}
+              title="Malayalam (മലയാളം)"
+            >
+              ML
+            </button>
+          </div>
+
+          {/* 2. Open to Work Status Pill (Exact match with green dot & mint background) */}
+          <a
+            href="#reachout"
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#EAF5ED] text-[#1D7E36] border border-[#CEE8D3] hover:bg-[#E0EFE3] transition-colors text-xs sm:text-[13px] font-medium whitespace-nowrap shadow-xs select-none"
+            title="Available for select technical contracts & advisory"
+          >
+            <span
+              className="w-2 h-2 rounded-full bg-[#2FA049] shrink-0 animate-pulse"
+              aria-hidden="true"
+            />
+            <span>{lang === 'EN' ? 'Open to work' : 'ലഭ്യമാണ് (Open)'}</span>
+          </a>
         </div>
       </div>
-
-      {/* 3. Top Navigation Bar (Image 8) */}
-      <header className="w-full bg-white/90 backdrop-blur-sm sticky top-0 z-30 transition-all duration-200">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
-          {/* Signature Logo on Left */}
-          <a
-            href="#"
-            className="font-signature text-3xl sm:text-4xl text-black hover:opacity-70 transition-opacity select-none leading-none pt-1"
-            aria-label="Dhyandev - Home"
-          >
-            Dhyandev
-          </a>
-
-          {/* Centered Minimalist Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7 text-xs font-sans text-ink-muted">
-            <a href="#about" className="hover:text-black transition-colors">
-              About Me
-            </a>
-            <a href="#projects" className="hover:text-black transition-colors font-medium text-black">
-              Projects
-            </a>
-            <a href="#specializations" className="hover:text-black transition-colors">
-              Specializations
-            </a>
-            <a href="#notes" className="hover:text-black transition-colors">
-              Laboratory
-            </a>
-            <a href="#reachout" className="hover:text-black transition-colors">
-              Contact
-            </a>
-            <a
-              href="https://linktr.ee/DhyandevRTX"
-              target="_blank"
-              rel="noreferrer"
-              className="px-3 py-1 bg-black text-white hover:bg-neutral-800 transition-colors font-mono text-[11px] font-medium"
-            >
-              Linktree ↗
-            </a>
-          </nav>
-
-          {/* Right Circular Scroll-Down Action Button */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={scrollToNext}
-              className="w-9 h-9 rounded-full bg-[#F4F4F4] hover:bg-black hover:text-white text-black flex items-center justify-center transition-colors focus-visible:outline-none"
-              aria-label="Scroll down to next section"
-              title="Scroll down"
-            >
-              <ChevronDown className="w-4 h-4" />
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-black"
-              aria-label="Toggle mobile menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Dropdown */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-hairline px-6 py-4 space-y-3 font-sans text-sm">
-            <a
-              href="#about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-1 text-ink-muted hover:text-black"
-            >
-              About Me
-            </a>
-            <a
-              href="#projects"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-1 font-semibold text-black"
-            >
-              Projects & Repositories
-            </a>
-            <a
-              href="#specializations"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-1 text-ink-muted hover:text-black"
-            >
-              Specializations
-            </a>
-            <a
-              href="#notes"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-1 text-ink-muted hover:text-black"
-            >
-              Laboratory Notes
-            </a>
-            <a
-              href="#reachout"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-1 text-ink-muted hover:text-black"
-            >
-              Contact / Reachout
-            </a>
-            <a
-              href="https://linktr.ee/DhyandevRTX"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 px-3 bg-black text-white font-mono text-xs text-center font-medium mt-2"
-            >
-              Linktree // All Links ↗
-            </a>
-          </div>
-        )}
-      </header>
-    </>
+    </header>
   );
 };

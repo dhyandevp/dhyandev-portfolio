@@ -11,7 +11,7 @@ import { developerProfile, featuredProjects } from './data/portfolioData';
 
 export const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col font-sans selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white bg-dot-grid text-black flex flex-col font-sans selection:bg-black selection:text-white">
       {/* 1. Minimal Header & Side Badges */}
       <Navigation />
 
