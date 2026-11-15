@@ -26,9 +26,13 @@ const TARGET_CONFIGS: Record<string, { label: string; name: string; confidence: 
 
 interface VisionDetectionOverlayProps {
   sectionRef: React.RefObject<HTMLElement | null>;
+  emailCopiedTimestamp?: number;
 }
 
-export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ sectionRef }) => {
+export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({
+  sectionRef,
+  emailCopiedTimestamp,
+}) => {
   const [boxes, setBoxes] = useState<TargetBox[]>([]);
   const [isScanning, setIsScanning] = useState(false);
   const [hasScanned, setHasScanned] = useState(false);
@@ -38,6 +42,8 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
   const [focusedId, setFocusedId] = useState<string | null>(null);
   const [latency, setLatency] = useState(12);
   const [isInView, setIsInView] = useState(false);
+  const [isEmailFlashing, setIsEmailFlashing] = useState(false);
+  const [isEmailCopied, setIsEmailCopied] = useState(false);
 
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const sectionWidthRef = useRef<number>(1280);
@@ -184,7 +190,32 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
     return () => window.clearInterval(interval);
   }, [isInView, focusedId]);
 
-  // Attach hover and keyboard focus listeners to targets in sectionRef
+  // Handle email copy flash (120ms) and COPIED 1.00 label state (1.5s)
+  const triggerEmailCopyState = useCallback(() => {
+    setIsEmailFlashing(true);
+    setIsEmailCopied(true);
+
+    const flashTimer = window.setTimeout(() => {
+      setIsEmailFlashing(false);
+    }, 120);
+
+    const copiedTimer = window.setTimeout(() => {
+      setIsEmailCopied(false);
+    }, 1500);
+
+    return () => {
+      window.clearTimeout(flashTimer);
+      window.clearTimeout(copiedTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (emailCopiedTimestamp && emailCopiedTimestamp > 0) {
+      return triggerEmailCopyState();
+    }
+  }, [emailCopiedTimestamp, triggerEmailCopyState]);
+
+  // Attach hover, keyboard focus, and click listeners to targets in sectionRef
   useEffect(() => {
     if (!sectionRef.current) return;
     const root = sectionRef.current;
@@ -216,18 +247,27 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
       setFocusedId(null);
     };
 
+    const handleClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('[data-vision-target="email"]');
+      if (target) {
+        triggerEmailCopyState();
+      }
+    };
+
     root.addEventListener('mouseover', handlePointerOver);
     root.addEventListener('mouseout', handlePointerOut);
     root.addEventListener('focusin', handleFocusIn);
     root.addEventListener('focusout', handleFocusOut);
+    root.addEventListener('click', handleClick);
 
     return () => {
       root.removeEventListener('mouseover', handlePointerOver);
       root.removeEventListener('mouseout', handlePointerOut);
       root.removeEventListener('focusin', handleFocusIn);
       root.removeEventListener('focusout', handleFocusOut);
+      root.removeEventListener('click', handleClick);
     };
-  }, [sectionRef]);
+  }, [sectionRef, triggerEmailCopyState]);
 
   useEffect(() => {
     measureTargets();
@@ -451,12 +491,18 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
         const isDetected = detectedMap[box.id] || false;
         const isFocused = focusedId === box.id;
         const currentConf = confidences[box.id] ?? 0;
+        const isEmailBox = box.id === 'email';
+        const isCopied = isEmailCopied && isEmailBox;
+        const isFlashing = isEmailFlashing && isEmailBox;
+        const isHighlighted = isCopied || isFocused;
 
         return (
           <div
             key={box.id}
             className={`absolute transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isFocused
+              isFlashing
+                ? 'scale-100 opacity-100 z-40 bg-black'
+                : isHighlighted
                 ? 'scale-100 opacity-100 z-30'
                 : isDetected
                 ? 'scale-100 opacity-[0.35] z-10'
@@ -469,34 +515,50 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
               height: `${box.rect.height}px`,
             }}
           >
-            {/* Corner Brackets: 1px normal, 2px when focused, 10px arms */}
+            {/* Corner Brackets: 1px normal, 2px when focused/copied, 10px arms */}
             {/* Top-Left */}
             <div
-              className={`absolute top-0 left-0 w-[10px] h-[10px] border-t border-l border-black transition-all ${
-                isFocused ? 'border-t-2 border-l-2' : 'border-t border-l'
+              className={`absolute top-0 left-0 w-[10px] h-[10px] border-t border-l transition-all ${
+                isFlashing
+                  ? 'border-white border-t-2 border-l-2'
+                  : isHighlighted
+                  ? 'border-black border-t-2 border-l-2'
+                  : 'border-black border-t border-l'
               }`}
             />
             {/* Top-Right */}
             <div
-              className={`absolute top-0 right-0 w-[10px] h-[10px] border-t border-r border-black transition-all ${
-                isFocused ? 'border-t-2 border-r-2' : 'border-t border-r'
+              className={`absolute top-0 right-0 w-[10px] h-[10px] border-t border-r transition-all ${
+                isFlashing
+                  ? 'border-white border-t-2 border-r-2'
+                  : isHighlighted
+                  ? 'border-black border-t-2 border-r-2'
+                  : 'border-black border-t border-r'
               }`}
             />
             {/* Bottom-Left */}
             <div
-              className={`absolute bottom-0 left-0 w-[10px] h-[10px] border-b border-l border-black transition-all ${
-                isFocused ? 'border-b-2 border-l-2' : 'border-b border-l'
+              className={`absolute bottom-0 left-0 w-[10px] h-[10px] border-b border-l transition-all ${
+                isFlashing
+                  ? 'border-white border-b-2 border-l-2'
+                  : isHighlighted
+                  ? 'border-black border-b-2 border-l-2'
+                  : 'border-black border-b border-l'
               }`}
             />
             {/* Bottom-Right */}
             <div
-              className={`absolute bottom-0 right-0 w-[10px] h-[10px] border-b border-r border-black transition-all ${
-                isFocused ? 'border-b-2 border-r-2' : 'border-b border-r'
+              className={`absolute bottom-0 right-0 w-[10px] h-[10px] border-b border-r transition-all ${
+                isFlashing
+                  ? 'border-white border-b-2 border-r-2'
+                  : isHighlighted
+                  ? 'border-black border-b-2 border-r-2'
+                  : 'border-black border-b border-r'
               }`}
             />
 
-            {/* Crosshair at center when focused */}
-            {isFocused && (
+            {/* Crosshair at center when focused (unless flashing) */}
+            {isHighlighted && !isFlashing && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="relative w-4 h-4 flex items-center justify-center">
                   <div className="absolute w-3 h-[1px] bg-black/80" />
@@ -509,10 +571,10 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
             {isDetected && (
               <div
                 className={`absolute -top-[19px] left-0 font-mono text-[9px] sm:text-[10px] uppercase font-semibold px-1.5 py-[2px] leading-tight tracking-wider whitespace-nowrap shadow-xs transition-colors ${
-                  isFocused ? 'bg-black text-white' : 'bg-black/90 text-white'
+                  isHighlighted ? 'bg-black text-white' : 'bg-black/90 text-white'
                 }`}
               >
-                {box.label} {currentConf.toFixed(2)}
+                {isCopied ? 'COPIED 1.00' : `${box.label} ${currentConf.toFixed(2)}`}
               </div>
             )}
           </div>
