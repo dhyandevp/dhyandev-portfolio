@@ -70,7 +70,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
         </div>
 
         {/* 2. Colossal "Dhyandev P" Monumental Typography at the End */}
-        <div className="w-full overflow-hidden select-none pt-8 sm:pt-12 pb-4 sm:pb-8">
+        <div className="w-full select-none pt-8 sm:pt-12 pb-4 sm:pb-8 overflow-visible">
           <m.div
             initial="hidden"
             whileInView="visible"
@@ -82,8 +82,8 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
                 },
               },
             }}
-            className="w-full flex items-baseline justify-between overflow-hidden tracking-[-0.06em] font-medium leading-[0.78] text-[#121211]"
-            style={{ fontSize: 'clamp(44px, 18.2vw, 260px)' }}
+            className="w-full flex items-baseline justify-between tracking-[-0.05em] font-medium leading-[0.8] text-[#121211] pr-1 sm:pr-2"
+            style={{ fontSize: 'clamp(36px, 11.2vw, 158px)' }}
             aria-label="Dhyandev P"
           >
             {letters.map((char, index) => (
