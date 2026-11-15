@@ -41,6 +41,34 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
 
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const sectionWidthRef = useRef<number>(1280);
+  const reticleRef = useRef<HTMLDivElement | null>(null);
+  const isHoverSupportedRef = useRef(false);
+  const isReducedMotionRef = useRef(false);
+
+  // Check hover capability and reduced motion preferences
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    isHoverSupportedRef.current = hoverQuery.matches;
+    isReducedMotionRef.current = motionQuery.matches;
+
+    const onHoverChange = (e: MediaQueryListEvent) => {
+      isHoverSupportedRef.current = e.matches;
+    };
+    const onMotionChange = (e: MediaQueryListEvent) => {
+      isReducedMotionRef.current = e.matches;
+    };
+
+    hoverQuery.addEventListener('change', onHoverChange);
+    motionQuery.addEventListener('change', onMotionChange);
+
+    return () => {
+      hoverQuery.removeEventListener('change', onHoverChange);
+      motionQuery.removeEventListener('change', onMotionChange);
+    };
+  }, []);
 
   // Measure all [data-vision-target] relative to section container
   const measureTargets = useCallback(() => {
@@ -226,6 +254,143 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
     };
   }, [measureTargets, sectionRef]);
 
+  // Cursor-follow reticle (desktop only, hover: hover): spring physics (stiffness 300, damping 30)
+  // Snapping to nearest element box within 80px, paused when not in view
+  useEffect(() => {
+    if (!isInView || !sectionRef.current) return;
+    const root = sectionRef.current;
+
+    let rafId: number | null = null;
+    let isInside = false;
+    let targetX = -100;
+    let targetY = -100;
+    let currX = -100;
+    let currY = -100;
+    let vx = 0;
+    let vy = 0;
+    let lastTime = performance.now();
+    let isRunning = false;
+    let isLocked = false;
+    let initialized = false;
+
+    const stopLoop = () => {
+      isRunning = false;
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
+
+    const loop = (now: number) => {
+      if (!isRunning) return;
+
+      const rawDt = (now - lastTime) / 1000;
+      lastTime = now;
+      const dt = Math.min(rawDt, 0.05);
+
+      // Spring physics: stiffness 300, damping 30
+      const k = 300;
+      const c = 30;
+      const ax = k * (targetX - currX) - c * vx;
+      const ay = k * (targetY - currY) - c * vy;
+
+      vx += ax * dt;
+      vy += ay * dt;
+      currX += vx * dt;
+      currY += vy * dt;
+
+      if (reticleRef.current) {
+        reticleRef.current.style.transform = `translate3d(${currX - 14}px, ${currY - 14}px, 0)`;
+        reticleRef.current.style.opacity = isInside ? '1' : '0';
+        if (isLocked) {
+          reticleRef.current.classList.add('border-black', 'scale-110');
+          reticleRef.current.classList.remove('border-black/60', 'scale-100');
+        } else {
+          reticleRef.current.classList.add('border-black/60', 'scale-100');
+          reticleRef.current.classList.remove('border-black', 'scale-110');
+        }
+      }
+
+      // If outside and spring has settled, stop loop to save CPU
+      const distToTarget = Math.hypot(targetX - currX, targetY - currY);
+      const speed = Math.hypot(vx, vy);
+      if (!isInside && distToTarget < 1 && speed < 1) {
+        stopLoop();
+        return;
+      }
+
+      rafId = requestAnimationFrame(loop);
+    };
+
+    const startLoop = () => {
+      if (isRunning) return;
+      isRunning = true;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(loop);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isHoverSupportedRef.current || isReducedMotionRef.current) return;
+
+      const rect = root.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      isInside = true;
+
+      // Find nearest element box within 80px
+      let closestBox: TargetBox | null = null;
+      let minDistance = 80;
+
+      for (const box of boxes) {
+        const dx = Math.max(box.rect.left - mouseX, 0, mouseX - (box.rect.left + box.rect.width));
+        const dy = Math.max(box.rect.top - mouseY, 0, mouseY - (box.rect.top + box.rect.height));
+        const dist = Math.hypot(dx, dy);
+
+        if (dist <= 80 && dist < minDistance) {
+          minDistance = dist;
+          closestBox = box;
+        }
+      }
+
+      if (closestBox) {
+        // Snap to center of nearest box
+        targetX = closestBox.rect.left + closestBox.rect.width / 2;
+        targetY = closestBox.rect.top + closestBox.rect.height / 2;
+        isLocked = true;
+      } else {
+        targetX = mouseX;
+        targetY = mouseY;
+        isLocked = false;
+      }
+
+      if (!initialized) {
+        currX = targetX;
+        currY = targetY;
+        vx = 0;
+        vy = 0;
+        initialized = true;
+      }
+
+      startLoop();
+    };
+
+    const handleMouseLeave = () => {
+      isInside = false;
+      isLocked = false;
+      startLoop();
+    };
+
+    root.addEventListener('mousemove', handleMouseMove, { passive: true });
+    root.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+
+    return () => {
+      stopLoop();
+      root.removeEventListener('mousemove', handleMouseMove);
+      root.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [boxes, isInView, sectionRef]);
+
   const focusedBox = boxes.find((b) => b.id === focusedId);
 
   return (
@@ -353,6 +518,23 @@ export const VisionDetectionOverlay: React.FC<VisionDetectionOverlayProps> = ({ 
           </div>
         );
       })}
+
+      {/* 4. Cursor-follow Reticle (desktop only, hover: hover, spring physics) */}
+      <div
+        ref={reticleRef}
+        className="absolute top-0 left-0 w-7 h-7 pointer-events-none rounded-full border border-black/60 transition-colors duration-150 z-40 hidden sm:block will-change-transform opacity-0"
+        style={{
+          transform: 'translate3d(-100px, -100px, 0)',
+        }}
+      >
+        {/* Crosshair Ticks (Top, Bottom, Left, Right) */}
+        <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-[1px] h-1 bg-black/80" />
+        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[1px] h-1 bg-black/80" />
+        <span className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-[1px] bg-black/80" />
+        <span className="absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-[1px] bg-black/80" />
+        {/* Center micro dot */}
+        <span className="absolute inset-0 m-auto w-1 h-1 rounded-full bg-black/40" />
+      </div>
 
       <style>{`
         @keyframes scanSweep {
