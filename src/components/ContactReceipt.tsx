@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface ContactReceiptProps {
   email?: string;
@@ -12,6 +12,13 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
   email = 'dhyandev027@gmail.com',
   orderNumber = 27,
 }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [inView, setInView] = useState(false);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [stage, setStage] = useState<'idle' | 'printing' | 'settling' | 'ready'>('idle');
+  const [visibleLines, setVisibleLines] = useState<number>(0);
+
   // Format today's date dynamically: e.g. "15 NOV 2026"
   const formattedDate = React.useMemo(() => {
     const now = new Date();
@@ -26,12 +33,103 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     return `NO. ${String(orderNumber).padStart(4, '0')}`;
   }, [orderNumber]);
 
+  // Check reduced motion and screen width
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setIsReducedMotion(motionQuery.matches);
+
+    const onMotionChange = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
+    motionQuery.addEventListener('change', onMotionChange);
+
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      motionQuery.removeEventListener('change', onMotionChange);
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  // IntersectionObserver: trigger once when 30% of the section is in view
+  useEffect(() => {
+    if (!containerRef.current || inView) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [inView]);
+
+  // Stepped print animation and line-by-line sync
+  useEffect(() => {
+    if (!inView) return;
+
+    if (isReducedMotion) {
+      setStage('ready');
+      setVisibleLines(12);
+      return;
+    }
+
+    setStage('printing');
+    setVisibleLines(0);
+
+    const printDuration = isMobile ? 1200 : 1600;
+    const lineStagger = 100; // 0.1s stagger
+
+    // Reveal lines one by one in sync with the paper (stagger 0.1s, opacity 0 to 1)
+    const timers: NodeJS.Timeout[] = [];
+    for (let i = 1; i <= 12; i++) {
+      const t = setTimeout(() => {
+        setVisibleLines(i);
+      }, i * lineStagger);
+      timers.push(t);
+    }
+
+    // After printing: settle spring (translateY 0 to 3px to 0, 0.35s)
+    const settleTimer = setTimeout(() => {
+      setStage('settling');
+
+      const readyTimer = setTimeout(() => {
+        setStage('ready');
+      }, 350);
+      timers.push(readyTimer);
+    }, printDuration);
+    timers.push(settleTimer);
+
+    return () => timers.forEach(clearTimeout);
+  }, [inView, isMobile, isReducedMotion]);
+
+  const printDurationSec = isMobile ? 1.2 : 1.6;
+
   return (
-    <div className="group flex flex-col items-center">
+    <div ref={containerRef} className="group flex flex-col items-center relative select-none">
       <div
-        className="w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text transition-colors relative"
+        className="w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative will-change-transform"
         style={{
           clipPath: ZIGZAG_CLIP,
+          animation:
+            stage === 'printing' && !isReducedMotion
+              ? `receiptPrintStep ${printDurationSec}s steps(16, end) forwards`
+              : stage === 'settling' && !isReducedMotion
+              ? 'receiptSettle 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+              : undefined,
+          transform:
+            stage === 'idle' && !isReducedMotion
+              ? 'translateY(100%)'
+              : stage === 'ready' || isReducedMotion
+              ? 'translateY(0)'
+              : undefined,
         }}
         role="region"
         aria-label="Project inquiry receipt"
@@ -54,44 +152,65 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
         </div>
 
         <div className="px-3.5 pt-2 pb-3">
-          {/* Header */}
-          <div className="text-center font-bold tracking-wider mb-0.5">
+          {/* Line 0: WAYVE ENTERPRISES */}
+          <div
+            className="text-center font-bold tracking-wider mb-0.5 transition-opacity duration-150"
+            style={{ opacity: visibleLines >= 1 || isReducedMotion ? 1 : 0 }}
+          >
             WAYVE ENTERPRISES
           </div>
-          <div className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-wider mb-2">
+
+          {/* Line 1: NO. 0027 / 15 NOV 2026 */}
+          <div
+            className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-wider mb-2 transition-opacity duration-150"
+            style={{ opacity: visibleLines >= 2 || isReducedMotion ? 1 : 0 }}
+          >
             {formattedOrder} / {formattedDate}
           </div>
 
-          {/* Dashed Rule */}
+          {/* Line 2: Dashed Rule */}
           <div
-            className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-2"
+            className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-2 transition-opacity duration-150"
+            style={{ opacity: visibleLines >= 3 || isReducedMotion ? 1 : 0 }}
             aria-hidden="true"
           />
 
-          {/* Service Lines */}
+          {/* Lines 3 - 6: Service Lines */}
           <div className="space-y-1 my-2">
-            <div className="flex justify-between items-baseline">
+            <div
+              className="flex justify-between items-baseline transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
+            >
               <span>CONTRACTING</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
               <span className="text-[#2fb344] font-semibold whitespace-nowrap">
                 <span className="inline-block mr-0.5">•</span>OPEN
               </span>
             </div>
-            <div className="flex justify-between items-baseline">
+            <div
+              className="flex justify-between items-baseline transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
+            >
               <span>COMPUTER VISION</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
               <span className="text-[#2fb344] font-semibold whitespace-nowrap">
                 <span className="inline-block mr-0.5">•</span>OPEN
               </span>
             </div>
-            <div className="flex justify-between items-baseline">
+            <div
+              className="flex justify-between items-baseline transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
+            >
               <span>FULL-STACK</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
               <span className="text-[#2fb344] font-semibold whitespace-nowrap">
                 <span className="inline-block mr-0.5">•</span>OPEN
               </span>
             </div>
-            <div className="flex justify-between items-baseline">
+            <div
+              className="flex justify-between items-baseline transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
+            >
               <span>ADVISORY</span>
               <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
               <span className="text-[#2fb344] font-semibold whitespace-nowrap">
@@ -100,24 +219,34 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
             </div>
           </div>
 
-          {/* Dashed Rule */}
+          {/* Line 7: Dashed Rule */}
           <div
-            className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-2"
+            className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-2 transition-opacity duration-150"
+            style={{ opacity: visibleLines >= 8 || isReducedMotion ? 1 : 0 }}
             aria-hidden="true"
           />
 
-          {/* SLA & Total */}
+          {/* Lines 8 - 9: SLA & Total */}
           <div className="space-y-1 my-2">
-            <div className="text-[#6D6C66] dark:text-[#9A9993] text-[10px]">
+            <div
+              className="text-[#6D6C66] dark:text-[#9A9993] text-[10px] transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 9 || isReducedMotion ? 1 : 0 }}
+            >
               REPLY WITHIN 24H
             </div>
-            <div className="font-bold text-[10px] leading-snug">
+            <div
+              className="font-bold text-[10px] leading-snug transition-opacity duration-150"
+              style={{ opacity: visibleLines >= 10 || isReducedMotion ? 1 : 0 }}
+            >
               TOTAL: LET'S BUILD SOMETHING EXCEPTIONAL
             </div>
           </div>
 
-          {/* Clickable Email Line */}
-          <div className="my-2 pt-1 border-t border-[#EBEBE8] dark:border-[rgba(242,242,239,0.1)]">
+          {/* Line 10: Clickable Email Line */}
+          <div
+            className="my-2 pt-1 border-t border-[#EBEBE8] dark:border-[rgba(242,242,239,0.1)] transition-opacity duration-150"
+            style={{ opacity: visibleLines >= 11 || isReducedMotion ? 1 : 0 }}
+          >
             <a
               href={`mailto:${email}`}
               className="block text-black dark:text-[#f2f2ef] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-1 truncate"
@@ -126,8 +255,11 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
             </a>
           </div>
 
-          {/* Sign-off */}
-          <div className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-widest mt-2">
+          {/* Line 11: Sign-off */}
+          <div
+            className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-widest mt-2 transition-opacity duration-150"
+            style={{ opacity: visibleLines >= 12 || isReducedMotion ? 1 : 0 }}
+          >
             THANK YOU.
           </div>
         </div>
@@ -140,6 +272,28 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
       >
         TEAR TO COPY
       </div>
+
+      <style>{`
+        @keyframes receiptPrintStep {
+          0% {
+            transform: translateY(100%);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+        @keyframes receiptSettle {
+          0% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(3px);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 };
