@@ -1,0 +1,20 @@
+# Cloudflare Static Assets Headers
+
+# Hashed assets in /assets/ (immutable for 1 year)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images in /images/ (immutable for 1 year)
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts (if any)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML documents must always revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
