@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { m } from 'motion/react';
 import { Project } from '../types/portfolio';
 import { ArrowUpRight, Github, ExternalLink, SlidersHorizontal } from 'lucide-react';
+import { revealVariant, standardViewport, tapScale } from '../lib/motion';
 
 interface ProjectsSectionProps {
   readonly projects: readonly Project[];
@@ -22,10 +24,16 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
     : projects.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="projects" className="w-full py-16 md:py-24 border-b border-hairline bg-white content-visibility-auto">
+    <section id="projects" className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section Marker */}
-        <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline">
+        <m.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={standardViewport}
+          variants={revealVariant}
+          className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline"
+        >
           <div className="flex items-center gap-3">
             <span className="text-black font-semibold">[02]</span>
             <span>VERIFIED SYSTEMS & REPOSITORIES</span>
@@ -42,11 +50,17 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
             <span>linktr.ee/DhyandevRTX</span>
             <ExternalLink className="w-3 h-3" />
           </a>
-        </div>
+        </m.div>
 
         {/* Section Heading & Category Filter Controls */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
-          <div className="max-w-2xl">
+          <m.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={standardViewport}
+            variants={revealVariant}
+            className="max-w-2xl"
+          >
             <h2 className="font-sans font-bold text-3xl sm:text-4xl text-black tracking-tight mb-3">
               Production systems, edge pipelines, and hardware instruments.
             </h2>
@@ -54,16 +68,24 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
               Real-world engineering executed across computer vision, automated SDR satellite tracking,
               zero-trust architecture, and custom micro-controller firmware.
             </p>
-          </div>
+          </m.div>
 
-          {/* Filter Badges */}
-          <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+          {/* Filter Badges with whileTap */}
+          <m.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={standardViewport}
+            variants={revealVariant}
+            className="flex flex-wrap items-center gap-1.5 font-mono text-xs"
+          >
             <span className="text-ink-faint mr-1 flex items-center gap-1 text-[11px]">
               <SlidersHorizontal className="w-3 h-3" /> FILTER:
             </span>
             {categories.map((cat) => (
-              <button
+              <m.button
                 key={cat}
+                type="button"
+                whileTap={tapScale}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 text-[11px] font-medium transition-colors ${
                   selectedCategory === cat
@@ -73,26 +95,37 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                 aria-pressed={selectedCategory === cat}
               >
                 {cat}
-              </button>
+              </m.button>
             ))}
-          </div>
+          </m.div>
         </div>
 
-        {/* Card Grid adhering to modern-web-guidance (semantic article cards, aspect-ratio, elevated actions) */}
+        {/* Responsive Grid: 1 col (<640px), 2 cols (640-1024px tablet), 3 cols (>1024px desktop) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           {filteredProjects.map((project) => (
-            <article
+            <m.article
               key={project.id}
-              className="card group flex flex-col justify-between border border-hairline bg-white hover:border-black transition-all duration-300 relative"
+              initial="hidden"
+              whileInView="visible"
+              viewport={standardViewport}
+              variants={revealVariant}
+              whileTap={tapScale}
+              className="card group flex flex-col justify-between border border-hairline bg-white hover:border-black transition-colors duration-200 relative"
             >
-              {/* Region 1: Media (aspect-ratio 16/10, object-fit cover, lazy loaded WebP) */}
-              <div className="aspect-[16/10] overflow-hidden bg-[#F7F7F7] border-b border-hairline relative">
+              {/* Region 1: Media (explicit aspect-ratio 16/10, width/height to eliminate layout shift) */}
+              <div
+                className="overflow-hidden bg-[#F7F7F7] border-b border-hairline relative"
+                style={{ aspectRatio: '16 / 10' }}
+              >
                 <img
                   src={project.image || '/images/blind_aid.webp'}
                   alt={`Screenshot of ${project.title}`}
+                  width={640}
+                  height={400}
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 ease-out"
+                  style={{ aspectRatio: '16 / 10' }}
+                  className="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-105 transition-transform duration-500 ease-out will-change-transform"
                 />
 
                 {/* Overlaid Badges */}
@@ -137,10 +170,10 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                 {/* Technical Specs Metric Strip */}
                 {project.metricsOrSpec && project.metricsOrSpec.length > 0 && (
                   <div className="grid grid-cols-3 gap-2 p-3 bg-[#FAFAFA] border border-hairline/80 font-mono text-[10px]">
-                    {project.metricsOrSpec.map((m, idx) => (
+                    {project.metricsOrSpec.map((mSpec, idx) => (
                       <div key={idx} className="space-y-0.5">
-                        <span className="block text-ink-faint uppercase text-[9px]">{m.label}</span>
-                        <span className="font-bold text-black truncate block">{m.value}</span>
+                        <span className="block text-ink-faint uppercase text-[9px]">{mSpec.label}</span>
+                        <span className="font-bold text-black truncate block">{mSpec.value}</span>
                       </div>
                     ))}
                   </div>
@@ -172,24 +205,28 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
 
                 <div className="flex items-center gap-2">
                   {project.githubUrl && (
-                    <a
+                    <m.a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noreferrer"
+                      whileTap={tapScale}
+                      whileHover={{ scale: 1.03 }}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black text-white hover:bg-neutral-800 text-xs font-mono font-medium transition-colors"
                       aria-label={`Inspect source code for ${project.title}`}
                     >
                       <Github className="w-3.5 h-3.5" />
                       <span>CODE</span>
                       <ArrowUpRight className="w-3 h-3" />
-                    </a>
+                    </m.a>
                   )}
                 </div>
               </footer>
-            </article>
+            </m.article>
           ))}
         </div>
       </div>
     </section>
   );
 };
+
+export default ProjectsSection;

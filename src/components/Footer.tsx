@@ -1,8 +1,9 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 import { DeveloperProfile } from '../types/portfolio';
 import { ArrowUp } from 'lucide-react';
 import { scrollToTop } from '../lib/scroll';
+import { MOTION_EASE, tapScale } from '../lib/motion';
 
 interface FooterProps {
   readonly profile: DeveloperProfile;
@@ -20,39 +21,43 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
         {/* 1. Elsewhere Navigation & Email Row */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 font-sans text-sm border-b border-[#D6D5CF]/60">
           <nav aria-label="Elsewhere" className="flex flex-wrap items-center gap-6 sm:gap-8 font-medium text-[#121211]">
-            <a
+            <m.a
               href={profile.linkedinUrl}
               target="_blank"
               rel="noreferrer"
+              whileTap={tapScale}
               className="hover:text-black transition-colors underline-offset-4 hover:underline"
             >
               LinkedIn ↗
-            </a>
-            <a
+            </m.a>
+            <m.a
               href={profile.githubUrl}
               target="_blank"
               rel="noreferrer"
+              whileTap={tapScale}
               className="hover:text-black transition-colors underline-offset-4 hover:underline"
             >
               GitHub ↗
-            </a>
-            <a
+            </m.a>
+            <m.a
               href={profile.linktreeUrl}
               target="_blank"
               rel="noreferrer"
+              whileTap={tapScale}
               className="hover:text-black transition-colors underline-offset-4 hover:underline font-semibold"
             >
               Linktree ↗
-            </a>
+            </m.a>
             {profile.instagramUrl && (
-              <a
+              <m.a
                 href={profile.instagramUrl}
                 target="_blank"
                 rel="noreferrer"
+                whileTap={tapScale}
                 className="hover:text-black transition-colors underline-offset-4 hover:underline"
               >
                 Instagram ↗
-              </a>
+              </m.a>
             )}
           </nav>
 
@@ -66,38 +71,38 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
 
         {/* 2. Colossal "Dhyandev P" Monumental Typography at the End */}
         <div className="w-full overflow-hidden select-none pt-8 sm:pt-12 pb-4 sm:pb-8">
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={{
               visible: {
                 transition: {
-                  staggerChildren: 0.035
-                }
-              }
+                  staggerChildren: 0.035,
+                },
+              },
             }}
             className="w-full flex items-baseline justify-between overflow-hidden tracking-[-0.06em] font-medium leading-[0.78] text-[#121211]"
             style={{ fontSize: 'clamp(44px, 18.2vw, 260px)' }}
             aria-label="Dhyandev P"
           >
             {letters.map((char, index) => (
-              <motion.span
+              <m.span
                 key={index}
                 variants={{
                   hidden: { y: '105%', opacity: 0 },
                   visible: {
                     y: 0,
                     opacity: 1,
-                    transition: { duration: 0.85, ease: [0.19, 1, 0.22, 1] }
-                  }
+                    transition: { duration: 0.7, ease: MOTION_EASE },
+                  },
                 }}
-                className="inline-block hover:-translate-y-2 hover:text-neutral-500 transition-all duration-300 cursor-default"
+                className="inline-block hover:-translate-y-2 hover:text-neutral-500 transition-transform duration-300 cursor-default will-change-transform"
               >
                 {char === ' ' ? '\u00A0' : char}
-              </motion.span>
+              </m.span>
             ))}
-          </motion.div>
+          </m.div>
         </div>
 
         {/* 3. Bottom Row: Copyright, Location & Back to Top */}
@@ -105,14 +110,16 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
           <div>© {currentYear} Dhyandev P. All rights reserved.</div>
           <div className="flex items-center gap-6">
             <span>{profile.location} · {profile.timezone}</span>
-            <button
+            <m.button
+              type="button"
               onClick={scrollToTop}
+              whileTap={tapScale}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#D6D5CF] hover:border-black text-[#121211] text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer rounded-full"
               aria-label="Scroll back to top"
             >
               <span>TOP</span>
               <ArrowUp className="w-3.5 h-3.5" />
-            </button>
+            </m.button>
           </div>
         </div>
       </div>
