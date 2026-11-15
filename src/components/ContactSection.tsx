@@ -24,7 +24,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section Marker */}
         <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline">
-          <span className="text-black font-semibold">[04]</span>
+          <span className="text-black font-semibold">[05]</span>
           <span>INITIATE CONTACT</span>
           <span className="text-hairline">/</span>
           <span>PROFESSIONAL REACHOUT</span>
@@ -35,8 +35,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             Let's build something exceptional together.
           </h2>
           <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans">
-            I'm available for technical contracting, computer vision architecture, full-stack systems engineering,
-            and infrastructure advisory. Reach out directly to discuss your engineering roadmap.
+            As Co-Founder of Wayve Enterprises, I'm available for technical contracting, computer vision architecture,
+            full-stack systems engineering, and strategic advisory. Reach out directly or explore my channels on Linktree.
           </p>
         </div>
 

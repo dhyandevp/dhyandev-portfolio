@@ -76,12 +76,12 @@ export const Navigation: React.FC = () => {
           </a>
 
           {/* Centered Minimalist Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-sans text-ink-muted">
+          <nav className="hidden md:flex items-center gap-7 text-xs font-sans text-ink-muted">
             <a href="#about" className="hover:text-black transition-colors">
               About Me
             </a>
-            <a href="#reachout" className="hover:text-black transition-colors">
-              Contact
+            <a href="#projects" className="hover:text-black transition-colors font-medium text-black">
+              Projects
             </a>
             <a href="#specializations" className="hover:text-black transition-colors">
               Specializations
@@ -89,13 +89,16 @@ export const Navigation: React.FC = () => {
             <a href="#notes" className="hover:text-black transition-colors">
               Laboratory
             </a>
+            <a href="#reachout" className="hover:text-black transition-colors">
+              Contact
+            </a>
             <a
               href="https://linktr.ee/DhyandevRTX"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-black transition-colors"
+              className="px-3 py-1 bg-black text-white hover:bg-neutral-800 transition-colors font-mono text-[11px] font-medium"
             >
-              Resume
+              Linktree ↗
             </a>
           </nav>
 
@@ -132,6 +135,13 @@ export const Navigation: React.FC = () => {
               About Me
             </a>
             <a
+              href="#projects"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-1 font-semibold text-black"
+            >
+              Projects & Repositories
+            </a>
+            <a
               href="#specializations"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-1 text-ink-muted hover:text-black"
@@ -148,9 +158,18 @@ export const Navigation: React.FC = () => {
             <a
               href="#reachout"
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-1 font-semibold text-black"
+              className="block py-1 text-ink-muted hover:text-black"
             >
               Contact / Reachout
+            </a>
+            <a
+              href="https://linktr.ee/DhyandevRTX"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 px-3 bg-black text-white font-mono text-xs text-center font-medium mt-2"
+            >
+              Linktree // All Links ↗
             </a>
           </div>
         )}

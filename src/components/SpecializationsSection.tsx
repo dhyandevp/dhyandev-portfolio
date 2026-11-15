@@ -7,10 +7,10 @@ export const SpecializationsSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section Header */}
         <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline">
-          <span className="text-black font-semibold">[02]</span>
+          <span className="text-black font-semibold">[03]</span>
           <span>SPECIALIZATIONS</span>
           <span className="text-hairline">/</span>
-          <span>WHAT I DELIVER</span>
+          <span>CAPABILITIES & STACK</span>
         </div>
 
         <div className="max-w-3xl mb-12">

@@ -7,7 +7,7 @@ export const TechnicalNotesSection: React.FC = () => {
     <section id="notes" className="w-full py-16 md:py-24 border-b border-hairline bg-white content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-faint mb-8 pb-3 border-b border-hairline">
-          <span className="text-black font-semibold">[03]</span>
+          <span className="text-black font-semibold">[04]</span>
           <span>LABORATORY LOGS</span>
           <span className="text-hairline">/</span>
           <span>TECHNICAL THINKING</span>

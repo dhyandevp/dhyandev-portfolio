@@ -35,6 +35,7 @@ Thumbs.db
 .gemini
 .agents
 .claude
+.agy
 skills-lock.json
 .playwright-mcp
 .impeccable/hook.cache.json

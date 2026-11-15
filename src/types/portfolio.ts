@@ -2,7 +2,8 @@ export type ProjectCategory =
   | 'Computer Vision & AI'
   | 'Full-Stack Systems'
   | 'Offline & Local-First'
-  | 'Infrastructure & Systems';
+  | 'Infrastructure & Systems'
+  | 'Hardware & Firmware';
 
 export type ProjectStatus = 'ACTIVE' | 'DEPLOYED' | 'STABLE' | 'EXPERIMENT';
 
@@ -51,6 +52,8 @@ export interface DeveloperProfile {
   readonly name: string;
   readonly handle: string;
   readonly title: string;
+  readonly role?: string;
+  readonly company?: string;
   readonly location: string;
   readonly timezone: string;
   readonly coordinates: string;

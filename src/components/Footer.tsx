@@ -29,6 +29,9 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
           <a href="#about" className="hover:text-black transition-colors">
             About Me
           </a>
+          <a href="#projects" className="hover:text-black transition-colors font-medium text-black">
+            Projects
+          </a>
           <a href="#specializations" className="hover:text-black transition-colors">
             Specializations
           </a>
@@ -37,6 +40,14 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
           </a>
           <a href="#reachout" className="hover:text-black transition-colors">
             Contact
+          </a>
+          <a
+            href={profile.linktreeUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-black transition-colors font-mono font-medium underline underline-offset-4"
+          >
+            Linktree ↗
           </a>
         </nav>
 

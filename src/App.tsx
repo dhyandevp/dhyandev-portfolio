@@ -2,11 +2,12 @@ import React from 'react';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
+import { ProjectsSection } from './components/ProjectsSection';
 import { SpecializationsSection } from './components/SpecializationsSection';
 import { TechnicalNotesSection } from './components/TechnicalNotesSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { developerProfile } from './data/portfolioData';
+import { developerProfile, featuredProjects } from './data/portfolioData';
 
 export const App: React.FC = () => {
   return (
@@ -16,19 +17,22 @@ export const App: React.FC = () => {
 
       {/* 2. Main Page Content */}
       <main className="flex-1 w-full" id="main-content">
-        {/* Hero Section matching Image 8 */}
+        {/* Hero Section */}
         <Hero profile={developerProfile} />
 
-        {/* Section 01: About & Development Specialist Ethos */}
+        {/* Section 01: About & Leadership (Co-Founder @ Wayve Enterprises) */}
         <AboutSection profile={developerProfile} />
 
-        {/* Section 02: Specializations & Deliverables */}
+        {/* Section 02: Verified Repositories & Systems (Projects Showcase) */}
+        <ProjectsSection projects={featuredProjects} />
+
+        {/* Section 03: Specializations & Capabilities */}
         <SpecializationsSection />
 
-        {/* Section 03: Laboratory Notes & Technical Thinking */}
+        {/* Section 04: Laboratory Notes & Technical Thinking */}
         <TechnicalNotesSection />
 
-        {/* Section 04: Professional Reachout & Contact */}
+        {/* Section 05: Professional Reachout & Contact */}
         <ContactSection profile={developerProfile} />
       </main>
 
