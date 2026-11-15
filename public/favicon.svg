@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path d="M32 58 C32 46 32 38 32 32" stroke="#2a1c14" stroke-width="3" stroke-linecap="round"/>
+  <!-- Palmate maple leaf silhouette -->
+  <path d="M32 6 C35 18 43 20 54 22 C46 27 46 32 50 42 C40 38 36 40 32 46 C28 40 24 38 14 42 C18 32 18 27 10 22 C21 20 29 18 32 6 Z" fill="#4be34a" stroke="#2fbf45" stroke-width="1.5"/>
+  <path d="M32 44 L32 14" stroke="#1e8f3a" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M32 32 L46 24" stroke="#1e8f3a" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M32 32 L18 24" stroke="#1e8f3a" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M32 38 L43 36" stroke="#1e8f3a" stroke-width="1" stroke-linecap="round"/>
+  <path d="M32 38 L21 36" stroke="#1e8f3a" stroke-width="1" stroke-linecap="round"/>
+</svg>
