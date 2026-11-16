@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { m } from 'motion/react';
 import {
   ExternalLink,
@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import { DeveloperProfile } from '../types/portfolio';
 import { revealVariant, standardViewport } from '../lib/motion';
-import { FloatingPhotoCollage } from './FloatingPhotoCollage';
+
+const FloatingPhotoCollage = lazy(() => import('./FloatingPhotoCollage'));
 
 interface AboutSectionProps {
   readonly profile: DeveloperProfile;
@@ -148,7 +149,9 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
         </m.div>
 
         {/* 3. Floating Photo Collage (Off the clock) */}
-        <FloatingPhotoCollage />
+        <Suspense fallback={<div className="w-full max-w-[720px] mx-auto aspect-[4/3] my-12 sm:my-16" />}>
+          <FloatingPhotoCollage />
+        </Suspense>
 
         {/* 4. Career Milestones Table */}
         <m.div
