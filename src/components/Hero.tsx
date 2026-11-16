@@ -3,7 +3,7 @@ import { m } from 'motion/react';
 import { Sparkles, Asterisk, ChevronsRight, ExternalLink, ArrowRight, Linkedin } from 'lucide-react';
 import { DeveloperProfile } from '../types/portfolio';
 
-import { heroValueStatement, specializations } from '../data/portfolioData';
+import { heroTokens, specializations } from '../data/portfolioData';
 import {
   wordMaskContainer,
   wordMaskChild,
@@ -37,7 +37,6 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ profile }) => {
   const { navigate, path } = useRouter();
   const isResumeOpen = path === '/resume' || path === '/printer' || path === '/cv';
-  const words = heroValueStatement.split(' ');
 
   const getCardIcon = (index: string) => {
     switch (index) {
@@ -131,15 +130,19 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
             variants={wordMaskContainer}
             initial="hidden"
             animate="visible"
-            className="font-sans text-2xl sm:text-3xl md:text-[36px] text-[#121211] font-normal leading-[1.32] tracking-tight"
+            className="font-sans text-2xl sm:text-3xl md:text-[36px] font-normal leading-[1.32] tracking-tight"
           >
-            {words.map((word, idx) => (
+            {heroTokens.map((token, idx) => (
               <span key={idx} className="inline-block overflow-hidden mr-[0.28em] align-top">
                 <m.span
                   variants={wordMaskChild}
-                  className="inline-block will-change-transform"
+                  className={`inline-block will-change-transform ${
+                    token.isBold
+                      ? 'font-bold text-[#121211]'
+                      : 'font-normal text-[#71716A]'
+                  }`}
                 >
-                  {word}
+                  {token.text}
                 </m.span>
               </span>
             ))}

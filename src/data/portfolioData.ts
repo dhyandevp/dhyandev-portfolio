@@ -20,7 +20,39 @@ export const developerProfile: DeveloperProfile = {
   statusIndicator: "CO-FOUNDER @ WAYVE ENTERPRISES // ACCEPTING SELECTED CONTRACTS"
 };
 
-export const heroValueStatement = "Co-Founder at Wayve Enterprises. I architect and build robust digital systems, turning complex engineering workflows into measurable technical performance.";
+export interface HeroWordToken {
+  text: string;
+  isBold?: boolean;
+}
+
+export const heroTokens: HeroWordToken[] = [
+  { text: "Co-Founder" },
+  { text: "at" },
+  { text: "Wayve", isBold: true },
+  { text: "Enterprises,", isBold: true },
+  { text: "development", isBold: true },
+  { text: "specialist", isBold: true },
+  { text: "and" },
+  { text: "systems", isBold: true },
+  { text: "engineer.", isBold: true },
+  { text: "I" },
+  { text: "architect" },
+  { text: "and" },
+  { text: "build" },
+  { text: "robust" },
+  { text: "digital" },
+  { text: "systems," },
+  { text: "turning" },
+  { text: "complex" },
+  { text: "engineering" },
+  { text: "workflows" },
+  { text: "into" },
+  { text: "measurable" },
+  { text: "technical" },
+  { text: "performance." }
+];
+
+export const heroValueStatement = "Co-Founder at Wayve Enterprises, development specialist and systems engineer. I architect and build robust digital systems, turning complex engineering workflows into measurable technical performance.";
 
 export const featuredProjects: readonly Project[] = [
   {
