@@ -57,8 +57,10 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     return Object.keys(errs).length === 0;
   };
 
+  const [submittedData, setSubmittedData] = useState<typeof formData | null>(null);
+
   const submitToGoogleForms = (data: typeof formData) => {
-    // 1. Submit through hidden iframe
+    // 1. Submit through hidden iframe with proper hidden inputs
     try {
       const formEl = document.createElement('form');
       formEl.action = GOOGLE_FORM_ACTION;
@@ -82,6 +84,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       addInput(ENTRY_IDS.email, data.email);
       addInput(ENTRY_IDS.phone, data.phone);
       addInput(ENTRY_IDS.comments, data.comments);
+      addInput('fvv', '1');
+      addInput('pageHistory', '0');
 
       document.body.appendChild(formEl);
       formEl.submit();
@@ -95,18 +99,23 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       // Ignore submission error
     }
 
-    // 2. Fallback fetch with no-cors
+    // 2. Direct fetch with URLSearchParams (application/x-www-form-urlencoded)
     try {
-      const body = new FormData();
-      body.append(ENTRY_IDS.name, data.name);
-      body.append(ENTRY_IDS.email, data.email);
-      body.append(ENTRY_IDS.phone, data.phone);
-      body.append(ENTRY_IDS.comments, data.comments);
+      const params = new URLSearchParams();
+      params.append(ENTRY_IDS.name, data.name);
+      params.append(ENTRY_IDS.email, data.email);
+      params.append(ENTRY_IDS.phone, data.phone || '');
+      params.append(ENTRY_IDS.comments, data.comments || '');
+      params.append('fvv', '1');
+      params.append('pageHistory', '0');
 
       fetch(GOOGLE_FORM_ACTION, {
         method: 'POST',
         mode: 'no-cors',
-        body,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
       }).catch(() => {});
     } catch {
       // Ignore
@@ -127,23 +136,24 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       };
     }
 
+    const dataToSubmit = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      comments: formData.comments.trim(),
+    };
+    setSubmittedData(dataToSubmit);
+
     // Send payload headlessly to Google Forms
-    submitToGoogleForms(formData);
+    submitToGoogleForms(dataToSubmit);
 
     // Trigger airplane takeoff (confirmation & receipt will follow on landing)
-    onTransmitStart(
-      {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        phone: formData.phone.trim(),
-        comments: formData.comments.trim(),
-      },
-      buttonCoords
-    );
+    onTransmitStart(dataToSubmit, buttonCoords);
   };
 
   const handleReset = () => {
     setFormData({ name: '', email: '', phone: '', comments: '' });
+    setSubmittedData(null);
     setErrors({});
     if (onResetConfirmation) {
       onResetConfirmation();
@@ -189,15 +199,31 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               air-dispatch receipt has been issued in the slot above.
             </p>
           </div>
-          <m.button
-            type="button"
-            onClick={handleReset}
-            whileTap={tapScale}
-            whileHover={{ scale: 1.02 }}
-            className="mt-4 px-6 py-2.5 rounded-full border border-[#D6D5CF] hover:border-black text-xs sm:text-sm font-sans font-semibold bg-white text-[#111827] hover:bg-neutral-50 transition-all cursor-pointer shadow-xs"
-          >
-            Send another inquiry
-          </m.button>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <m.button
+              type="button"
+              onClick={handleReset}
+              whileTap={tapScale}
+              whileHover={{ scale: 1.02 }}
+              className="px-6 py-2.5 rounded-full border border-[#D6D5CF] hover:border-black text-xs sm:text-sm font-sans font-semibold bg-white text-[#111827] hover:bg-neutral-50 transition-all cursor-pointer shadow-xs"
+            >
+              Send another inquiry
+            </m.button>
+            {submittedData && (
+              <a
+                href={`mailto:dhyandevp@proton.me?subject=${encodeURIComponent(
+                  `Inquiry from ${submittedData.name}`
+                )}&body=${encodeURIComponent(
+                  `Name: ${submittedData.name}\nEmail: ${submittedData.email}\nPhone: ${
+                    submittedData.phone || 'N/A'
+                  }\n\nMessage:\n${submittedData.comments || ''}`
+                )}`}
+                className="px-5 py-2.5 rounded-full border border-emerald-300 text-xs sm:text-sm font-sans font-semibold bg-emerald-50 text-emerald-800 hover:bg-emerald-100 transition-all shadow-xs"
+              >
+                Send copy via Proton Mail
+              </a>
+            )}
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} noValidate className="space-y-5 font-sans">
