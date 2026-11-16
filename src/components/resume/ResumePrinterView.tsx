@@ -236,7 +236,7 @@ export const ResumePrinterView: React.FC<ResumePrinterViewProps> = ({
               title={soundEnabled ? 'Mute sound' : 'Unmute sound'}
               aria-label="Toggle mechanical audio"
             >
-              {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-600" /> : <VolumeX className="w-4 h-4 text-neutral-400" />}
+              {soundEnabled ? <Volume2 className="w-4 h-4 text-neutral-900" /> : <VolumeX className="w-4 h-4 text-neutral-400" />}
             </button>
           </div>
         </div>

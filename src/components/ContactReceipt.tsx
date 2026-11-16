@@ -525,9 +525,9 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
         </div>
       </div>
 
-      {/* Tiny Mono Hint under strip on desktop hover / focus */}
+      {/* Tiny Sans Hint under strip on desktop hover / focus */}
       <div
-        className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 text-[9px] font-mono uppercase tracking-widest text-[#8E8D88] dark:text-[#7A7974] text-center pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hidden lg:block z-20 whitespace-nowrap"
+        className="absolute top-full left-1/2 -translate-x-1/2 pt-1.5 text-[10px] font-sans font-medium tracking-wide text-[#8E8D88] dark:text-[#7A7974] text-center pointer-events-none opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 hidden lg:block z-20 whitespace-nowrap"
         aria-hidden="true"
       >
         TEAR TO COPY

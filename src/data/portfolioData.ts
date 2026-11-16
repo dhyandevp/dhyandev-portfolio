@@ -52,8 +52,6 @@ export const heroTokens: HeroWordToken[] = [
   { text: "performance." }
 ];
 
-export const heroValueStatement = "Co-Founder at Wayve Enterprises, development specialist and systems engineer. I architect and build robust digital systems, turning complex engineering workflows into measurable technical performance.";
-
 export const featuredProjects: readonly Project[] = [
   {
     id: "flare-v2",
@@ -348,25 +346,6 @@ export const specializations: readonly Capability[] = [
     description: "I deploy and manage bare-metal Linux servers, encrypted WireGuard mesh networks, and containerized zero-downtime environments.",
     regularTech: ["Linux (Fedora/Debian)", "Docker Compose", "WireGuard", "Nginx", "Pi-Hole", "Bash Scripting"],
     exploringTech: ["Kubernetes", "Ansible", "Terraform"]
-  }
-];
-
-export const experienceHighlights = [
-  {
-    title: "Co-Founder @ Wayve Enterprises",
-    detail: "Directing technical architecture, product execution, and applied AI systems for innovative high-performance digital ventures."
-  },
-  {
-    title: "Real-Time Perception & Edge Optimization",
-    detail: "Designing lightweight computer vision systems achieving sub-50ms inference latency without cloud-tethered dependency."
-  },
-  {
-    title: "Offline-First & Local Data Sovereignty",
-    detail: "Building client applications with IndexedDB synchronization that continue operating seamlessly through network dead zones."
-  },
-  {
-    title: "Self-Hosted Infrastructure Architecture",
-    detail: "Automating containerized private cloud workloads, encrypted split-tunnel VPN meshes, and DNS ad-blocking."
   }
 ];
 

@@ -43,35 +43,6 @@ export const revealVariant: Variants = {
   },
 };
 
-// Mobile-specific variant (<640px)
-export const mobileRevealVariant: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 16,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      ease: MOTION_EASE,
-    },
-  },
-};
-
-export const fadeVariant: Variants = {
-  hidden: () => ({
-    opacity: prefersReducedMotion() ? 1 : 0,
-  }),
-  visible: () => ({
-    opacity: 1,
-    transition: {
-      duration: prefersReducedMotion() ? 0 : 0.5,
-      ease: MOTION_EASE,
-    },
-  }),
-};
-
 // Stagger container: 0.08s on desktop, 0.05s on mobile
 export const staggerContainer: Variants = {
   hidden: {},
@@ -79,16 +50,6 @@ export const staggerContainer: Variants = {
     transition: {
       staggerChildren: typeof window !== 'undefined' && window.innerWidth < 640 ? 0.05 : 0.08,
       delayChildren: 0.04,
-    },
-  },
-};
-
-export const mobileStaggerContainer: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.02,
     },
   },
 };

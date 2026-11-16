@@ -211,7 +211,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
       {isConfirmed ? (
         <div className="py-8 text-center space-y-4 font-sans bg-white">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200/80 mb-2">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-neutral-100 text-neutral-900 border border-neutral-300 mb-2">
             <Check className="w-6 h-6 stroke-[2.5]" />
           </div>
           <div className="space-y-1.5">
@@ -243,7 +243,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                     submittedData.phone || 'N/A'
                   }\n\nMessage:\n${submittedData.comments || ''}`
                 )}`}
-                className="px-5 py-2.5 rounded-full border border-emerald-300 text-xs sm:text-sm font-sans font-semibold bg-emerald-50 text-emerald-800 hover:bg-emerald-100 transition-all shadow-xs"
+                className="px-5 py-2.5 rounded-full border border-neutral-300 text-xs sm:text-sm font-sans font-semibold bg-neutral-100 text-neutral-900 hover:bg-neutral-200 transition-all shadow-xs"
               >
                 Send copy via Proton Mail
               </a>

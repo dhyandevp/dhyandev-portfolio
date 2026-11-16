@@ -32,14 +32,10 @@ const RouteView: React.FC = () => {
       case '/specializations':
         return <SpecializationsPage />;
       case '/notes':
-      case '/laboratory':
         return <NotesPage />;
       case '/contact':
-      case '/reachout':
         return <ContactPage />;
       case '/resume':
-      case '/printer':
-      case '/cv':
         return <HomePage />;
       case '/links':
       case '/linktree':
@@ -70,7 +66,7 @@ const RouteView: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const { path, navigate } = useRouter();
-  const isResumeOpen = path === '/resume' || path === '/printer' || path === '/cv';
+  const isResumeOpen = path === '/resume';
 
 
   const handleCloseResume = () => {
