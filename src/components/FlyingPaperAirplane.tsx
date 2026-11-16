@@ -12,11 +12,12 @@ interface FlyingAirplaneProps {
 }
 
 /**
- * Authentic Commercial Airliner Flight Simulation
- * - Real Boeing 737-800 jet aircraft with wings, turbofans, and navigation strobes
- * - Scenic travel circuit around the contact section (takeoff -> across message field -> 
- *   up the left flank -> high cruise over headline -> base turn -> final approach onto Runway 27)
- * - Lands directly onto the Airport Runway Receipt Printer
+ * Majestic Commercial Airliner Flight Simulation
+ * - Real Boeing 737-800 jet aircraft scaled up for commanding presence
+ * - Guidelines removed for a clean, distraction-free aesthetic
+ * - Performs a thrilling 360° acrobatic backflip loop at high cruising altitude over the headline
+ * - Ultra-smooth continuous trajectory powered by Motion (motion.dev)
+ * - Precision touchdown on Airport Runway 27L triggering receipt print
  */
 export const FlyingPaperAirplane: React.FC<FlyingAirplaneProps> = ({
   startX,
@@ -28,12 +29,11 @@ export const FlyingPaperAirplane: React.FC<FlyingAirplaneProps> = ({
 }) => {
   const [hasLanded, setHasLanded] = useState(false);
 
-  // Compute 8-point scenic travel route around the contact section
-  const { waypoints, angles, scales, vaporPath } = useMemo(() => {
-    // P0: Takeoff position from the Send button
+  // 10-waypoint flight trajectory with 360° acrobatic backflip
+  const { waypoints, headings, pitches, rolls, scales, times } = useMemo(() => {
     const p0 = { x: startX, y: startY };
 
-    // Get section bounds to enable a grand flight across the whole section
+    // Get section bounds to calibrate section-wide airspace
     const sectionEl = document.getElementById('reachout');
     const sRect = sectionEl ? sectionEl.getBoundingClientRect() : null;
 
@@ -42,102 +42,94 @@ export const FlyingPaperAirplane: React.FC<FlyingAirplaneProps> = ({
     const sWidth = sRect ? sRect.width : 900;
     const sHeight = sRect ? sRect.height : 600;
 
-    // P1: Low climb across the message field / console
+    // P1: Low sweep across the message console
     const p1 = messageRect
       ? {
-          x: messageRect.left + messageRect.width * 0.25,
-          y: messageRect.top + messageRect.height * 0.65,
+          x: messageRect.left + messageRect.width * 0.3,
+          y: messageRect.top + messageRect.height * 0.55,
         }
       : {
-          x: startX - Math.min(420, sWidth * 0.45),
+          x: startX - Math.min(420, sWidth * 0.42),
           y: startY - 35,
         };
 
-    // P2: Outbound bank climbing up the western perimeter past the headline
+    // P2: Climbing up western perimeter past headline
     const p2 = {
-      x: sLeft + Math.min(80, sWidth * 0.08),
-      y: sTop + sHeight * 0.42,
+      x: sLeft + Math.min(90, sWidth * 0.08),
+      y: sTop + sHeight * 0.44,
     };
 
-    // P3: Cresting top-left over the headline at cruising altitude
+    // P3: Pulling up nose steeply into the backflip
     const p3 = {
-      x: sLeft + Math.min(260, sWidth * 0.24),
-      y: Math.max(30, sTop + 55),
+      x: sLeft + Math.min(200, sWidth * 0.18),
+      y: Math.max(80, sTop + 65),
     };
 
-    // P4: High scenic cruise across the top of the contact section
+    // P4: Inverted apex of the backflip (upside-down loop peak!)
     const p4 = {
-      x: sLeft + sWidth * 0.58,
-      y: Math.max(20, sTop + 25),
+      x: sLeft + Math.min(310, sWidth * 0.28),
+      y: Math.max(60, sTop + 20),
     };
 
-    // P5: Base turn heading south to align with Airport Runway 27
+    // P5: Pulling out of the backflip into level flight
     const p5 = {
-      x: targetX + 45,
-      y: Math.max(30, targetY - 150),
+      x: sLeft + Math.min(420, sWidth * 0.40),
+      y: Math.max(80, sTop + 60),
     };
 
-    // P6: Final approach descending down the runway centerline
+    // P6: High scenic cruise across the top of the contact section
     const p6 = {
-      x: targetX,
-      y: targetY - 55,
+      x: sLeft + sWidth * 0.64,
+      y: Math.max(70, sTop + 35),
     };
 
-    // P7: Touchdown onto the runway threshold / printer gate
+    // P7: Base turn angling south toward runway alignment
     const p7 = {
-      x: targetX,
-      y: targetY + 18,
+      x: targetX + 50,
+      y: Math.max(40, targetY - 145),
     };
 
-    const pts = [p0, p1, p2, p3, p4, p5, p6, p7];
+    // P8: Short final approach descending runway centerline
+    const p8 = {
+      x: targetX,
+      y: targetY - 50,
+    };
 
-    // Authentic aircraft heading / banking angles (0° = North, 90° = East, 180° = South, 270° = West)
-    // P0: Takeoff heading Northwest (-145°)
-    // P1: Gliding West across console (-175°)
-    // P2: Banking North along left perimeter (-85°)
-    // P3: Turning Northeast over the top headline (-20°)
-    // P4: Cruising East-Southeast across top (+30°)
-    // P5: Base turn angling South-Southeast (+75°)
-    // P6: Aligned straight down the runway centerline (+90°)
-    // P7: Rolling to a halt on the runway (+90°)
-    const rotAngles = [-145, -175, -85, -20, 30, 75, 90, 90];
+    // P9: Touchdown on Runway 27L threshold
+    const p9 = {
+      x: targetX,
+      y: targetY + 16,
+    };
 
-    // Dynamic flight altitude / scale
-    // P0: 0.75 (takeoff roll)
-    // P1: 1.15 (climbing)
-    // P2: 1.35 (cruising altitude)
-    // P3: 1.40 (peak altitude, maximum wingspan visible)
-    // P4: 1.35 (cruising over top)
-    // P5: 1.10 (descending on base leg)
-    // P6: 0.75 (short final approach)
-    // P7: 0.20 (touchdown and rollout into gate)
-    const scaleValues = [0.75, 1.15, 1.35, 1.4, 1.35, 1.1, 0.75, 0.2];
+    const pts = [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9];
 
-    // Construct smooth continuous cubic bezier curve through all 8 flight waypoints
-    let pathD = `M ${p0.x} ${p0.y}`;
-    for (let i = 1; i < pts.length; i++) {
-      const prev = pts[i - 1];
-      const curr = pts[i];
-      const dx = curr.x - prev.x;
-      const dy = curr.y - prev.y;
+    // Compass Headings (yaw in degrees: 0 = North, 90 = East, 180 = South, 270 = West)
+    const rotHeadings = [-140, -168, -85, -35, 0, 25, 42, 75, 90, 90];
 
-      const cp1x = prev.x + dx * 0.45;
-      const cp1y = prev.y + dy * 0.15;
-      const cp2x = curr.x - dx * 0.45;
-      const cp2y = curr.y - dy * 0.15;
+    // Pitch & Acrobatic Backflip (rotateX in degrees: full 360° backflip during P3 -> P4 -> P5 -> P6)
+    // 0° = level, -75° = nose up into loop, -180° = inverted upside-down, -360° = back right-side up!
+    const rotPitches = [0, 8, 20, -75, -180, -290, -360, 8, 4, 0];
 
-      pathD += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${curr.x.toFixed(1)} ${curr.y.toFixed(1)}`;
-    }
+    // Aerodynamic Banking / Roll (rotateY / tilt in degrees for authentic flight feel)
+    const rotRolls = [0, -15, -25, -5, 0, 15, 10, 20, 0, 0];
+
+    // Dynamic scale (aircraft altitude): larger, commanding presence up to 1.6x wingspan
+    const scaleValues = [0.85, 1.15, 1.32, 1.48, 1.60, 1.48, 1.35, 1.15, 0.75, 0.20];
+
+    // Perfectly balanced time splits across 4.2 seconds
+    const keyframeTimes = [0, 0.12, 0.24, 0.35, 0.45, 0.55, 0.67, 0.80, 0.92, 1.0];
 
     return {
       waypoints: pts,
-      angles: rotAngles,
+      headings: rotHeadings,
+      pitches: rotPitches,
+      rolls: rotRolls,
       scales: scaleValues,
-      vaporPath: pathD,
+      times: keyframeTimes,
     };
   }, [startX, startY, targetX, targetY, messageRect]);
 
-  const FLIGHT_DURATION = 3.6; // 3.6s majestic scenic travel around the section
+  const FLIGHT_DURATION = 4.2; // 4.2s smooth, majestic aerial journey with backflip
 
   useEffect(() => {
     const flightTimer = setTimeout(() => {
@@ -151,56 +143,42 @@ export const FlyingPaperAirplane: React.FC<FlyingAirplaneProps> = ({
   if (hasLanded) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[100] overflow-hidden" aria-hidden="true">
-      {/* SVG Navigation Flight Path & Jet Vapor Trail */}
-      <svg className="absolute inset-0 w-full h-full">
-        {/* Outer subtle glow trail */}
-        <m.path
-          d={vaporPath}
-          fill="none"
-          stroke="rgba(47, 179, 68, 0.25)"
-          strokeWidth="4"
-          initial={{ pathLength: 0, opacity: 0.6 }}
-          animate={{ pathLength: 1, opacity: [0.6, 0.4, 0] }}
-          transition={{ duration: FLIGHT_DURATION, ease: [0.35, 0.85, 0.45, 1] }}
-        />
-        {/* Core crisp navigation airway trail */}
-        <m.path
-          d={vaporPath}
-          fill="none"
-          stroke="#2fb344"
-          strokeWidth="1.8"
-          strokeDasharray="6 4"
-          initial={{ pathLength: 0, opacity: 0.95 }}
-          animate={{ pathLength: 1, opacity: [0.95, 0.8, 0] }}
-          transition={{ duration: FLIGHT_DURATION, ease: [0.35, 0.85, 0.45, 1] }}
-        />
-      </svg>
-
-      {/* Commercial Jet Airliner Entity (Boeing 737-800) */}
+    <div
+      className="fixed inset-0 pointer-events-none z-[100] overflow-hidden [perspective:1400px]"
+      aria-hidden="true"
+    >
+      {/* 
+        Clean Flight Airspace (guidelines removed as requested)
+        Large Commercial Jet Airliner (Boeing 737-800) with 3D Backflip
+      */}
       <m.div
-        className="absolute -top-7 -left-7 will-change-transform"
+        className="absolute -top-[42px] -left-[42px] will-change-transform"
+        style={{ transformStyle: 'preserve-3d' }}
         initial={{
           x: waypoints[0].x,
           y: waypoints[0].y,
-          rotate: angles[0],
+          rotate: headings[0],
+          rotateX: pitches[0],
+          rotateY: rolls[0],
           scale: scales[0],
           opacity: 1,
         }}
         animate={{
           x: waypoints.map((p) => p.x),
           y: waypoints.map((p) => p.y),
-          rotate: angles,
+          rotate: headings,
+          rotateX: pitches,
+          rotateY: rolls,
           scale: scales,
-          opacity: [1, 1, 1, 1, 1, 1, 0.95, 0],
+          opacity: [1, 1, 1, 1, 1, 1, 1, 1, 0.95, 0],
         }}
         transition={{
           duration: FLIGHT_DURATION,
           ease: 'easeInOut',
-          times: [0, 0.16, 0.34, 0.52, 0.68, 0.82, 0.94, 1.0],
+          times,
         }}
       >
-        <RealAirliner size={56} />
+        <RealAirliner size={84} />
       </m.div>
     </div>
   );

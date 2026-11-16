@@ -2,7 +2,7 @@ import React from 'react';
 
 interface RealAirlinerProps {
   className?: string;
-  size?: number; // size in px, default 54
+  size?: number; // size in px, default 84
 }
 
 /**
@@ -13,7 +13,7 @@ interface RealAirlinerProps {
  */
 export const RealAirliner: React.FC<RealAirlinerProps> = ({
   className = '',
-  size = 54,
+  size = 84,
 }) => {
   return (
     <div
@@ -22,7 +22,7 @@ export const RealAirliner: React.FC<RealAirlinerProps> = ({
     >
       <svg
         viewBox="-2 -2 40 44"
-        className="w-full h-full drop-shadow-[0_4px_8px_rgba(0,0,0,0.18)]"
+        className="w-full h-full drop-shadow-[0_12px_24px_rgba(0,0,0,0.22)]"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
