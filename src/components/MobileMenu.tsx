@@ -96,11 +96,10 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItem
             className={`mt-2 flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium transition-colors ${
               path === '/contact'
                 ? 'bg-[#121211] text-[#F4F4F2] font-semibold'
-                : 'bg-[#EAF5ED] text-[#1D7E36] hover:bg-[#E0EFE3]'
+                : 'bg-[#E5E5E1]/80 text-[#121211] hover:bg-[#D8D8D4]'
             }`}
           >
             <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#2FA049] shrink-0 animate-pulse" />
               <span>Open to work (Contact)</span>
             </span>
             <span className="font-mono text-xs font-semibold">↗</span>

@@ -52,7 +52,7 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
     }
   };
 
-  const instagramHref = profile.instagramUrl || 'https://instagram.com/_.dhyandev._';
+  const instagramHref = profile.instagramUrl || 'https://instagram.com/Dhyandev_p';
 
   return (
     <section className="w-full bg-transparent relative">
@@ -104,7 +104,7 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
               whileHover={{ scale: 1.05 }}
               className="w-9 h-9 sm:w-10 sm:h-10 border border-[#121211] rounded-full flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
               aria-label="Instagram profile of Dhyandev P."
-              title="Instagram profile (@_.dhyandev._)"
+              title="Instagram profile (@Dhyandev_p)"
             >
               <InstagramIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             </m.a>

@@ -6,6 +6,7 @@ import { ResumePaper } from './ResumePaper';
 import { ResumeData } from '../../types/resume';
 import { dhyandevResume } from '../../lib/resumeDataPuller';
 import { printerAudio } from '../../lib/printerSound';
+import { getLenis } from '../../lib/scroll';
 
 export type PrintPhase = 'idle' | 'retracting' | 'printing';
 
@@ -42,6 +43,42 @@ export const ResumePrinterView: React.FC<ResumePrinterViewProps> = ({
     window.addEventListener('resize', updatePaperHeight);
     return () => window.removeEventListener('resize', updatePaperHeight);
   }, [updatePaperHeight]);
+
+  // Pause Lenis smooth scrolling and lock background body scroll while resume modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Stop Lenis background interception so inner container scrolls natively without interruption
+    const lenis = getLenis();
+    lenis?.stop();
+
+    // Lock body scroll behind modal
+    const originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // Focus container for keyboard scrolling (ArrowDown, PageDown, Space)
+    containerRef.current?.focus();
+
+    return () => {
+      lenis?.start();
+      document.body.style.overflow = originalBodyOverflow;
+    };
+  }, [isOpen]);
+
+  // Fallback wheel listener to ensure mouse wheel & trackpad gestures scroll the container natively
+  useEffect(() => {
+    if (!isOpen) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const onWheel = (e: WheelEvent) => {
+      // Prevent background listeners from blocking native container scroll
+      e.stopPropagation();
+    };
+
+    container.addEventListener('wheel', onWheel, { passive: true });
+    return () => container.removeEventListener('wheel', onWheel);
+  }, [isOpen]);
 
   const handleTriggerPrint = useCallback(() => {
     if (isPrinting) return;
@@ -117,78 +154,91 @@ export const ResumePrinterView: React.FC<ResumePrinterViewProps> = ({
     }
   }, [isOpen, soundEnabled, updatePaperHeight]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
-    };
+    },
+    [onClose]
+  );
+
+  useEffect(() => {
+    if (!isOpen) return;
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen, handleKeyDown]);
 
   if (!isOpen) return null;
 
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#EAE6DE] select-none print:bg-white print:static print:inset-auto print:overflow-visible print:z-auto"
+      tabIndex={-1}
+      data-lenis-prevent="true"
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain touch-pan-y bg-[#EAE6DE] print:bg-white print:static print:inset-auto print:overflow-visible print:z-auto outline-hidden"
       style={{
+        WebkitOverflowScrolling: 'touch',
         backgroundImage: `
           radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.75) 0%, rgba(234, 230, 222, 0.5) 60%, rgba(216, 210, 200, 0.8) 100%)
         `
       }}
     >
-      {/* Discreet floating top nav bar */}
-      <div className="sticky top-[calc(1rem+env(safe-area-inset-top,0px))] sm:top-4 inset-x-0 z-30 flex items-center justify-between max-w-4xl mx-auto px-4 pointer-events-auto print:hidden">
-        <button
-          type="button"
-          onClick={onClose}
-          className="px-4 py-2 rounded-full bg-white/95 hover:bg-white text-neutral-900 border border-neutral-300 shadow-sm font-sans text-xs sm:text-[13px] font-medium flex items-center gap-1.5 transition-colors duration-150 cursor-pointer backdrop-blur-sm"
-          title="Return to portfolio"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Portfolio</span>
-        </button>
+      {/* Precision Aligned Floating Top Navigation Bar */}
+      <div className="sticky top-[calc(0.75rem+env(safe-area-inset-top,0px))] sm:top-4 inset-x-0 z-30 w-full max-w-[820px] mx-auto px-4 pointer-events-auto print:hidden">
+        <div className="relative w-full h-10 sm:h-11 flex items-center justify-between">
+          {/* Left: Return to Portfolio Button + Feed Paper Button */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={onClose}
+              className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-full bg-white/95 hover:bg-white text-neutral-900 border border-neutral-300/80 shadow-xs hover:shadow-sm font-sans text-xs sm:text-[13px] font-semibold flex items-center gap-1.5 transition-all duration-150 cursor-pointer backdrop-blur-xs select-none"
+              title="Return to portfolio"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Portfolio</span>
+            </button>
 
-        {/* Center click-to-download cue in top bar */}
-        <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-neutral-700 bg-white/90 px-3.5 py-1.5 rounded-full border border-neutral-300/80 backdrop-blur-xs shadow-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
-          <span>Click paper to download PDF</span>
-        </div>
+            <button
+              type="button"
+              onClick={handleTriggerPrint}
+              disabled={isPrinting}
+              className="h-9 sm:h-10 px-3 sm:px-3.5 rounded-full bg-white/95 hover:bg-white text-neutral-900 border border-neutral-300/80 shadow-xs hover:shadow-sm font-sans text-xs sm:text-[13px] font-semibold flex items-center gap-1.5 transition-all duration-150 cursor-pointer backdrop-blur-xs disabled:opacity-50 select-none"
+              title="Feed paper again"
+            >
+              <Printer className="w-3.5 h-3.5 text-neutral-800" />
+              <span className="hidden sm:inline">Feed</span>
+            </button>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleTriggerPrint}
-            disabled={isPrinting}
-            className="px-3.5 py-2 rounded-full bg-white/95 hover:bg-white text-neutral-900 border border-neutral-300 shadow-sm font-sans text-xs sm:text-[13px] font-medium flex items-center gap-1.5 transition-colors duration-150 cursor-pointer backdrop-blur-sm disabled:opacity-50"
-            title="Feed paper again"
-          >
-            <Printer className="w-3.5 h-3.5 text-neutral-800" />
-            <span className="hidden sm:inline">Feed</span>
-          </button>
+          {/* Center: Exactly Dead-Center Download Cue Badge */}
+          <div className="hidden lg:flex items-center gap-2 text-xs font-semibold text-neutral-700 bg-white/90 px-4 h-9 sm:h-10 rounded-full border border-neutral-300/80 backdrop-blur-xs shadow-xs pointer-events-none select-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 animate-pulse" />
+            <span>Click paper to download PDF</span>
+          </div>
 
-          <button
-            type="button"
-            onClick={handleDownloadPdf}
-            className="px-4 py-2 rounded-full bg-[#121211] hover:bg-neutral-800 text-white shadow-sm font-sans text-xs sm:text-[13px] font-medium flex items-center gap-1.5 transition-colors duration-150 cursor-pointer"
-            title="Download / Print PDF"
-          >
-            <Download className="w-3.5 h-3.5 text-white" />
-            <span>Download PDF</span>
-          </button>
+          {/* Right: Actions Group (Download PDF + Audio Toggle) */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={handleDownloadPdf}
+              className="h-9 sm:h-10 px-4 sm:px-5 rounded-full bg-[#121211] hover:bg-neutral-800 text-white shadow-xs hover:shadow-sm font-sans text-xs sm:text-[13px] font-semibold flex items-center gap-1.5 transition-all duration-150 cursor-pointer select-none"
+              title="Download / Print PDF"
+            >
+              <Download className="w-3.5 h-3.5 text-white" />
+              <span>Download PDF</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={handleToggleSound}
-            className="p-2 rounded-full bg-white/95 hover:bg-white text-neutral-700 border border-neutral-300 shadow-sm transition-colors duration-150 cursor-pointer"
-            title={soundEnabled ? 'Mute sound' : 'Unmute sound'}
-            aria-label="Toggle mechanical audio"
-          >
-            {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-600" /> : <VolumeX className="w-4 h-4" />}
-          </button>
+            <button
+              type="button"
+              onClick={handleToggleSound}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-neutral-700 border border-neutral-300/80 shadow-xs hover:shadow-sm flex items-center justify-center transition-all duration-150 cursor-pointer backdrop-blur-xs select-none"
+              title={soundEnabled ? 'Mute sound' : 'Unmute sound'}
+              aria-label="Toggle mechanical audio"
+            >
+              {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-600" /> : <VolumeX className="w-4 h-4 text-neutral-400" />}
+            </button>
+          </div>
         </div>
       </div>
 

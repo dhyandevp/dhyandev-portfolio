@@ -99,7 +99,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
   };
 
   return (
-    <section id="about" className="w-full py-20 sm:py-28 border-b border-[#D6D5CF]/80 bg-transparent relative">
+    <section id="about" className="w-full pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-[#D6D5CF]/80 bg-transparent relative">
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         
         {/* 1. Header & Headline */}
@@ -108,7 +108,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="mb-10 text-left"
+          className="max-w-2xl mx-auto mb-10 text-left"
         >
           <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#73736C] mb-4">
             ABOUT
@@ -125,7 +125,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="max-w-xl mx-auto space-y-5 text-[15px] sm:text-base text-[#575651] leading-relaxed font-sans mb-14 sm:mb-18"
+          className="max-w-2xl mx-auto space-y-5 text-[15px] sm:text-base text-[#575651] leading-relaxed font-sans mb-14 sm:mb-18"
         >
           <p>
             I&apos;m 16 years old, based in Kerala, India. Working directly in code and bare hardware lets me
@@ -149,7 +149,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
         </m.div>
 
         {/* 3. Floating Photo Collage (Off the clock) */}
-        <Suspense fallback={<div className="w-full max-w-[720px] mx-auto aspect-[4/3] my-12 sm:my-16" />}>
+        <Suspense fallback={<div className="w-full max-w-4xl mx-auto aspect-[4/3] my-10 sm:my-16" />}>
           <FloatingPhotoCollage />
         </Suspense>
 
@@ -159,7 +159,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="max-w-xl mx-auto my-14 sm:my-20"
+          className="max-w-2xl mx-auto my-14 sm:my-20"
         >
           <h3 className="font-sans font-bold text-2xl sm:text-3xl text-[#121211] tracking-tight mb-8">
             Career
@@ -178,9 +178,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
                   <div>
                     <h4 className="font-sans font-semibold text-sm sm:text-[15px] text-[#121211] group-hover:text-black flex items-center gap-2">
                       <span>{item.company}</span>
-                      {item.current && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#3F8A52] inline-block" title="Current Active Role" />
-                      )}
                     </h4>
                     <p className="text-xs text-[#6D6C66] mt-0.5">
                       {item.role}
@@ -202,7 +199,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="max-w-xl mx-auto my-14 sm:my-20"
+          className="max-w-2xl mx-auto my-14 sm:my-20"
         >
           <h3 className="font-sans font-bold text-2xl sm:text-3xl text-[#121211] tracking-tight mb-8">
             Tech stack
@@ -236,7 +233,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="max-w-xl mx-auto pt-6 border-t border-[#D6D5CF]/80 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[#6D6C66]"
+          className="max-w-2xl mx-auto pt-6 border-t border-[#D6D5CF]/80 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[#6D6C66]"
         >
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#3F8A52]" />

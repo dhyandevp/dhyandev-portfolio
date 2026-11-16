@@ -150,13 +150,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     return () => timers.forEach(clearTimeout);
   }, [isMobile, isReducedMotion]);
 
-  useEffect(() => {
-    if (!inView) return;
-    const cleanup = startPrintSequence();
-    return () => cleanup?.();
-  }, [inView, startPrintSequence]);
-
-  // External trigger (e.g. paper airplane landing after form submission)
+  // External trigger (paper airplane landing after form submission)
   useEffect(() => {
     if (printTrigger && printTrigger > 0) {
       setOrderNumber((prev) => prev + 1);
@@ -275,6 +269,59 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
         id="receipt-printer-slot"
         className="w-[220px] lg:w-[240px] h-[280px] overflow-hidden flex flex-col justify-end relative z-0"
       >
+        {/* Airport Runway Landing Strip & Terminal Gate when idle */}
+        {stage === 'idle' && (
+          <div className="absolute inset-0 flex flex-col justify-between p-4 border border-[#D6D5CF] rounded-2xl bg-[#FAF9F5] text-center font-mono select-none pointer-events-none transition-opacity duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden">
+            {/* Top Runway Approach Threshold & Indicator */}
+            <div className="flex items-center justify-between border-b border-[#E5E5E1] pb-2">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[9px] font-bold tracking-wider text-[#121211]">
+                  GATE 01 // RWY 27L
+                </span>
+              </div>
+              <span className="text-[8px] text-[#2fb344] font-semibold tracking-widest bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
+                ILS READY
+              </span>
+            </div>
+
+            {/* Runway Tarmac Markings */}
+            <div className="my-auto flex flex-col items-center justify-center space-y-2 py-2">
+              {/* Threshold Piano Keys */}
+              <div className="flex gap-1 items-center justify-center">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className="w-1.5 h-6 bg-[#121211]/25 rounded-[1px]" />
+                ))}
+              </div>
+
+              {/* Runway Designation Stencil */}
+              <div className="text-[14px] font-black tracking-widest text-[#121211]/70 font-mono">
+                27L
+              </div>
+
+              {/* Dashed Runway Centerline */}
+              <div className="flex flex-col items-center gap-1.5 py-1">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="w-1 h-3 bg-[#121211]/30 rounded-full" />
+                ))}
+              </div>
+
+              {/* Aiming Point Touchdown Markers */}
+              <div className="flex justify-between w-32 px-2">
+                <div className="w-4 h-1.5 bg-[#121211]/30 rounded-xs" />
+                <div className="w-4 h-1.5 bg-[#121211]/30 rounded-xs" />
+              </div>
+            </div>
+
+            {/* Bottom Runway Slot Status */}
+            <div className="border-t border-[#E5E5E1] pt-2">
+              <span className="block text-[8px] text-[#6D6C66] tracking-wider uppercase">
+                AIRPORT PRINTER TERMINAL // TOUCHDOWN TO PRINT
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Printable Receipt Paper Strip */}
         <div
           onClick={() => handleTear()}
@@ -296,11 +343,11 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                 ? 'receiptTear 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards'
                 : undefined,
             transform:
-              stage === 'idle' && !isReducedMotion
+              stage === 'idle'
                 ? 'translateY(100%)'
                 : stage === 'waiting'
                 ? 'translateY(100%) opacity-0'
-                : stage === 'ready' || isReducedMotion
+                : stage === 'ready'
                 ? 'translateY(0)'
                 : undefined,
           }}

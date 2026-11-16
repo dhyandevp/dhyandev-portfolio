@@ -41,6 +41,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     startY: number;
     targetX: number;
     targetY: number;
+    messageRect?: { left: number; top: number; width: number; height: number };
   } | null>(null);
 
   const protonEmail = profile.protonEmail || 'dhyandevp@proton.me';
@@ -70,7 +71,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     }
   };
 
-  const handleTransmitStart = (data: TransmissionData, buttonCoords: { x: number; y: number }) => {
+  const handleTransmitStart = (
+    data: TransmissionData,
+    buttonCoords: { x: number; y: number },
+    messageRect?: { left: number; top: number; width: number; height: number }
+  ) => {
     setIsTransmitting(true);
     setIsConfirmed(false);
     // Keep data pending while airplane is flying slowly in the air
@@ -92,6 +97,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
       startY: buttonCoords.y,
       targetX,
       targetY,
+      messageRect,
     });
   };
 
@@ -119,6 +125,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           startY={flightData.startY}
           targetX={flightData.targetX}
           targetY={flightData.targetY}
+          messageRect={flightData.messageRect}
           onLanded={handleAirplaneLanded}
         />
       )}
@@ -294,7 +301,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
           {/* Instagram */}
           <m.a
-            href={profile.instagramUrl || 'https://instagram.com/_.dhyandev._'}
+            href={profile.instagramUrl || 'https://instagram.com/Dhyandev_p'}
             target="_blank"
             rel="noreferrer"
             whileTap={tapScale}
@@ -304,7 +311,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               <InstagramIcon className="w-5 h-5 text-black" />
               <div>
                 <span className="block font-sans font-bold text-sm text-black">Instagram</span>
-                <span className="block font-sans text-xs text-[#6D6C66]">@_.dhyandev._</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">@Dhyandev_p</span>
               </div>
             </div>
             <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />

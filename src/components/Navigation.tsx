@@ -147,7 +147,7 @@ export const Navigation: React.FC = () => {
             </m.button>
           </div>
 
-          {/* Open to Work Status Pill with Live Green Beacon (Routes to /contact) */}
+          {/* Open to Work Status Pill (Routes to /contact) */}
           <m.a
             href="/contact"
             onClick={(e) => {
@@ -157,18 +157,14 @@ export const Navigation: React.FC = () => {
             whileTap={tapScale}
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className={`inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-md transition-colors duration-150 text-xs sm:text-[13px] font-medium whitespace-nowrap shadow-xs select-none cursor-pointer ${
+            className={`hidden sm:inline-flex items-center px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-md transition-colors duration-150 text-xs sm:text-[13px] font-medium whitespace-nowrap shadow-xs select-none cursor-pointer ${
               path === '/contact'
                 ? 'bg-[#121211] text-[#F4F4F2] font-semibold'
                 : 'bg-[#E5E5E1]/90 hover:bg-[#D8D8D4] text-[#121211]'
             }`}
             title="Available for select technical contracts & advisory"
           >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3F8A52] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#3F8A52] shadow-[0_0_0_2px_rgba(63,138,82,0.25)]" />
-            </span>
-            <span className="hidden sm:inline">{lang === 'EN' ? 'Open to work' : 'ലഭ്യമാണ് (Open)'}</span>
+            <span>{lang === 'EN' ? 'Open to work' : 'ലഭ്യമാണ് (Open)'}</span>
           </m.a>
         </div>
       </header>

@@ -171,7 +171,7 @@ export const ChromePrinter: React.FC<ChromePrinterProps> = ({
               <div className="flex items-center gap-3 font-mono text-[9px] font-bold tracking-wider text-neutral-300">
                 {/* POWER LED */}
                 <div className="flex flex-col items-center gap-1">
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981] border border-emerald-400" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b] border border-amber-300" />
                   <span className="text-[8px] text-neutral-400 uppercase">PWR</span>
                 </div>
 
@@ -181,7 +181,7 @@ export const ChromePrinter: React.FC<ChromePrinterProps> = ({
                     className={`w-2.5 h-2.5 rounded-full border transition-all ${
                       isPrinting
                         ? 'bg-amber-400 shadow-[0_0_10px_#f59e0b] border-amber-300 animate-pulse'
-                        : 'bg-emerald-500 shadow-[0_0_6px_#10b981] border-emerald-400'
+                        : 'bg-neutral-300 shadow-[0_0_6px_#e5e5e5] border-neutral-200'
                     }`}
                   />
                   <span className={`text-[8px] uppercase transition-colors ${

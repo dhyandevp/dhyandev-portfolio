@@ -11,7 +11,11 @@ export interface TransmissionData {
 }
 
 interface ContactFormProps {
-  onTransmitStart: (data: TransmissionData, buttonCoords: { x: number; y: number }) => void;
+  onTransmitStart: (
+    data: TransmissionData,
+    buttonCoords: { x: number; y: number },
+    messageRect?: { left: number; top: number; width: number; height: number }
+  ) => void;
   isTransmitting: boolean;
   isConfirmed?: boolean;
   onResetConfirmation?: () => void;
@@ -147,8 +151,21 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     // Send payload headlessly to Google Forms
     submitToGoogleForms(dataToSubmit);
 
+    // Measure message textarea position to circulate around it
+    const commentsEl = document.getElementById('form-comments');
+    let messageRect: { left: number; top: number; width: number; height: number } | undefined;
+    if (commentsEl) {
+      const rect = commentsEl.getBoundingClientRect();
+      messageRect = {
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+      };
+    }
+
     // Trigger airplane takeoff (confirmation & receipt will follow on landing)
-    onTransmitStart(dataToSubmit, buttonCoords);
+    onTransmitStart(dataToSubmit, buttonCoords, messageRect);
   };
 
   const handleReset = () => {
@@ -174,8 +191,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       {/* Header bar */}
       <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#F0F0EE] font-sans text-xs sm:text-sm">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200/60 rounded-full text-xs font-semibold">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="inline-flex items-center px-3 py-1 bg-[#F4F4F2] text-[#121211] border border-[#E5E5E1] rounded-full text-xs font-semibold">
             Direct Inquiry Console
           </span>
         </div>
@@ -348,7 +364,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             >
               {isTransmitting ? (
                 <>
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-0.5" />
+                  <span className="w-2 h-2 rounded-full bg-white/70 animate-ping mr-0.5" />
                   <span>Airplane in flight...</span>
                 </>
               ) : (
