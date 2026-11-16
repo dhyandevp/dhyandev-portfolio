@@ -64,7 +64,38 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   const [submittedData, setSubmittedData] = useState<typeof formData | null>(null);
 
   const submitToGoogleForms = (data: typeof formData) => {
-    // 1. Submit through hidden iframe with proper hidden inputs
+    const params = new URLSearchParams();
+    params.append(ENTRY_IDS.name, data.name);
+    params.append(ENTRY_IDS.email, data.email);
+    params.append(ENTRY_IDS.phone, data.phone || '');
+    params.append(ENTRY_IDS.comments, data.comments || '');
+    params.append('fvv', '1');
+    params.append('pageHistory', '0');
+
+    // 1. Send via navigator.sendBeacon (instant background delivery, immune to page events)
+    try {
+      if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+        navigator.sendBeacon(GOOGLE_FORM_ACTION, params);
+      }
+    } catch {
+      // Ignore
+    }
+
+    // 2. Direct fetch with URLSearchParams (application/x-www-form-urlencoded, no-cors)
+    try {
+      fetch(GOOGLE_FORM_ACTION, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+      }).catch(() => {});
+    } catch {
+      // Ignore
+    }
+
+    // 3. Submit through hidden iframe as classical fallback
     try {
       const formEl = document.createElement('form');
       formEl.action = GOOGLE_FORM_ACTION;
@@ -99,28 +130,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           document.body.removeChild(formEl);
         }
       }, 1000);
-    } catch {
-      // Ignore submission error
-    }
-
-    // 2. Direct fetch with URLSearchParams (application/x-www-form-urlencoded)
-    try {
-      const params = new URLSearchParams();
-      params.append(ENTRY_IDS.name, data.name);
-      params.append(ENTRY_IDS.email, data.email);
-      params.append(ENTRY_IDS.phone, data.phone || '');
-      params.append(ENTRY_IDS.comments, data.comments || '');
-      params.append('fvv', '1');
-      params.append('pageHistory', '0');
-
-      fetch(GOOGLE_FORM_ACTION, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params.toString(),
-      }).catch(() => {});
     } catch {
       // Ignore
     }
