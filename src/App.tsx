@@ -41,6 +41,12 @@ const RouteView: React.FC = () => {
       case '/printer':
       case '/cv':
         return <HomePage />;
+      case '/links':
+      case '/linktree':
+        if (typeof window !== 'undefined') {
+          window.location.replace('https://links.dhyandev.sbs');
+        }
+        return null;
       default:
         return <HomePage />;
     }
