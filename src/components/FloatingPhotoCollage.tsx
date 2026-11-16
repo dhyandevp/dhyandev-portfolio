@@ -315,10 +315,13 @@ export const FloatingPhotoCollage: React.FC = () => {
                 }}
                 className={
                   isFlag
-                    ? 'w-13 h-9 sm:w-16 sm:h-11 md:w-20 md:h-14 cursor-pointer select-none flex items-center justify-center'
-                    : 'w-12 h-12 sm:w-15 sm:h-15 md:w-17 md:h-17 rounded-[18px] sm:rounded-[22px] md:rounded-[24px] bg-gradient-to-b from-[#2C2C30] via-[#1B1B1E] to-[#0D0D10] border border-white/20 shadow-[0_14px_32px_rgba(0,0,0,0.35)] flex items-center justify-center cursor-pointer select-none transition-shadow hover:shadow-[0_20px_45px_rgba(0,0,0,0.45)]'
+                    ? 'w-14 h-9 sm:w-18 sm:h-12 md:w-22 md:h-15 cursor-pointer select-none flex items-center justify-center'
+                    : 'w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-[18px] sm:rounded-[22px] md:rounded-[24px] bg-gradient-to-b from-[#28282C] via-[#18181B] to-[#0D0D10] border border-white/20 shadow-[0_14px_32px_rgba(0,0,0,0.35)] flex items-center justify-center cursor-pointer select-none transition-all hover:shadow-[0_20px_45px_rgba(0,0,0,0.45)] relative overflow-hidden'
                 }
               >
+                {!isFlag && (
+                  <div className="absolute inset-0 bg-gradient-to-b from-white/14 via-transparent to-transparent pointer-events-none rounded-[inherit]" />
+                )}
                 {renderStickerIcon(sticker.id)}
               </m.div>
             );
