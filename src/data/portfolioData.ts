@@ -16,7 +16,7 @@ export const developerProfile: DeveloperProfile = {
   githubUrl: "https://github.com/dhyandevp",
   linkedinUrl: "https://linkedin.com/in/dhyandev-p-20659524a/",
   instagramUrl: "https://instagram.com/_.dhyandev._",
-  linktreeUrl: "https://linktr.ee/DhyandevRTX",
+  linktreeUrl: "https://links.dhyandev.sbs",
   statusIndicator: "CO-FOUNDER @ WAYVE ENTERPRISES // ACCEPTING SELECTED CONTRACTS"
 };
 

@@ -46,7 +46,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
               rel="noreferrer"
               className="hover:text-[#121211] transition-colors"
             >
-              Linktree
+              Links
             </a>
             {profile.instagramUrl && (
               <>

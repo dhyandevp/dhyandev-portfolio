@@ -24,7 +24,7 @@ export const Navigation: React.FC = () => {
     { label: 'Specializations', href: '/specializations' },
     { label: 'Laboratory', href: '/notes' },
     { label: 'Resume', href: '/resume' },
-    { label: 'Linktree', href: 'https://linktr.ee/DhyandevRTX', external: true }
+    { label: 'Links', href: 'https://links.dhyandev.sbs', external: true }
   ] : [
     { label: 'ധ്യാനദേവ് പി', href: '/' },
     { label: 'കുറിച്ച്', href: '/about' },
@@ -32,7 +32,7 @@ export const Navigation: React.FC = () => {
     { label: 'ശേഷികൾ', href: '/specializations' },
     { label: 'ലാബ് കുറിപ്പുകൾ', href: '/notes' },
     { label: 'റെസ്യുമെ', href: '/resume' },
-    { label: 'ലിങ്ക് ട്രീ', href: 'https://linktr.ee/DhyandevRTX', external: true }
+    { label: 'ലിങ്കുകൾ', href: 'https://links.dhyandev.sbs', external: true }
   ];
 
   const isItemActive = (href: string) => {

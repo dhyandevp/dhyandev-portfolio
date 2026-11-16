@@ -186,7 +186,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             <div className="space-y-4 font-sans">
               <div>
                 <span className="block text-xs font-semibold text-[#6D6C66] uppercase tracking-wider mb-1.5">
-                  Primary Encrypted Inbox · Proton Mail
+                  Direct Inbox · Proton Mail
                 </span>
                 <a
                   href={`mailto:${protonEmail}`}
@@ -194,18 +194,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                   className="font-sans font-bold text-2xl sm:text-3xl md:text-4xl text-[#121211] hover:opacity-75 transition-opacity"
                 >
                   {protonEmail}
-                </a>
-              </div>
-
-              <div>
-                <span className="block text-xs font-semibold text-[#6D6C66] uppercase tracking-wider mb-1.5">
-                  Alternate Direct Inbox · Gmail
-                </span>
-                <a
-                  href={`mailto:${gmailEmail}`}
-                  className="font-sans text-sm sm:text-base text-[#6D6C66] hover:text-black transition-colors"
-                >
-                  {gmailEmail}
                 </a>
               </div>
             </div>
@@ -334,8 +322,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             <div className="flex items-center gap-3">
               <Globe className="w-5 h-5 text-black" />
               <div>
-                <span className="block font-sans font-bold text-sm text-black">Linktree</span>
-                <span className="block font-sans text-xs text-[#6D6C66]">DhyandevRTX</span>
+                <span className="block font-sans font-bold text-sm text-black">Links</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">links.dhyandev.sbs</span>
               </div>
             </div>
             <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />

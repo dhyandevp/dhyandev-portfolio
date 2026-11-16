@@ -23,7 +23,7 @@ Web browsers across desktop, tablet, and mobile. Visitors scan quickly; first vi
 
 ## Capabilities and Constraints
 - Real projects: DrishyaSahayak.ai (assistive computer vision), FaceAttend.ai (real-time face recognition attendance), Poyi-Vaa (offline-first PWA for Thalassery/Kannur), ExpenseFlow (personal finance workflow), Entri Proctor (AI exam integrity dashboard), Linux Homelab / Self-Hosted infrastructure.
-- Real profiles: GitHub (dhyandevp), LinkedIn, Instagram, Linktree (DhyandevRTX), Email (dhyandev027@gmail.com).
+- Real profiles: GitHub (dhyandevp), LinkedIn, Instagram, Links (links.dhyandev.sbs), Email (dhyandev027@gmail.com).
 - No invented metrics, no fake user counts, no fake awards.
 - Malayalam script touch ("ധ്യാനദേവ്") with proper font stack.
 - Responsive across 360px, 390px, 768px, 1024px, 1440px+.

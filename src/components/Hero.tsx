@@ -117,8 +117,8 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
               whileTap={tapScale}
               whileHover={{ scale: 1.05 }}
               className="w-9 h-9 sm:w-10 sm:h-10 border border-[#121211] rounded-full flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
-              aria-label="Linktree of Dhyandev P."
-              title="Linktree profile"
+              aria-label="Links profile of Dhyandev P."
+              title="Links profile (links.dhyandev.sbs)"
             >
               <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
             </m.a>
@@ -200,7 +200,7 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
               transition={{ duration: 0.15, ease: 'easeOut' }}
               className="px-5 py-2.5 border border-[#D6D5CF] bg-[#E5E5E1]/80 text-[#121211] font-sans text-xs sm:text-[13px] font-medium hover:bg-[#D8D8D4] hover:border-black transition-colors duration-150 inline-flex items-center gap-1.5 shadow-xs cursor-pointer rounded-full select-none"
             >
-              <span>Linktree</span>
+              <span>Links</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </m.a>
           </m.div>

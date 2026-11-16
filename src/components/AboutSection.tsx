@@ -249,7 +249,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
             rel="noreferrer"
             className="inline-flex items-center gap-1 text-[#121211] hover:underline font-semibold"
           >
-            <span>linktr.ee/DhyandevRTX</span>
+            <span>links.dhyandev.sbs</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </m.div>
