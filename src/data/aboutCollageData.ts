@@ -22,7 +22,7 @@ export interface CollageSticker {
   readonly id: string;
   readonly label: string;
   readonly rotate: number;
-  readonly slot: 1 | 2 | 3;
+  readonly slot: 1 | 2 | 3 | 4;
 }
 
 export interface CollageSlotLayout {
@@ -54,12 +54,13 @@ export const PHOTO_SLOT_LAYOUTS: Record<number, CollageSlotLayout> = {
 };
 
 /**
- * 3-Sticker Layout Coordinates matching Lucas Lima's composition
+ * 4-Sticker Layout Coordinates (Claude, India Flag, Formula 1, Google)
  */
 export const STICKER_SLOT_LAYOUTS: Record<number, StickerSlotLayout> = {
-  1: { left: 26, top: 18, rotation: -8, zIndex: 35 }, // Top-Left: 3D Crystal Tile
-  2: { left: 59, top: 19, rotation: 10, zIndex: 35 }, // Top-Right: 3D Waving India Flag
-  3: { left: 63, top: 66, rotation: 8,  zIndex: 35 }, // Bottom-Right: 3D Figma Tile
+  1: { left: 25, top: 17, rotation: -8, zIndex: 35 }, // Top-Left: Claude AI
+  2: { left: 59, top: 18, rotation: 8,  zIndex: 35 }, // Top-Right: Realistic 3D Waving India Flag
+  3: { left: 63, top: 64, rotation: 7,  zIndex: 35 }, // Bottom-Right: Formula 1
+  4: { left: 11, top: 48, rotation: -6, zIndex: 35 }, // Mid-Left: Google
 };
 
 export const aboutCollageConfig = {
@@ -151,22 +152,28 @@ export const aboutCollageConfig = {
   ] as const,
   stickers: [
     {
-      id: 'crystal-3d',
+      id: 'claude',
       slot: 1,
-      label: '3D Crystal Polyhedron',
+      label: 'Claude AI',
       rotate: -8,
     },
     {
       id: 'india-flag-3d',
       slot: 2,
-      label: '3D Waving India Flag',
-      rotate: 10,
+      label: 'Flag of India',
+      rotate: 8,
     },
     {
-      id: 'figma-3d',
+      id: 'formula-1',
       slot: 3,
-      label: '3D Figma Logo',
-      rotate: 8,
+      label: 'Formula 1',
+      rotate: 7,
+    },
+    {
+      id: 'google',
+      slot: 4,
+      label: 'Google',
+      rotate: -6,
     },
   ] as const,
 };
