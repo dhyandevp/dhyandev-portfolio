@@ -57,10 +57,10 @@ export const PHOTO_SLOT_LAYOUTS: Record<number, CollageSlotLayout> = {
  * 4-Sticker Layout Coordinates (Claude, India Flag, Formula 1, Google)
  */
 export const STICKER_SLOT_LAYOUTS: Record<number, StickerSlotLayout> = {
-  1: { left: 25, top: 17, rotation: -8, zIndex: 35 }, // Top-Left: Claude AI
-  2: { left: 59, top: 18, rotation: 8,  zIndex: 35 }, // Top-Right: Realistic 3D Waving India Flag
-  3: { left: 63, top: 64, rotation: 7,  zIndex: 35 }, // Bottom-Right: Formula 1
-  4: { left: 11, top: 48, rotation: -6, zIndex: 35 }, // Mid-Left: Google
+  1: { left: 25, top: 16, rotation: -8, zIndex: 35 }, // Top-Left: Claude AI
+  2: { left: 58, top: 17, rotation: 8,  zIndex: 35 }, // Top-Right: Realistic 3D Waving India Flag
+  3: { left: 63, top: 62, rotation: 7,  zIndex: 35 }, // Bottom-Right: Formula 1
+  4: { left: 13, top: 46, rotation: -6, zIndex: 35 }, // Mid-Left: Google
 };
 
 export const aboutCollageConfig = {

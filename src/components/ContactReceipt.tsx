@@ -247,7 +247,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
     const hidden = isReducedMotion ? '' : full.slice(count);
 
     return (
-      <span className="text-[#2fb344] font-semibold whitespace-nowrap inline-block">
+      <span className="text-[#121211] font-semibold whitespace-nowrap inline-block">
         <span className="inline-block mr-0.5">•</span>
         <span>{revealed}</span>
         <span className="invisible" aria-hidden="true">
@@ -258,7 +258,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="group relative flex flex-col items-center select-none">
+    <div ref={containerRef} className="group relative flex flex-col items-center select-none font-sans">
       {/* Screen reader live announcement region */}
       <div className="sr-only" aria-live="polite" role="status">
         {ariaAnnouncement}
@@ -271,17 +271,17 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
       >
         {/* Airport Runway Landing Strip & Terminal Gate when idle */}
         {stage === 'idle' && (
-          <div className="absolute inset-0 flex flex-col justify-between p-4 border border-[#D6D5CF] rounded-2xl bg-[#FAF9F5] text-center font-mono select-none pointer-events-none transition-opacity duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden">
+          <div className="absolute inset-0 flex flex-col justify-between p-4 border border-[#D6D5CF] rounded-2xl bg-[#FAF9F5] text-center font-sans select-none pointer-events-none transition-opacity duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden">
             {/* Top Runway Approach Threshold & Indicator */}
             <div className="flex items-center justify-between border-b border-[#E5E5E1] pb-2">
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[9px] font-bold tracking-wider text-[#121211]">
-                  GATE 01 // RWY 27L
+                <span className="w-1.5 h-1.5 rounded-full bg-[#121211]" />
+                <span className="text-[11px] font-bold tracking-tight text-[#121211]">
+                  Gate 01 · Runway 27L
                 </span>
               </div>
-              <span className="text-[8px] text-[#2fb344] font-semibold tracking-widest bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
-                ILS READY
+              <span className="text-[9px] text-[#121211] font-semibold tracking-wider bg-neutral-200/70 px-2 py-0.5 rounded-full border border-neutral-300/80">
+                READY
               </span>
             </div>
 
@@ -295,7 +295,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
               </div>
 
               {/* Runway Designation Stencil */}
-              <div className="text-[14px] font-black tracking-widest text-[#121211]/70 font-mono">
+              <div className="text-[18px] font-black tracking-widest text-[#121211]/80 font-sans">
                 27L
               </div>
 
@@ -315,8 +315,8 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
             {/* Bottom Runway Slot Status */}
             <div className="border-t border-[#E5E5E1] pt-2">
-              <span className="block text-[8px] text-[#6D6C66] tracking-wider uppercase">
-                AIRPORT PRINTER TERMINAL // TOUCHDOWN TO PRINT
+              <span className="block text-[10px] text-[#6D6C66] tracking-tight font-medium">
+                Printer Terminal · Touchdown to print
               </span>
             </div>
           </div>
@@ -329,7 +329,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           tabIndex={0}
           role="button"
           aria-label={`Project inquiry receipt. Click or press Enter to tear and copy ${email}.`}
-          className={`contact-receipt-paper w-[220px] lg:w-[240px] bg-[#FAF9F5] text-[#121211] border-x border-b border-[#D6D5CF] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2 will-change-transform shadow-[0_4px_16px_rgba(0,0,0,0.06)] ${
+          className={`contact-receipt-paper w-[220px] lg:w-[240px] bg-[#FAF9F5] text-[#121211] border-x border-b border-[#D6D5CF] font-sans text-[11px] leading-relaxed tracking-tight select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2 will-change-transform shadow-[0_4px_16px_rgba(0,0,0,0.06)] ${
             stage === 'ready' ? 'receipt-hover-ready' : ''
           }`}
           style={{
@@ -401,7 +401,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                   style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
                 >
                   <span>INQUIRY RELAYED</span>
-                  <span className="text-[#2fb344] font-mono font-semibold">•AIR-DISPATCH</span>
+                  <span className="text-neutral-900 font-semibold">•AIR-DISPATCH</span>
                 </div>
                 <div
                   className="flex justify-between items-baseline transition-opacity duration-150"
@@ -483,7 +483,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                 style={{ opacity: visibleLines >= 9 || isReducedMotion ? 1 : 0 }}
               >
                 <span>{transmission ? `DEST: ${email}` : 'REPLY WITHIN 24H'}</span>
-                {transmission && <span className="text-[#2fb344]">•CONFIRMED</span>}
+                {transmission && <span className="text-neutral-900 font-semibold">•CONFIRMED</span>}
               </div>
               <div
                 className="font-bold text-[10px] leading-snug transition-opacity duration-150 text-[#121211]"
@@ -507,7 +507,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                 className="block text-[#121211] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-1 truncate"
               >
                 {isCopied ? (
-                  <span className="text-[#2fb344] font-bold tracking-wider">COPIED</span>
+                  <span className="text-neutral-900 font-bold tracking-wider">COPIED</span>
                 ) : (
                   email
                 )}

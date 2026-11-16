@@ -315,7 +315,7 @@ export const FloatingPhotoCollage: React.FC = () => {
                 }}
                 className={
                   isFlag
-                    ? 'w-14 h-9 sm:w-18 sm:h-12 md:w-22 md:h-15 cursor-pointer select-none flex items-center justify-center'
+                    ? 'w-16 h-11 sm:w-20 sm:h-13 md:w-24 md:h-16 cursor-pointer select-none flex items-center justify-center'
                     : 'w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-[18px] sm:rounded-[22px] md:rounded-[24px] bg-gradient-to-b from-[#28282C] via-[#18181B] to-[#0D0D10] border border-white/20 shadow-[0_14px_32px_rgba(0,0,0,0.35)] flex items-center justify-center cursor-pointer select-none transition-all hover:shadow-[0_20px_45px_rgba(0,0,0,0.45)] relative overflow-hidden'
                 }
               >
