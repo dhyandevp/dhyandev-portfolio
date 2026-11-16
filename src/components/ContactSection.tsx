@@ -44,7 +44,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   } | null>(null);
 
   const protonEmail = profile.protonEmail || 'dhyandevp@proton.me';
-  const gmailEmail = profile.secondaryEmail || 'dhyandev027@gmail.com';
 
   const handleCopy = async (text: string) => {
     setCopiedProton(true);

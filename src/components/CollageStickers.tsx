@@ -1,32 +1,163 @@
 import React from 'react';
 
 /**
- * Tooltip pill for brand stickers
- * Spec: "Tools I use", tool name, no wording implying endorsement or partnership.
+ * 1. 3D Faceted Crystal Polyhedron (Spline / 3D Isometric Crystal)
+ * Matches the top-left sticker in the reference design.
  */
-export const StickerTooltip: React.FC<{ toolName: string; isVisible: boolean }> = ({
-  toolName,
-  isVisible,
-}) => {
-  if (!isVisible) return null;
-  return (
-    <div
-      role="tooltip"
-      className="absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap px-2.5 py-1 rounded-md bg-[#121211] text-white text-[11px] font-sans font-medium tracking-tight shadow-lg pointer-events-none z-50 animate-in fade-in zoom-in-95 duration-150"
-    >
-      <span>Tools I use: </span>
-      <span className="font-semibold text-[#F4F4F2]">{toolName}</span>
-      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#121211]" />
-    </div>
-  );
-};
+export const FacetedCrystalIcon: React.FC<{ className?: string }> = ({ className = 'w-9 h-9' }) => (
+  <svg
+    viewBox="0 0 48 48"
+    fill="none"
+    aria-hidden="true"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Outer Facets */}
+    <path d="M24 6L40 16L24 23L8 16L24 6Z" fill="#FFFFFF" fillOpacity="0.95" />
+    <path d="M8 16L24 23V42L8 32V16Z" fill="#B0B0B8" />
+    <path d="M24 23L40 16V32L24 42V23Z" fill="#757582" />
+    {/* Inner Cut Facets with Specular Contrast */}
+    <path d="M24 10L36 16.5L24 21.5L12 16.5L24 10Z" fill="#FFFFFF" />
+    <path d="M24 21.5L36 16.5V28.5L24 37V21.5Z" fill="#D2D2DA" />
+    <path d="M24 21.5V37L12 28.5V16.5L24 21.5Z" fill="#90909E" />
+    {/* Specular Edge Highlights */}
+    <line x1="24" y1="6" x2="24" y2="42" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+    <line x1="8" y1="16" x2="40" y2="16" stroke="rgba(255,255,255,0.3)" strokeWidth="0.8" />
+  </svg>
+);
 
 /**
- * 1. Claude (Anthropic) Spark Mark
- * Source: Anthropic Brand Kit & Simple Icons (anthropic.svg)
- * Usage: Single-color white or Anthropic official orange on dark tile.
+ * 2. 3D Organic Waving India Flag
+ * Realistic cloth wave curve, ripples, Saffron/White/Green bands, and 24-spoke Ashoka Chakra.
  */
-export const ClaudeIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
+export const WavingIndiaFlagIcon: React.FC<{ className?: string }> = ({ className = 'w-14 h-10' }) => (
+  <svg
+    viewBox="0 0 68 46"
+    fill="none"
+    aria-hidden="true"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.22))' }}
+  >
+    <defs>
+      {/* Dynamic S-curve wave boundary */}
+      <clipPath id="india-wave-path">
+        <path d="M2 6C12 2 24 10 36 6C48 2 58 7 66 6V36C58 37 48 32 36 36C24 40 12 32 2 36V6Z" />
+      </clipPath>
+      {/* 3D Cloth Ripple Lighting */}
+      <linearGradient id="flag-3d-lighting" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#000000" stopOpacity="0.18" />
+        <stop offset="22%" stopColor="#FFFFFF" stopOpacity="0.32" />
+        <stop offset="48%" stopColor="#000000" stopOpacity="0.22" />
+        <stop offset="74%" stopColor="#FFFFFF" stopOpacity="0.28" />
+        <stop offset="100%" stopColor="#000000" stopOpacity="0.15" />
+      </linearGradient>
+    </defs>
+
+    <g clipPath="url(#india-wave-path)">
+      {/* Saffron Top Band */}
+      <rect x="0" y="0" width="68" height="16" fill="#FF9933" />
+      {/* White Center Band */}
+      <rect x="0" y="15" width="68" height="13" fill="#FFFFFF" />
+      {/* Green Bottom Band */}
+      <rect x="0" y="27" width="68" height="19" fill="#138808" />
+      
+      {/* Ashoka Chakra */}
+      <circle cx="34" cy="21.5" r="4.3" stroke="#000080" strokeWidth="0.9" fill="none" />
+      <circle cx="34" cy="21.5" r="1" fill="#000080" />
+      {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
+        <line
+          key={deg}
+          x1="34"
+          y1="17.8"
+          x2="34"
+          y2="25.2"
+          stroke="#000080"
+          strokeWidth="0.4"
+          transform={`rotate(${deg} 34 21.5)`}
+        />
+      ))}
+
+      {/* 3D Cloth Ripple Overlay */}
+      <rect
+        x="0"
+        y="0"
+        width="68"
+        height="46"
+        fill="url(#flag-3d-lighting)"
+        style={{ mixBlendMode: 'multiply' }}
+      />
+    </g>
+
+    {/* Subtle edge sheen */}
+    <path
+      d="M2 6V36"
+      stroke="rgba(255,255,255,0.7)"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+/**
+ * 3. 3D Figma Glossy Pills
+ * Matches the bottom-right sticker in the reference design.
+ */
+export const Figma3DIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-10' }) => (
+  <svg
+    viewBox="0 0 40 56"
+    fill="none"
+    aria-hidden="true"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="figma-red" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#FF7A50" />
+        <stop offset="100%" stopColor="#E03808" />
+      </linearGradient>
+      <linearGradient id="figma-orange" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#FFA194" />
+        <stop offset="100%" stopColor="#F24E1E" />
+      </linearGradient>
+      <linearGradient id="figma-purple" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#BF7DFF" />
+        <stop offset="100%" stopColor="#8A38F5" />
+      </linearGradient>
+      <linearGradient id="figma-blue" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#48D1FF" />
+        <stop offset="100%" stopColor="#009EDB" />
+      </linearGradient>
+      <linearGradient id="figma-green" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#34E89E" />
+        <stop offset="100%" stopColor="#05B36E" />
+      </linearGradient>
+    </defs>
+
+    {/* Top Left: Red Pill */}
+    <path d="M10 0H20V14H10C4.477 14 0 9.523 0 4C0 1.79 1.79 0 4 0H10Z" fill="url(#figma-red)" />
+    {/* Top Right: Orange Pill */}
+    <path d="M20 0H30C35.523 0 40 4.477 40 10C40 15.523 35.523 20 30 20H20V0Z" fill="url(#figma-orange)" />
+    {/* Middle Left: Purple Pill */}
+    <path d="M10 14H20V28H10C4.477 28 0 23.523 0 18C0 15.79 1.79 14 4 14H10Z" fill="url(#figma-purple)" />
+    {/* Middle Right: Blue Circle */}
+    <circle cx="30" cy="28" r="10" fill="url(#figma-blue)" />
+    {/* Bottom Left: Green Pill */}
+    <path d="M10 28H20V38C20 43.523 15.523 48 10 48C4.477 48 0 43.523 0 38C0 32.477 4.477 28 10 28Z" fill="url(#figma-green)" />
+    
+    {/* Specular pill gloss highlights */}
+    <ellipse cx="8" cy="4" rx="4" ry="2" fill="white" fillOpacity="0.45" />
+    <ellipse cx="30" cy="4" rx="4" ry="2" fill="white" fillOpacity="0.45" />
+    <ellipse cx="8" cy="18" rx="4" ry="2" fill="white" fillOpacity="0.45" />
+    <ellipse cx="30" cy="24" rx="4" ry="2" fill="white" fillOpacity="0.45" />
+    <ellipse cx="8" cy="32" rx="4" ry="2" fill="white" fillOpacity="0.45" />
+  </svg>
+);
+
+/**
+ * 4. Official Claude (Anthropic) Spark Mark
+ */
+export const ClaudeIcon: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
   <svg
     viewBox="0 0 512 512"
     fill="currentColor"
@@ -39,11 +170,9 @@ export const ClaudeIcon: React.FC<{ className?: string }> = ({ className = 'w-7 
 );
 
 /**
- * 2. GitHub Invertocat Mark
- * Source: GitHub Brand Guidelines & Simple Icons (github.svg)
- * Usage: Solid white on near-black tile.
+ * 5. Official GitHub Invertocat Mark
  */
-export const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
+export const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-8 h-8' }) => (
   <svg
     viewBox="0 0 24 24"
     fill="currentColor"
@@ -55,161 +184,19 @@ export const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-7 
   </svg>
 );
 
-/**
- * 3. Cloudflare Mark
- * Source: Cloudflare Brand Guidelines & Simple Icons (cloudflare.svg)
- */
-export const CloudflareIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    aria-hidden="true"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M19.78 12.06c-.05-.44-.2-.86-.44-1.22-.64-.98-1.74-1.57-2.92-1.57-.45 0-.89.09-1.3.26-.64-1.63-2.22-2.78-4.07-2.78-1.92 0-3.56 1.23-4.14 2.96-.4-.2-.84-.31-1.31-.31-1.6 0-2.93 1.15-3.19 2.68-.04.22-.05.45-.05.68 0 .19.01.37.04.55C1.04 13.9 0 15.06 0 16.48 0 18.42 1.58 20 3.52 20h16.03c2.45 0 4.45-2 4.45-4.45 0-2.02-1.38-3.79-3.22-4.29-.02-.4-.11-.8-.28-1.2z" />
-  </svg>
-);
-
-/**
- * 4. Next.js Mark
- * Source: Vercel Brand Assets & Simple Icons (nextdotjs.svg)
- */
-export const NextJsIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
-  <svg
-    viewBox="0 0 180 180"
-    fill="currentColor"
-    aria-hidden="true"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <mask height="180" id="next-mask" maskUnits="userSpaceOnUse" width="180" x="0" y="0" style={{ maskType: 'alpha' }}>
-      <circle cx="90" cy="90" fill="black" r="90" />
-    </mask>
-    <g mask="url(#next-mask)">
-      <circle cx="90" cy="90" fill="currentColor" r="90" />
-      <path
-        d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z"
-        fill="white"
-      />
-      <rect fill="white" height="72" width="12" x="115" y="54" />
-    </g>
-  </svg>
-);
-
-/**
- * 5. Original Generic Sim Racing Steering Wheel
- * Zero third-party trademarks: generic D-cut sim racing rim with rotary dials, buttons, and paddle shifters.
- */
-export const SteeringWheelIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
-  <svg
-    viewBox="0 0 48 48"
-    fill="none"
-    aria-hidden="true"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* Outer Wheel Rim */}
-    <path
-      d="M24 6C14.059 6 6 14.059 6 24C6 29.5 8.5 34.5 12.5 38C15.5 40.5 20 41.5 24 41.5C28 41.5 32.5 40.5 35.5 38C39.5 34.5 42 29.5 42 24C42 14.059 33.941 6 24 6Z"
-      stroke="#121211"
-      strokeWidth="3.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    {/* Paddle Shifters */}
-    <path d="M4 18V28" stroke="#73736C" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M44 18V28" stroke="#73736C" strokeWidth="2.5" strokeLinecap="round" />
-    {/* Center Hub */}
-    <circle cx="24" cy="24" r="7" fill="#121211" />
-    <circle cx="24" cy="24" r="3.5" fill="#383836" />
-    {/* Horizontal & Vertical Spokes */}
-    <path d="M6 24H17" stroke="#121211" strokeWidth="3" strokeLinecap="round" />
-    <path d="M31 24H42" stroke="#121211" strokeWidth="3" strokeLinecap="round" />
-    <path d="M24 31V41" stroke="#121211" strokeWidth="3" strokeLinecap="round" />
-    {/* Colorful Sim Dials / Buttons */}
-    <circle cx="19" cy="19" r="1.5" fill="#E10600" />
-    <circle cx="29" cy="19" r="1.5" fill="#0080FF" />
-    <circle cx="18" cy="28" r="1.2" fill="#FFB703" />
-    <circle cx="30" cy="28" r="1.2" fill="#2E7D32" />
-  </svg>
-);
-
-/**
- * 6. Original Motorsport Checkered Flag
- * Clean waving checkered flag vector.
- */
-export const CheckeredFlagIcon: React.FC<{ className?: string }> = ({ className = 'w-7 h-7' }) => (
-  <svg
-    viewBox="0 0 32 32"
-    fill="none"
-    aria-hidden="true"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M6 5V27" stroke="#121211" strokeWidth="2.5" strokeLinecap="round" />
-    {/* Checkered pattern */}
-    <path d="M7 6C11 5 15 7.5 19 6C23 4.5 25 5.5 27 6V18C25 17.5 23 16.5 19 18C15 19.5 11 17 7 18V6Z" fill="#FFFFFF" stroke="#121211" strokeWidth="1.5" />
-    <path d="M7 6H12V9H7V6ZM17 6.5H22V9.5H17V6.5ZM12 9H17V12H12V9ZM22 9.5H27V12.5H22V9.5ZM7 12H12V15H7V12ZM17 12.5H22V15.5H17V12.5ZM12 15H17V18H12V15ZM22 15.5H27V18H22V15.5Z" fill="#121211" />
-  </svg>
-);
-
-/**
- * 7. India Flag Sticker
- * Specification: Standard 3-color flag (Saffron, White, Green) with 24-spoke Ashoka Chakra.
- */
-export const IndiaFlagIcon: React.FC<{ className?: string }> = ({ className = 'w-8 h-6' }) => (
-  <svg
-    viewBox="0 0 45 30"
-    fill="none"
-    aria-hidden="true"
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect width="45" height="30" rx="4" fill="#FFFFFF" />
-    {/* Saffron Top */}
-    <path d="M0 4C0 1.79 1.79 0 4 0H41C43.21 0 45 1.79 45 4V10H0V4Z" fill="#FF9933" />
-    {/* White Center */}
-    <rect y="10" width="45" height="10" fill="#FFFFFF" />
-    {/* Green Bottom */}
-    <path d="M0 20H45V26C45 28.21 43.21 30 41 30H4C1.79 30 0 28.21 0 26V20Z" fill="#138808" />
-    {/* Ashoka Chakra */}
-    <circle cx="22.5" cy="15" r="3.6" stroke="#000080" strokeWidth="0.8" fill="none" />
-    <circle cx="22.5" cy="15" r="0.8" fill="#000080" />
-    {/* Spokes */}
-    {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
-      <line
-        key={deg}
-        x1="22.5"
-        y1="11.8"
-        x2="22.5"
-        y2="18.2"
-        stroke="#000080"
-        strokeWidth="0.35"
-        transform={`rotate(${deg} 22.5 15)`}
-      />
-    ))}
-  </svg>
-);
-
-export const renderStickerIcon = (id: string, theme: 'dark' | 'light') => {
-  const iconColor = theme === 'dark' ? 'text-white' : 'text-[#121211]';
+export const renderStickerIcon = (id: string) => {
   switch (id) {
+    case 'crystal-3d':
+      return <FacetedCrystalIcon className="w-[62%] h-[62%]" />;
+    case 'india-flag-3d':
+      return <WavingIndiaFlagIcon className="w-[84%] h-[78%]" />;
+    case 'figma-3d':
+      return <Figma3DIcon className="w-[52%] h-[68%]" />;
     case 'claude':
-      return <ClaudeIcon className="w-[60%] h-[60%] text-[#D97757]" />;
+      return <ClaudeIcon className="w-[62%] h-[62%] text-[#D97757]" />;
     case 'github':
-      return <GitHubIcon className={`w-[60%] h-[60%] ${iconColor}`} />;
-    case 'cloudflare':
-      return <CloudflareIcon className="w-[60%] h-[60%] text-[#F38020]" />;
-    case 'nextjs':
-      return <NextJsIcon className={`w-[60%] h-[60%] ${iconColor}`} />;
-    case 'steering-wheel':
-      return <SteeringWheelIcon className="w-[64%] h-[64%]" />;
-    case 'checkered-flag':
-      return <CheckeredFlagIcon className="w-[64%] h-[64%]" />;
-    case 'india-flag':
-      return <IndiaFlagIcon className="w-[72%] h-[56%]" />;
+      return <GitHubIcon className="w-[62%] h-[62%] text-white" />;
     default:
-      return <ClaudeIcon className="w-[60%] h-[60%] text-[#D97757]" />;
+      return <FacetedCrystalIcon className="w-[62%] h-[62%]" />;
   }
 };
