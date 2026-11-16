@@ -282,7 +282,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           tabIndex={0}
           role="button"
           aria-label={`Project inquiry receipt. Click or press Enter to tear and copy ${email}.`}
-          className={`contact-receipt-paper w-[220px] lg:w-[240px] bg-[#fafaf8] dark:bg-[#171716] text-[#121211] dark:text-[#f2f2ef] border-x border-b border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-2 will-change-transform ${
+          className={`contact-receipt-paper w-[220px] lg:w-[240px] bg-[#FAF9F5] text-[#121211] border-x border-b border-[#D6D5CF] font-mono text-[11px] leading-relaxed uppercase tracking-[0.04em] select-text relative cursor-pointer focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2 will-change-transform shadow-[0_4px_16px_rgba(0,0,0,0.06)] ${
             stage === 'ready' ? 'receipt-hover-ready' : ''
           }`}
           style={{
@@ -308,7 +308,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           {/* Torn top edge hairline decoration */}
           <div className="w-full h-[5px] overflow-hidden" aria-hidden="true">
             <svg
-              className="w-full h-[5px] text-[#D6D5CF] dark:text-[rgba(242,242,239,0.16)] block"
+              className="w-full h-[5px] text-[#D6D5CF] block"
               preserveAspectRatio="none"
               viewBox="0 0 100 5"
             >
@@ -325,7 +325,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
           <div className="px-3.5 pt-1.5 pb-2.5">
             {/* Line 0: WAYVE ENTERPRISES */}
             <div
-              className="text-center font-bold tracking-wider mb-0.5 transition-opacity duration-150"
+              className="text-center font-bold tracking-wider mb-0.5 transition-opacity duration-150 text-[#121211]"
               style={{ opacity: visibleLines >= 1 || isReducedMotion ? 1 : 0 }}
             >
               WAYVE ENTERPRISES
@@ -333,7 +333,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
             {/* Line 1: NO. 0027 / 15 NOV 2026 */}
             <div
-              className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-wider mb-1.5 transition-opacity duration-150"
+              className="text-center text-[#6D6C66] text-[10px] tracking-wider mb-1.5 transition-opacity duration-150"
               style={{ opacity: visibleLines >= 2 || isReducedMotion ? 1 : 0 }}
             >
               {formattedOrder} / {formattedDate}
@@ -341,7 +341,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
             {/* Line 2: Dashed Rule */}
             <div
-              className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-1.5 transition-opacity duration-150"
+              className="border-b border-dashed border-[#D6D5CF] my-1.5 transition-opacity duration-150"
               style={{ opacity: visibleLines >= 3 || isReducedMotion ? 1 : 0 }}
               aria-hidden="true"
             />
@@ -350,7 +350,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
             {transmission ? (
               <div className="space-y-0.5 my-1.5 text-[10px]">
                 <div
-                  className="flex justify-between items-baseline font-semibold text-black dark:text-white transition-opacity duration-150"
+                  className="flex justify-between items-baseline font-semibold text-[#121211] transition-opacity duration-150"
                   style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
                 >
                   <span>INQUIRY RELAYED</span>
@@ -360,33 +360,33 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                   className="flex justify-between items-baseline transition-opacity duration-150"
                   style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
                 >
-                  <span className="text-[#6D6C66] dark:text-[#9A9993]">NAME</span>
-                  <span className="truncate max-w-[130px] font-semibold text-right">{transmission.name}</span>
+                  <span className="text-[#6D6C66]">NAME</span>
+                  <span className="truncate max-w-[130px] font-semibold text-right text-[#121211]">{transmission.name}</span>
                 </div>
                 <div
                   className="flex justify-between items-baseline transition-opacity duration-150"
                   style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
                 >
-                  <span className="text-[#6D6C66] dark:text-[#9A9993]">EMAIL</span>
-                  <span className="truncate max-w-[130px] text-right">{transmission.email}</span>
+                  <span className="text-[#6D6C66]">EMAIL</span>
+                  <span className="truncate max-w-[130px] text-right text-[#121211]">{transmission.email}</span>
                 </div>
                 <div
                   className="flex justify-between items-baseline transition-opacity duration-150"
                   style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
                 >
-                  <span className="text-[#6D6C66] dark:text-[#9A9993]">PHONE</span>
-                  <span className="truncate max-w-[130px] text-right">{transmission.phone || 'N/A'}</span>
+                  <span className="text-[#6D6C66]">PHONE</span>
+                  <span className="truncate max-w-[130px] text-right text-[#121211]">{transmission.phone || 'N/A'}</span>
                 </div>
               </div>
             ) : (
-              <div className="space-y-0.5 my-1.5">
+              <div className="space-y-0.5 my-1.5 text-[#121211]">
                 {/* Line 3: CONTRACTING */}
                 <div
                   className="flex justify-between items-baseline transition-opacity duration-150"
                   style={{ opacity: visibleLines >= 4 || isReducedMotion ? 1 : 0 }}
                 >
                   <span>CONTRACTING</span>
-                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">........</span>
+                  <span className="text-[#A5A49E] tracking-tighter">........</span>
                   {renderOpenWord(openCounts[0])}
                 </div>
 
@@ -396,7 +396,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                   style={{ opacity: visibleLines >= 5 || isReducedMotion ? 1 : 0 }}
                 >
                   <span>COMPUTER VISION</span>
-                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">.....</span>
+                  <span className="text-[#A5A49E] tracking-tighter">.....</span>
                   {renderOpenWord(openCounts[1])}
                 </div>
 
@@ -406,7 +406,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                   style={{ opacity: visibleLines >= 6 || isReducedMotion ? 1 : 0 }}
                 >
                   <span>FULL-STACK</span>
-                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">..........</span>
+                  <span className="text-[#A5A49E] tracking-tighter">..........</span>
                   {renderOpenWord(openCounts[2])}
                 </div>
 
@@ -416,7 +416,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                   style={{ opacity: visibleLines >= 7 || isReducedMotion ? 1 : 0 }}
                 >
                   <span>ADVISORY</span>
-                  <span className="text-[#A5A49E] dark:text-[#52514D] tracking-tighter">............</span>
+                  <span className="text-[#A5A49E] tracking-tighter">............</span>
                   {renderOpenWord(openCounts[3])}
                 </div>
               </div>
@@ -424,7 +424,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
             {/* Line 7: Dashed Rule */}
             <div
-              className="border-b border-dashed border-[#D6D5CF] dark:border-[rgba(242,242,239,0.16)] my-1.5 transition-opacity duration-150"
+              className="border-b border-dashed border-[#D6D5CF] my-1.5 transition-opacity duration-150"
               style={{ opacity: visibleLines >= 8 || isReducedMotion ? 1 : 0 }}
               aria-hidden="true"
             />
@@ -432,14 +432,14 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
             {/* Lines 8 - 9: SLA & Total */}
             <div className="space-y-0.5 my-1.5">
               <div
-                className="text-[#6D6C66] dark:text-[#9A9993] text-[10px] transition-opacity duration-150 flex justify-between items-baseline"
+                className="text-[#6D6C66] text-[10px] transition-opacity duration-150 flex justify-between items-baseline"
                 style={{ opacity: visibleLines >= 9 || isReducedMotion ? 1 : 0 }}
               >
                 <span>{transmission ? `DEST: ${email}` : 'REPLY WITHIN 24H'}</span>
                 {transmission && <span className="text-[#2fb344]">•CONFIRMED</span>}
               </div>
               <div
-                className="font-bold text-[10px] leading-snug transition-opacity duration-150"
+                className="font-bold text-[10px] leading-snug transition-opacity duration-150 text-[#121211]"
                 style={{ opacity: visibleLines >= 10 || isReducedMotion ? 1 : 0 }}
               >
                 TOTAL: LET'S BUILD SOMETHING EXCEPTIONAL
@@ -448,7 +448,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
             {/* Line 10: Clickable Email Line */}
             <div
-              className="my-1.5 pt-1 border-t border-[#EBEBE8] dark:border-[rgba(242,242,239,0.1)] transition-opacity duration-150"
+              className="my-1.5 pt-1 border-t border-[#EBEBE8] transition-opacity duration-150"
               style={{ opacity: visibleLines >= 11 || isReducedMotion ? 1 : 0 }}
             >
               <a
@@ -457,7 +457,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
                   e.stopPropagation();
                   handleTear(e);
                 }}
-                className="block text-black dark:text-[#f2f2ef] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black dark:focus-visible:outline-white focus-visible:outline-offset-1 truncate"
+                className="block text-[#121211] font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-1 truncate"
               >
                 {isCopied ? (
                   <span className="text-[#2fb344] font-bold tracking-wider">COPIED</span>
@@ -469,7 +469,7 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
 
             {/* Line 11: Sign-off */}
             <div
-              className="text-center text-[#6D6C66] dark:text-[#9A9993] text-[10px] tracking-widest mt-1.5 transition-opacity duration-150"
+              className="text-center text-[#6D6C66] text-[10px] tracking-widest mt-1.5 transition-opacity duration-150"
               style={{ opacity: visibleLines >= 12 || isReducedMotion ? 1 : 0 }}
             >
               THANK YOU.
@@ -525,17 +525,11 @@ export const ContactReceipt: React.FC<ContactReceiptProps> = ({
             transform: translateY(-3px) !important;
           }
         }
-        @media (prefers-color-scheme: dark) {
-          .contact-receipt-paper {
-            background-color: #171716 !important;
-            color: #f2f2ef !important;
-            border-color: rgba(242, 242, 239, 0.16) !important;
-          }
-        }
-        :is(.dark) .contact-receipt-paper {
-          background-color: #171716 !important;
-          color: #f2f2ef !important;
-          border-color: rgba(242, 242, 239, 0.16) !important;
+        /* Authentic Crisp White Thermal Paper - Always white, no black in dark mode */
+        .contact-receipt-paper {
+          background-color: #FAF9F5 !important;
+          color: #121211 !important;
+          border-color: #D6D5CF !important;
         }
       `}</style>
     </div>

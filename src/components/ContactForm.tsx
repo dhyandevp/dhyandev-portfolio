@@ -13,6 +13,8 @@ export interface TransmissionData {
 interface ContactFormProps {
   onTransmitStart: (data: TransmissionData, buttonCoords: { x: number; y: number }) => void;
   isTransmitting: boolean;
+  isConfirmed?: boolean;
+  onResetConfirmation?: () => void;
 }
 
 const GOOGLE_FORM_ACTION =
@@ -28,6 +30,8 @@ const ENTRY_IDS = {
 export const ContactForm: React.FC<ContactFormProps> = ({
   onTransmitStart,
   isTransmitting,
+  isConfirmed = false,
+  onResetConfirmation,
 }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -37,7 +41,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
   });
 
   const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
-  const [submitted, setSubmitted] = useState(false);
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const validate = () => {
@@ -127,7 +130,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     // Send payload headlessly to Google Forms
     submitToGoogleForms(formData);
 
-    // Trigger airplane takeoff and receipt printer
+    // Trigger airplane takeoff (confirmation & receipt will follow on landing)
     onTransmitStart(
       {
         name: formData.name.trim(),
@@ -137,18 +140,18 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       },
       buttonCoords
     );
-
-    setSubmitted(true);
   };
 
   const handleReset = () => {
     setFormData({ name: '', email: '', phone: '', comments: '' });
     setErrors({});
-    setSubmitted(false);
+    if (onResetConfirmation) {
+      onResetConfirmation();
+    }
   };
 
   return (
-    <div className="w-full border border-[#D6D5CF] bg-white dark:bg-[#121211] rounded-3xl p-6 sm:p-8 relative z-10 transition-colors shadow-sm">
+    <div className="w-full border border-[#E5E5E1] bg-white rounded-3xl p-6 sm:p-9 relative z-10 transition-colors shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
       {/* Hidden iframe for Google Forms response capture */}
       <iframe
         name="google_form_submission_frame"
@@ -159,30 +162,31 @@ export const ContactForm: React.FC<ContactFormProps> = ({
       />
 
       {/* Header bar */}
-      <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#E5E5E1] dark:border-neutral-800 font-sans text-xs sm:text-sm">
+      <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#F0F0EE] font-sans text-xs sm:text-sm">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#2fb344]/10 text-[#22863a] dark:text-[#38d356] rounded-full text-xs font-medium">
-            <span className="w-2 h-2 rounded-full bg-[#2fb344] animate-pulse" />
-            Direct Message Console
+          <span className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200/60 rounded-full text-xs font-semibold">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Direct Inquiry Console
           </span>
         </div>
-        <span className="text-xs text-[#6D6C66] dark:text-neutral-400 hidden sm:inline font-normal">
-          Direct to Dhyandev
+        <span className="text-xs text-neutral-500 hidden sm:inline font-medium">
+          Google Forms Relay // Direct Dispatch
         </span>
       </div>
 
-      {submitted ? (
-        <div className="py-8 text-center space-y-4 font-sans">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#2fb344]/15 text-[#22863a] dark:text-[#38d356] mb-2">
-            <Check className="w-6 h-6" />
+      {isConfirmed ? (
+        <div className="py-8 text-center space-y-4 font-sans bg-white">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200/80 mb-2">
+            <Check className="w-6 h-6 stroke-[2.5]" />
           </div>
-          <div className="space-y-1">
-            <h3 className="font-sans font-bold text-xl sm:text-2xl text-[#121211] dark:text-white">
-              Message Sent Successfully
+          <div className="space-y-1.5">
+            <h3 className="font-sans font-bold text-xl sm:text-2xl text-[#111827] tracking-tight">
+              Inquiry Dispatched Successfully
             </h3>
-            <p className="text-xs sm:text-sm text-[#6D6C66] dark:text-neutral-400 max-w-md mx-auto leading-relaxed">
-              Thank you for reaching out! Your message was delivered directly to{' '}
-              <span className="text-[#121211] dark:text-white font-medium">dhyandevp@proton.me</span>. I will respond within 24 hours.
+            <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto leading-relaxed">
+              Your inquiry has been relayed through Google Forms to{' '}
+              <span className="text-neutral-900 font-semibold">dhyandevp@proton.me</span>. Your printed
+              air-dispatch receipt has been issued in the slot above.
             </p>
           </div>
           <m.button
@@ -190,9 +194,9 @@ export const ContactForm: React.FC<ContactFormProps> = ({
             onClick={handleReset}
             whileTap={tapScale}
             whileHover={{ scale: 1.02 }}
-            className="mt-4 px-6 py-2.5 rounded-full border border-[#D6D5CF] hover:border-black dark:hover:border-white text-xs sm:text-sm font-sans font-medium bg-white dark:bg-neutral-900 text-black dark:text-white transition-all cursor-pointer shadow-xs"
+            className="mt-4 px-6 py-2.5 rounded-full border border-[#D6D5CF] hover:border-black text-xs sm:text-sm font-sans font-semibold bg-white text-[#111827] hover:bg-neutral-50 transition-all cursor-pointer shadow-xs"
           >
-            Send another message
+            Send another inquiry
           </m.button>
         </div>
       ) : (
@@ -200,13 +204,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Field: Full Name */}
             <div>
-              <div className="flex items-center justify-between mb-1.5 text-xs font-medium">
-                <label htmlFor="form-name" className="text-[#121211] dark:text-[#f2f2ef] flex items-center gap-1">
+              <div className="flex items-center justify-between mb-2 text-xs font-semibold">
+                <label htmlFor="form-name" className="text-[#1F2937] flex items-center gap-1 tracking-tight">
                   <span>Your Name</span>
                   <span className="text-rose-500">*</span>
                 </label>
                 {errors.name && (
-                  <span className="text-rose-500 flex items-center gap-1 text-[11px]">
+                  <span className="text-rose-500 flex items-center gap-1 text-[11px] font-medium">
                     <AlertCircle className="w-3 h-3" />
                     {errors.name}
                   </span>
@@ -225,19 +229,19 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 autoCapitalize="words"
                 autoCorrect="off"
                 enterKeyHint="next"
-                className="w-full px-5 py-3 bg-[#F9F9F8] dark:bg-[#1a1a19] text-[#121211] dark:text-[#f2f2ef] border border-[#D6D5CF] dark:border-neutral-800 rounded-full font-sans text-sm focus:outline-none focus:border-black dark:focus:border-white focus:ring-2 focus:ring-black/5 dark:focus:ring-white/5 transition-all placeholder:text-[#A09F99]"
+                className="w-full px-5 py-3.5 bg-[#FAF9F6] text-[#111827] border border-[#E2E1DC] rounded-full font-sans text-sm focus:outline-none focus:border-[#111827] focus:bg-white focus:ring-2 focus:ring-[#111827]/5 transition-all placeholder:text-[#9CA3AF]"
               />
             </div>
 
             {/* Field: Email */}
             <div>
-              <div className="flex items-center justify-between mb-1.5 text-xs font-medium">
-                <label htmlFor="form-email" className="text-[#121211] dark:text-[#f2f2ef] flex items-center gap-1">
+              <div className="flex items-center justify-between mb-2 text-xs font-semibold">
+                <label htmlFor="form-email" className="text-[#1F2937] flex items-center gap-1 tracking-tight">
                   <span>Email Address</span>
                   <span className="text-rose-500">*</span>
                 </label>
                 {errors.email && (
-                  <span className="text-rose-500 flex items-center gap-1 text-[11px]">
+                  <span className="text-rose-500 flex items-center gap-1 text-[11px] font-medium">
                     <AlertCircle className="w-3 h-3" />
                     {errors.email}
                   </span>
@@ -257,16 +261,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                 autoCapitalize="none"
                 autoCorrect="off"
                 enterKeyHint="next"
-                className="w-full px-5 py-3 bg-[#F9F9F8] dark:bg-[#1a1a19] text-[#121211] dark:text-[#f2f2ef] border border-[#D6D5CF] dark:border-neutral-800 rounded-full font-sans text-sm focus:outline-none focus:border-black dark:focus:border-white focus:ring-2 focus:ring-black/5 dark:focus:ring-white/5 transition-all placeholder:text-[#A09F99]"
+                className="w-full px-5 py-3.5 bg-[#FAF9F6] text-[#111827] border border-[#E2E1DC] rounded-full font-sans text-sm focus:outline-none focus:border-[#111827] focus:bg-white focus:ring-2 focus:ring-[#111827]/5 transition-all placeholder:text-[#9CA3AF]"
               />
             </div>
           </div>
 
           {/* Field: Phone Number */}
           <div>
-            <div className="flex items-center justify-between mb-1.5 text-xs font-medium text-[#6D6C66] dark:text-neutral-400">
+            <div className="flex items-center justify-between mb-2 text-xs font-semibold text-[#1F2937] tracking-tight">
               <label htmlFor="form-phone">
-                Phone Number <span className="text-[11px] text-[#A09F99] font-normal">(optional)</span>
+                Phone Number <span className="text-[11px] text-neutral-400 font-normal">(optional)</span>
               </label>
             </div>
             <input
@@ -278,13 +282,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               placeholder="e.g. +1 (555) 019-2834"
               autoCorrect="off"
               enterKeyHint="next"
-              className="w-full px-5 py-3 bg-[#F9F9F8] dark:bg-[#1a1a19] text-[#121211] dark:text-[#f2f2ef] border border-[#D6D5CF] dark:border-neutral-800 rounded-full font-sans text-sm focus:outline-none focus:border-black dark:focus:border-white focus:ring-2 focus:ring-black/5 dark:focus:ring-white/5 transition-all placeholder:text-[#A09F99]"
+              className="w-full px-5 py-3.5 bg-[#FAF9F6] text-[#111827] border border-[#E2E1DC] rounded-full font-sans text-sm focus:outline-none focus:border-[#111827] focus:bg-white focus:ring-2 focus:ring-[#111827]/5 transition-all placeholder:text-[#9CA3AF]"
             />
           </div>
 
           {/* Field: Comments / Paragraph */}
           <div>
-            <div className="flex items-center justify-between mb-1.5 text-xs font-medium text-[#121211] dark:text-[#f2f2ef]">
+            <div className="flex items-center justify-between mb-2 text-xs font-semibold text-[#1F2937] tracking-tight">
               <label htmlFor="form-comments">Your Message or Project Details</label>
             </div>
             <textarea
@@ -294,14 +298,15 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               onChange={(e) => setFormData((prev) => ({ ...prev, comments: e.target.value }))}
               placeholder="Describe your project, technical questions, or collaboration ideas..."
               enterKeyHint="done"
-              className="w-full px-5 py-3.5 bg-[#F9F9F8] dark:bg-[#1a1a19] text-[#121211] dark:text-[#f2f2ef] border border-[#D6D5CF] dark:border-neutral-800 rounded-2xl font-sans text-sm focus:outline-none focus:border-black dark:focus:border-white focus:ring-2 focus:ring-black/5 dark:focus:ring-white/5 transition-all placeholder:text-[#A09F99] resize-none"
+              className="w-full px-5 py-4 bg-[#FAF9F6] text-[#111827] border border-[#E2E1DC] rounded-2xl font-sans text-sm focus:outline-none focus:border-[#111827] focus:bg-white focus:ring-2 focus:ring-[#111827]/5 transition-all placeholder:text-[#9CA3AF] resize-none"
             />
           </div>
 
           {/* Action Row */}
           <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <span className="font-sans text-xs text-[#6D6C66] dark:text-neutral-400">
-              Encrypted delivery directly to <span className="text-[#121211] dark:text-neutral-200 font-medium">dhyandevp@proton.me</span>
+            <span className="font-sans text-xs text-neutral-500">
+              Encrypted delivery directly to{' '}
+              <span className="text-neutral-900 font-semibold">dhyandevp@proton.me</span>
             </span>
 
             <m.button
@@ -311,12 +316,21 @@ export const ContactForm: React.FC<ContactFormProps> = ({
               disabled={isTransmitting}
               whileTap={tapScale}
               whileHover={{ scale: 1.02 }}
-              className={`inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#121211] dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 rounded-full text-xs sm:text-sm font-sans font-medium transition-all shadow-sm cursor-pointer select-none ${
-                isTransmitting ? 'opacity-70 pointer-events-none' : ''
+              className={`inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-[#121211] hover:bg-black text-white rounded-full text-xs sm:text-sm font-sans font-semibold tracking-wide transition-all shadow-[0_2px_8px_rgba(0,0,0,0.12)] cursor-pointer select-none ${
+                isTransmitting ? 'opacity-80 pointer-events-none' : ''
               }`}
             >
-              <Send className="w-3.5 h-3.5" />
-              <span>{isTransmitting ? 'Sending message...' : 'Send message'}</span>
+              {isTransmitting ? (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-0.5" />
+                  <span>Airplane in flight...</span>
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 stroke-[2.2]" />
+                  <span>Send message</span>
+                </>
+              )}
             </m.button>
           </div>
         </form>

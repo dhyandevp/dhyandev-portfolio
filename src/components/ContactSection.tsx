@@ -5,6 +5,7 @@ import { Copy, Check, ArrowUpRight, Mail, Linkedin, Github, Globe } from 'lucide
 import { revealVariant, standardViewport, tapScale } from '../lib/motion';
 import { ContactForm, TransmissionData } from './ContactForm';
 import { FlyingPaperAirplane } from './FlyingPaperAirplane';
+
 const ContactReceipt = lazy(() => import('./ContactReceipt'));
 
 const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -30,9 +31,11 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   const [copiedProton, setCopiedProton] = useState(false);
+  const [pendingTransmission, setPendingTransmission] = useState<TransmissionData | null>(null);
   const [transmission, setTransmission] = useState<TransmissionData | null>(null);
   const [printTrigger, setPrintTrigger] = useState(0);
   const [isTransmitting, setIsTransmitting] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [flightData, setFlightData] = useState<{
     startX: number;
     startY: number;
@@ -70,7 +73,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
   const handleTransmitStart = (data: TransmissionData, buttonCoords: { x: number; y: number }) => {
     setIsTransmitting(true);
-    setTransmission(data);
+    setIsConfirmed(false);
+    // Keep data pending while airplane is flying slowly in the air
+    setPendingTransmission(data);
 
     // Locate the receipt printer slot
     const slotEl = document.getElementById('receipt-printer-slot');
@@ -80,7 +85,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     if (slotEl) {
       const rect = slotEl.getBoundingClientRect();
       targetX = rect.left + rect.width / 2;
-      targetY = rect.top + 30; // slot entrance
+      targetY = rect.top + 25; // mouth of the slot
     }
 
     setFlightData({
@@ -94,7 +99,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   const handleAirplaneLanded = () => {
     setFlightData(null);
     setIsTransmitting(false);
-    // Trigger receipt print sequence!
+    setIsConfirmed(true);
+
+    // ONLY when the airplane has safely landed in the receipt slot, pass the data and trigger print!
+    if (pendingTransmission) {
+      setTransmission(pendingTransmission);
+    }
     setPrintTrigger((prev) => prev + 1);
   };
 
@@ -124,10 +134,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             variants={revealVariant}
             className="max-w-3xl space-y-6 pb-2 lg:pb-0"
           >
-            <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black tracking-tight leading-[1.1]">
+            <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.1]">
               Let's build something exceptional together.
             </h2>
-            <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans">
+            <p className="text-base sm:text-lg text-[#555555] leading-relaxed font-sans">
               As Co-Founder of Wayve Enterprises, I'm available for technical contracting, computer vision architecture,
               full-stack systems engineering, and strategic advisory. Transmit an inquiry through the console below or connect directly.
             </p>
@@ -156,6 +166,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           <ContactForm
             onTransmitStart={handleTransmitStart}
             isTransmitting={isTransmitting}
+            isConfirmed={isConfirmed}
+            onResetConfirmation={() => {
+              setIsConfirmed(false);
+              setPendingTransmission(null);
+            }}
           />
         </m.div>
 
@@ -165,30 +180,30 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="p-8 md:p-12 border border-[#D6D5CF] bg-white dark:bg-[#121211] rounded-3xl mb-12 relative z-10 shadow-sm transition-colors"
+          className="p-8 md:p-12 border border-[#E5E5E1] bg-white rounded-3xl mb-12 relative z-10 shadow-sm transition-colors"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-8 border-b border-[#E5E5E1] dark:border-neutral-800">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-8 border-b border-[#F0F0EE]">
             <div className="space-y-4 font-sans">
               <div>
-                <span className="block text-xs font-semibold text-[#6D6C66] dark:text-neutral-400 uppercase tracking-wider mb-1.5">
+                <span className="block text-xs font-semibold text-[#6D6C66] uppercase tracking-wider mb-1.5">
                   Primary Encrypted Inbox · Proton Mail
                 </span>
                 <a
                   href={`mailto:${protonEmail}`}
                   onClick={() => handleCopy(protonEmail)}
-                  className="font-sans font-bold text-2xl sm:text-3xl md:text-4xl text-[#121211] dark:text-white hover:opacity-75 transition-opacity"
+                  className="font-sans font-bold text-2xl sm:text-3xl md:text-4xl text-[#121211] hover:opacity-75 transition-opacity"
                 >
                   {protonEmail}
                 </a>
               </div>
 
               <div>
-                <span className="block text-xs font-semibold text-[#6D6C66] dark:text-neutral-400 uppercase tracking-wider mb-1.5">
+                <span className="block text-xs font-semibold text-[#6D6C66] uppercase tracking-wider mb-1.5">
                   Alternate Direct Inbox · Gmail
                 </span>
                 <a
                   href={`mailto:${gmailEmail}`}
-                  className="font-sans text-sm sm:text-base text-[#6D6C66] dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
+                  className="font-sans text-sm sm:text-base text-[#6D6C66] hover:text-black transition-colors"
                 >
                   {gmailEmail}
                 </a>
@@ -220,7 +235,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
                 href={`mailto:${protonEmail}?subject=Project%20Inquiry%20-%20Dhyandev%20P.`}
                 whileTap={tapScale}
                 whileHover={{ scale: 1.02 }}
-                className="inline-flex items-center gap-2 px-7 py-3 bg-[#121211] hover:bg-neutral-800 text-white text-xs sm:text-sm font-sans font-medium rounded-full transition-all shadow-xs select-none"
+                className="inline-flex items-center gap-2 px-7 py-3 bg-[#121211] hover:bg-black text-white text-xs sm:text-sm font-sans font-medium rounded-full transition-all shadow-xs select-none"
               >
                 <Mail className="w-4 h-4" />
                 <span>Write an email</span>
@@ -232,16 +247,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           {/* SLA & Availability Guarantee */}
           <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-6 font-sans text-xs sm:text-sm">
             <div>
-              <span className="block text-[11px] font-medium text-[#6D6C66] dark:text-neutral-400 uppercase tracking-wider mb-1">Response Time</span>
-              <span className="text-[#121211] dark:text-white font-semibold">Guaranteed within 24 hours</span>
+              <span className="block text-[11px] font-medium text-[#6D6C66] uppercase tracking-wider mb-1">Response Time</span>
+              <span className="text-[#121211] font-semibold">Guaranteed within 24 hours</span>
             </div>
             <div>
-              <span className="block text-[11px] font-medium text-[#6D6C66] dark:text-neutral-400 uppercase tracking-wider mb-1">Contract Format</span>
-              <span className="text-[#121211] dark:text-white font-semibold">Remote & Direct Collaboration</span>
+              <span className="block text-[11px] font-medium text-[#6D6C66] uppercase tracking-wider mb-1">Contract Format</span>
+              <span className="text-[#121211] font-semibold">Remote & Direct Collaboration</span>
             </div>
             <div>
-              <span className="block text-[11px] font-medium text-[#6D6C66] dark:text-neutral-400 uppercase tracking-wider mb-1">Status</span>
-              <span className="text-[#121211] dark:text-white font-semibold">Available for Select Projects</span>
+              <span className="block text-[11px] font-medium text-[#6D6C66] uppercase tracking-wider mb-1">Status</span>
+              <span className="text-[#121211] font-semibold">Available for Select Projects</span>
             </div>
           </div>
         </m.div>
@@ -252,7 +267,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-[#D6D5CF] divide-y sm:divide-y-0 sm:divide-x divide-[#D6D5CF] bg-white dark:bg-[#121211] rounded-2xl overflow-hidden shadow-xs"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-[#E5E5E1] divide-y sm:divide-y-0 sm:divide-x divide-[#E5E5E1] bg-white rounded-2xl overflow-hidden shadow-xs"
         >
           {/* LinkedIn */}
           <m.a
@@ -260,16 +275,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             target="_blank"
             rel="noreferrer"
             whileTap={tapScale}
-            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] dark:hover:bg-neutral-900 transition-colors group"
+            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
             <div className="flex items-center gap-3">
-              <Linkedin className="w-5 h-5 text-black dark:text-white" />
+              <Linkedin className="w-5 h-5 text-black" />
               <div>
-                <span className="block font-sans font-bold text-sm text-black dark:text-white">LinkedIn</span>
-                <span className="block font-sans text-xs text-[#6D6C66] dark:text-neutral-400">dhyandev-p</span>
+                <span className="block font-sans font-bold text-sm text-black">LinkedIn</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">dhyandev-p</span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black dark:group-hover:text-white transition-colors" />
+            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />
           </m.a>
 
           {/* GitHub */}
@@ -278,16 +293,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             target="_blank"
             rel="noreferrer"
             whileTap={tapScale}
-            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] dark:hover:bg-neutral-900 transition-colors group"
+            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
             <div className="flex items-center gap-3">
-              <Github className="w-5 h-5 text-black dark:text-white" />
+              <Github className="w-5 h-5 text-black" />
               <div>
-                <span className="block font-sans font-bold text-sm text-black dark:text-white">GitHub</span>
-                <span className="block font-sans text-xs text-[#6D6C66] dark:text-neutral-400">@{profile.handle}</span>
+                <span className="block font-sans font-bold text-sm text-black">GitHub</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">@{profile.handle}</span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black dark:group-hover:text-white transition-colors" />
+            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />
           </m.a>
 
           {/* Instagram */}
@@ -296,16 +311,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             target="_blank"
             rel="noreferrer"
             whileTap={tapScale}
-            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] dark:hover:bg-neutral-900 transition-colors group"
+            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
             <div className="flex items-center gap-3">
-              <InstagramIcon className="w-5 h-5 text-black dark:text-white" />
+              <InstagramIcon className="w-5 h-5 text-black" />
               <div>
-                <span className="block font-sans font-bold text-sm text-black dark:text-white">Instagram</span>
-                <span className="block font-sans text-xs text-[#6D6C66] dark:text-neutral-400">@_.dhyandev._</span>
+                <span className="block font-sans font-bold text-sm text-black">Instagram</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">@_.dhyandev._</span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black dark:group-hover:text-white transition-colors" />
+            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />
           </m.a>
 
           {/* Linktree */}
@@ -314,16 +329,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
             target="_blank"
             rel="noreferrer"
             whileTap={tapScale}
-            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] dark:hover:bg-neutral-900 transition-colors group"
+            className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
             <div className="flex items-center gap-3">
-              <Globe className="w-5 h-5 text-black dark:text-white" />
+              <Globe className="w-5 h-5 text-black" />
               <div>
-                <span className="block font-sans font-bold text-sm text-black dark:text-white">Linktree</span>
-                <span className="block font-sans text-xs text-[#6D6C66] dark:text-neutral-400">DhyandevRTX</span>
+                <span className="block font-sans font-bold text-sm text-black">Linktree</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">DhyandevRTX</span>
               </div>
             </div>
-            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black dark:group-hover:text-white transition-colors" />
+            <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />
           </m.a>
         </m.div>
       </div>

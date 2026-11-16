@@ -67,25 +67,49 @@ class PrinterAudio {
       whiteNoise.start(now);
       whiteNoise.stop(now + durationSeconds);
 
-      // 2. Periodic stepper motor clicks
-      const clickCount = Math.floor(durationSeconds * 6);
-      for (let i = 0; i < clickCount; i++) {
-        const clickTime = now + 0.15 + (i * (durationSeconds - 0.4) / clickCount);
-        const osc = ctx.createOscillator();
-        const clickGain = ctx.createGain();
+      // 2. Dot-matrix 9-pin impact needle buzz pulses across print passes
+      const passes = 4;
+      for (let p = 0; p < passes; p++) {
+        const passStart = now + 0.15 + (p * (durationSeconds - 0.4) / passes);
+        const passDuration = 0.35;
+        const pulsesInPass = 14;
+        
+        for (let j = 0; j < pulsesInPass; j++) {
+          const needleTime = passStart + (j * (passDuration / pulsesInPass));
+          const needleOsc = ctx.createOscillator();
+          const needleGain = ctx.createGain();
 
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(180 + Math.random() * 60, clickTime);
-        osc.frequency.exponentialRampToValueAtTime(40, clickTime + 0.035);
+          needleOsc.type = 'sawtooth';
+          needleOsc.frequency.setValueAtTime(820 + (j % 3) * 110, needleTime);
+          needleOsc.frequency.exponentialRampToValueAtTime(320, needleTime + 0.015);
 
-        clickGain.gain.setValueAtTime(0.05, clickTime);
-        clickGain.gain.exponentialRampToValueAtTime(0.001, clickTime + 0.035);
+          needleGain.gain.setValueAtTime(0.025, needleTime);
+          needleGain.gain.exponentialRampToValueAtTime(0.001, needleTime + 0.015);
 
-        osc.connect(clickGain);
-        clickGain.connect(ctx.destination);
+          needleOsc.connect(needleGain);
+          needleGain.connect(ctx.destination);
 
-        osc.start(clickTime);
-        osc.stop(clickTime + 0.04);
+          needleOsc.start(needleTime);
+          needleOsc.stop(needleTime + 0.018);
+        }
+
+        // Stepper line feed clunk between passes
+        const stepTime = passStart + passDuration + 0.02;
+        const stepOsc = ctx.createOscillator();
+        const stepGain = ctx.createGain();
+
+        stepOsc.type = 'triangle';
+        stepOsc.frequency.setValueAtTime(160, stepTime);
+        stepOsc.frequency.exponentialRampToValueAtTime(45, stepTime + 0.04);
+
+        stepGain.gain.setValueAtTime(0.06, stepTime);
+        stepGain.gain.exponentialRampToValueAtTime(0.001, stepTime + 0.04);
+
+        stepOsc.connect(stepGain);
+        stepGain.connect(ctx.destination);
+
+        stepOsc.start(stepTime);
+        stepOsc.stop(stepTime + 0.045);
       }
 
       // 3. Final mechanical tear / paper cut "snip" click

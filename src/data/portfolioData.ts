@@ -12,7 +12,7 @@ export const developerProfile: DeveloperProfile = {
   bioSummary: "Co-Founder of Wayve Enterprises. I architect and build robust digital systems, turning complex technical workflows into scalable, high-performance software. Focused on resilient full-stack architecture, applied computer vision, edge AI, and self-hosted infrastructure.",
   email: "dhyandevp@proton.me",
   protonEmail: "dhyandevp@proton.me",
-  secondaryEmail: "dhyandev027@gmail.com",
+  secondaryEmail: "dhyandevp@proton.me",
   githubUrl: "https://github.com/dhyandevp",
   linkedinUrl: "https://linkedin.com/in/dhyandev-p-20659524a/",
   instagramUrl: "https://instagram.com/_.dhyandev._",

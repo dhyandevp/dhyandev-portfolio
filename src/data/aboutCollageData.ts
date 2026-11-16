@@ -51,12 +51,12 @@ export interface StickerSlotLayout {
  * Positions are percentages of stage width.
  */
 export const PHOTO_SLOT_LAYOUTS: Record<number, CollageSlotLayout> = {
-  1: { left: 29, top: 33, width: 50, aspect: '16:9', rotation: 0, zIndex: 5 },  // Hero landscape
-  2: { left: 7,  top: 20, width: 30, aspect: '4:5',  rotation: -3, zIndex: 2 }, // Left tall
+  1: { left: 29, top: 31, width: 50, aspect: '16:9', rotation: 0, zIndex: 5 },  // Hero landscape
+  2: { left: 7,  top: 18, width: 30, aspect: '4:5',  rotation: -3, zIndex: 2 }, // Left tall
   3: { left: 40, top: 3,  width: 24, aspect: '3:4',  rotation: 2,  zIndex: 3 }, // Top center
-  4: { left: 66, top: 22, width: 30, aspect: '4:5',  rotation: 3,  zIndex: 2 }, // Right tall
-  5: { left: 20, top: 62, width: 22, aspect: '3:4',  rotation: -8, zIndex: 4 }, // Bottom left
-  6: { left: 43, top: 61, width: 22, aspect: '3:4',  rotation: 1,  zIndex: 4 }, // Bottom center
+  4: { left: 66, top: 20, width: 30, aspect: '4:5',  rotation: 3,  zIndex: 2 }, // Right tall
+  5: { left: 20, top: 56, width: 22, aspect: '3:4',  rotation: -8, zIndex: 4 }, // Bottom left
+  6: { left: 43, top: 56, width: 22, aspect: '3:4',  rotation: 1,  zIndex: 4 }, // Bottom center
 };
 
 export const STICKER_SLOT_LAYOUTS: Record<number, StickerSlotLayout> = {
@@ -66,7 +66,14 @@ export const STICKER_SLOT_LAYOUTS: Record<number, StickerSlotLayout> = {
   4: { left: 8,  top: 60, rotation: -6 },
 };
 
-export const aboutCollageConfig = {
+export interface AboutCollageConfig {
+  readonly sectionTitle: string;
+  readonly sectionSubtitle: string;
+  readonly photos: readonly CollagePhoto[];
+  readonly stickers: readonly CollageSticker[];
+}
+
+export const aboutCollageConfig: AboutCollageConfig = {
   sectionTitle: 'Off the clock',
   sectionSubtitle: 'Bikes, rivers, late-night laps',
   photos: [
@@ -196,5 +203,5 @@ export const aboutCollageConfig = {
       rotate: -6,
       theme: 'light',
     },
-  ] as const,
-} as const;
+  ],
+};

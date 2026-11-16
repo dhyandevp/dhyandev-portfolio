@@ -10,7 +10,7 @@ export const dhyandevResume: ResumeData = {
   websiteUrl: 'https://github.com/dhyandevp',
   websiteDisplay: 'github.com/dhyandevp',
   linkedinUrl: 'https://linkedin.com/in/dhyandev-p-20659524a/',
-  email: 'dhyandev027@gmail.com',
+  email: 'dhyandevp@proton.me',
   githubUrl: 'https://github.com/dhyandevp',
   metrics: [
     {

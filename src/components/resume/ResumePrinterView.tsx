@@ -133,10 +133,10 @@ export const ResumePrinterView: React.FC<ResumePrinterViewProps> = ({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#E5E9EE] select-none print:bg-white print:static print:inset-auto print:overflow-visible print:z-auto"
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#EAE6DE] select-none print:bg-white print:static print:inset-auto print:overflow-visible print:z-auto"
       style={{
         backgroundImage: `
-          radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.8) 0%, rgba(220, 226, 234, 0.4) 60%, rgba(200, 208, 218, 0.7) 100%)
+          radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.75) 0%, rgba(234, 230, 222, 0.5) 60%, rgba(216, 210, 200, 0.8) 100%)
         `
       }}
     >
@@ -153,8 +153,8 @@ export const ResumePrinterView: React.FC<ResumePrinterViewProps> = ({
         </button>
 
         {/* Center click-to-download cue in top bar */}
-        <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-neutral-600 bg-white/80 px-3.5 py-1.5 rounded-full border border-neutral-200/80 backdrop-blur-xs shadow-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="hidden sm:flex items-center gap-2 text-xs font-medium text-neutral-700 bg-white/90 px-3.5 py-1.5 rounded-full border border-neutral-300/80 backdrop-blur-xs shadow-xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
           <span>Click paper to download PDF</span>
         </div>
 
@@ -240,22 +240,6 @@ export const ResumePrinterView: React.FC<ResumePrinterViewProps> = ({
               printPhase === 'idle' ? 'overflow-visible' : 'overflow-hidden'
             } print:h-auto print:max-h-none print:overflow-visible transition-[box-shadow] duration-300`}
           >
-            {/* Real-time Laser / Thermal Printhead Scanner Line */}
-            {printPhase === 'printing' && (
-              <div className="absolute bottom-0 left-0 right-0 z-40 pointer-events-none flex items-center justify-center print:hidden">
-                {/* Glow halo */}
-                <div className="absolute -top-3 left-0 right-0 h-6 bg-gradient-to-t from-emerald-500/30 to-transparent blur-sm" />
-                {/* Intense cutting/thermal line */}
-                <div className="w-full h-[3px] bg-gradient-to-r from-transparent via-emerald-300 via-white to-transparent shadow-[0_0_15px_3px_rgba(52,211,153,1),0_0_30px_6px_rgba(16,185,129,0.7)]" />
-                {/* Rapid moving laser sweep spot */}
-                <m.div
-                  animate={{ x: [-280, 280, -280] }}
-                  transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
-                  className="absolute w-24 h-4 bg-white/90 rounded-full blur-[2px] shadow-[0_0_14px_#ffffff]"
-                />
-              </div>
-            )}
-
             {/* The Resume Document */}
             <div ref={contentRef} className="w-full flex justify-center">
               <ResumePaper
