@@ -132,13 +132,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header Row: Headline & Bio on Left, Animated Receipt Slot on Right (Desktop) */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-0">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-12 lg:mb-16">
           <m.div
             initial="hidden"
             whileInView="visible"
             viewport={standardViewport}
             variants={revealVariant}
-            className="max-w-3xl space-y-6 pb-2 lg:pb-0"
+            className="max-w-3xl space-y-6"
           >
             <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.1]">
               Let's build something exceptional together.
@@ -167,7 +167,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="mb-8"
+          className="mb-12 lg:mb-16"
         >
           <ContactForm
             onTransmitStart={handleTransmitStart}

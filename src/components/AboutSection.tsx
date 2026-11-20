@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { m } from 'motion/react';
 import {
-  ExternalLink,
   Sparkles,
   Zap,
   Award,
@@ -31,7 +30,7 @@ interface TechGroup {
   readonly skills: readonly string[];
 }
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
+export const AboutSection: React.FC<AboutSectionProps> = ({ profile: _profile }) => {
   const careerList: readonly CareerItem[] = [
     {
       company: 'Wayve Enterprises',
@@ -226,31 +225,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile }) => {
             ))}
           </div>
         </m.div>
-
-        {/* 6. Quick Spec Callout & Links */}
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
-          className="max-w-2xl mx-auto pt-6 border-t border-[#D6D5CF]/80 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[#6D6C66]"
-        >
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#3F8A52]" />
-            <span>Age 16 · Kerala, India · Formula 1 Fan</span>
-          </div>
-
-          <a
-            href={profile.linktreeUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 text-[#121211] hover:underline font-semibold"
-          >
-            <span>links.dhyandev.sbs</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-        </m.div>
-
       </div>
     </section>
   );

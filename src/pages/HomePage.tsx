@@ -3,7 +3,7 @@ import { m } from 'motion/react';
 import { ArrowRight, Building2 } from 'lucide-react';
 import { Hero } from '../components/Hero';
 import { ContactSection } from '../components/ContactSection';
-import { developerProfile, technicalNotes } from '../data/portfolioData';
+import { developerProfile } from '../data/portfolioData';
 import { revealVariant, standardViewport } from '../lib/motion';
 import { Link } from '../lib/router';
 
@@ -59,46 +59,6 @@ export const HomePage: React.FC = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </m.div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Laboratory Logs Teaser */}
-      <section className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {technicalNotes.slice(0, 2).map((note) => (
-              <div
-                key={note.id}
-                className="p-6 md:p-8 border border-hairline bg-white/80 backdrop-blur-sm flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-hairline/80 font-mono text-xs text-ink-muted">
-                    <span className="font-bold text-black">{note.code}</span>
-                    <span>{note.topic}</span>
-                  </div>
-                  <h3 className="font-sans font-bold text-lg sm:text-xl text-black tracking-tight mb-2">
-                    {note.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-ink-muted leading-relaxed font-sans mb-4">
-                    {note.description}
-                  </p>
-                  <div className="p-3 bg-[#F9F9F8] border border-hairline text-xs font-mono text-black leading-relaxed">
-                    <strong>Takeaway:</strong> {note.keyTakeaway}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-end">
-            <Link
-              to="/notes"
-              className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-black hover:underline"
-            >
-              <span>READ ALL LABORATORY NOTES</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
         </div>
       </section>
