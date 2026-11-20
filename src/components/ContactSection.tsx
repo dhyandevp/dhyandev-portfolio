@@ -1,12 +1,9 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState } from 'react';
 import { m } from 'motion/react';
 import { DeveloperProfile } from '../types/portfolio';
 import { Copy, Check, ArrowUpRight, Mail, Linkedin, Github, Globe } from 'lucide-react';
 import { revealVariant, standardViewport, tapScale } from '../lib/motion';
-import { ContactForm, TransmissionData } from './ContactForm';
-import { FlyingPaperAirplane } from './FlyingPaperAirplane';
-
-const ContactReceipt = lazy(() => import('./ContactReceipt'));
+import { ContactForm } from './ContactForm';
 
 const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg
@@ -31,19 +28,6 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   const [copiedProton, setCopiedProton] = useState(false);
-  const [pendingTransmission, setPendingTransmission] = useState<TransmissionData | null>(null);
-  const [transmission, setTransmission] = useState<TransmissionData | null>(null);
-  const [printTrigger, setPrintTrigger] = useState(0);
-  const [isTransmitting, setIsTransmitting] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [flightData, setFlightData] = useState<{
-    startX: number;
-    startY: number;
-    targetX: number;
-    targetY: number;
-    messageRect?: { left: number; top: number; width: number; height: number };
-  } | null>(null);
-
   const protonEmail = profile.protonEmail || 'dhyandevp@proton.me';
 
   const handleCopy = async (text: string) => {
@@ -71,74 +55,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
     }
   };
 
-  const handleTransmitStart = (
-    data: TransmissionData,
-    buttonCoords: { x: number; y: number },
-    messageRect?: { left: number; top: number; width: number; height: number }
-  ) => {
-    setIsTransmitting(true);
-    setIsConfirmed(false);
-    // Keep data pending while airplane is flying slowly in the air
-    setPendingTransmission(data);
-
-    // Locate the receipt printer slot
-    const slotEl = document.getElementById('receipt-printer-slot');
-    let targetX = buttonCoords.x + 240;
-    let targetY = buttonCoords.y - 180;
-
-    if (slotEl) {
-      const rect = slotEl.getBoundingClientRect();
-      targetX = rect.left + rect.width / 2;
-      targetY = rect.top + 25; // mouth of the slot
-    }
-
-    setFlightData({
-      startX: buttonCoords.x,
-      startY: buttonCoords.y,
-      targetX,
-      targetY,
-      messageRect,
-    });
-  };
-
-  const handleAirplaneLanded = () => {
-    setFlightData(null);
-    setIsTransmitting(false);
-    setIsConfirmed(true);
-
-    // ONLY when the airplane has safely landed in the receipt slot, pass the data and trigger print!
-    if (pendingTransmission) {
-      setTransmission(pendingTransmission);
-    }
-    setPrintTrigger((prev) => prev + 1);
-  };
-
   return (
     <section
       id="reachout"
       className="w-full py-20 md:py-32 border-b border-hairline bg-transparent content-visibility-auto relative"
     >
-      {/* Aerodynamic Paper Airplane Flight Animation Overlay */}
-      {flightData && (
-        <FlyingPaperAirplane
-          startX={flightData.startX}
-          startY={flightData.startY}
-          targetX={flightData.targetX}
-          targetY={flightData.targetY}
-          messageRect={flightData.messageRect}
-          onLanded={handleAirplaneLanded}
-        />
-      )}
-
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Header Row: Headline & Bio on Left, Animated Receipt Slot on Right (Desktop) */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-12 lg:mb-16">
+        {/* Header Row: Headline & Bio */}
+        <div className="mb-12 lg:mb-16">
           <m.div
             initial="hidden"
             whileInView="visible"
             viewport={standardViewport}
             variants={revealVariant}
-            className="max-w-3xl space-y-6"
+            className="max-w-4xl space-y-6"
           >
             <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.1]">
               Let's build something exceptional together.
@@ -148,20 +78,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               full-stack systems engineering, and strategic advisory. Transmit an inquiry through the console below or connect directly.
             </p>
           </m.div>
-
-          {/* Minimal Animated Receipt Slot: Centered on mobile/tablet, right-aligned on desktop */}
-          <div className="flex justify-center lg:justify-end shrink-0 relative z-0">
-            <Suspense fallback={<div className="w-[220px] lg:w-[240px] h-[280px]" />}>
-              <ContactReceipt
-                email={protonEmail}
-                transmission={transmission}
-                printTrigger={printTrigger}
-              />
-            </Suspense>
-          </div>
         </div>
 
-        {/* Custom Transmission Intake Form (Connected to Google Form Backend) */}
+        {/* Custom Transmission Intake Form (Connected to Google Form Backend via Air-Dispatch) */}
         <m.div
           initial="hidden"
           whileInView="visible"
@@ -169,15 +88,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
           variants={revealVariant}
           className="mb-12 lg:mb-16"
         >
-          <ContactForm
-            onTransmitStart={handleTransmitStart}
-            isTransmitting={isTransmitting}
-            isConfirmed={isConfirmed}
-            onResetConfirmation={() => {
-              setIsConfirmed(false);
-              setPendingTransmission(null);
-            }}
-          />
+          <ContactForm />
         </m.div>
 
         {/* Primary Contact Card: Direct Transmission Inboxes */}

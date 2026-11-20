@@ -43,3 +43,7 @@ skills-lock.json
 
 # Local capture screenshots in root
 /*.png
+
+# Vendor packages & scratch output
+inquiry dispach*
+brag-output

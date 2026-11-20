@@ -1,0 +1,373 @@
+/*!
+ * Air-Dispatch pack v1.0 — Minimalist Editorial Theme
+ * Prefixed with `ad-` to avoid style collisions.
+ * Clean, monochrome, architectural styling with zero bright or loud colors.
+ */
+:root {
+  --ad-ink: #121211;
+  --ad-paper: #FAF9F6;
+  --ad-muted: #787670;
+  --ad-ok: #121211;
+  --ad-err: #790F0B;
+  --ad-accent: #1E1E1D;
+  --ad-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ---------------------------------------------------------------- button */
+[data-ad-btn] {
+  position: relative;
+  overflow: hidden;
+}
+[data-ad-btn]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: calc(var(--ad-p, 0) * 100%);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: inherit;
+  pointer-events: none;
+}
+[data-ad-btn] .ad-label {
+  position: relative;
+}
+[data-ad-btn].ad-done {
+  background: #121211 !important;
+  color: #FFFFFF !important;
+  border-color: #383835 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+}
+[data-ad-btn].ad-fail {
+  background: #2D1111 !important;
+  color: #FFFFFF !important;
+  border-color: #571C1C !important;
+}
+[data-ad-btn][disabled] {
+  cursor: default;
+}
+
+/* ---------------------------------------------------------------- runway under the button (minimalist) */
+.ad-apron {
+  display: block;
+  clear: both;
+  position: relative;
+  height: 72px;
+  margin-top: 8px;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+.ad-runway {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 48%;
+  height: 20px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  overflow: hidden;
+  background: #161615;
+  border: 1px solid #2B2A27;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 8px -2px rgba(0, 0, 0, 0.15);
+}
+/* dashed centre line - subtle off-white */
+.ad-runway::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 50%;
+  height: 1.5px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.32) 0 8px, transparent 8px 18px);
+}
+/* minimalist edge guides - soft subtle micro-dots, no bright yellow, no animation */
+.ad-runway::after {
+  content: "";
+  position: absolute;
+  inset: 0 8px;
+  background:
+    radial-gradient(circle at 6px 2.5px, rgba(255, 255, 255, 0.12) 0 0.8px, transparent 1.2px) 0 0 / 12px 100% repeat-x,
+    radial-gradient(circle at 6px calc(100% - 2.5px), rgba(255, 255, 255, 0.12) 0 0.8px, transparent 1.2px) 0 0 / 12px 100% repeat-x;
+  opacity: 0.65;
+}
+.ad-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  font: 500 8.5px/1 var(--ad-mono);
+  letter-spacing: 0.22em;
+  color: #787670;
+}
+
+/* ---------------------------------------------------------------- plane */
+.ad-plane {
+  width: 132px;
+  height: 108px;
+  pointer-events: none;
+  will-change: transform, filter;
+}
+.ad-plane svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.ad-plane.ad-parked {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  z-index: 2;
+  transform: translate(-50%, -50%) scale(0.72);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.28));
+}
+.ad-plane.ad-flying {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99999;
+}
+.ad-strobe {
+  animation: adStrobe 1.6s steps(1) infinite;
+}
+@keyframes adStrobe {
+  0% { opacity: 0.85; }
+  8%, 100% { opacity: 0; }
+}
+
+/* ---------------------------------------------------------------- flight route + landing ripple */
+.ad-route {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99990;
+  pointer-events: none;
+  transition: opacity 1.2s;
+}
+.ad-route path {
+  fill: none;
+  stroke: #121211;
+  stroke-opacity: 0.26;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 8;
+}
+.ad-ring {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  margin: -10px;
+  border: 1.5px solid rgba(18, 18, 17, 0.25);
+  border-radius: 50%;
+  z-index: 99980;
+  pointer-events: none;
+  animation: adRing 0.9s ease-out forwards;
+}
+@keyframes adRing {
+  to {
+    transform: scale(6);
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------- receipt */
+.ad-receipt {
+  position: fixed;
+  top: var(--ad-top, 0);
+  right: var(--ad-side, 48px);
+  width: min(250px, calc(100vw - 24px));
+  z-index: 99000;
+  padding: 16px 16px 54px;
+  background: var(--ad-paper);
+  color: var(--ad-ink);
+  font: 11px/1.35 var(--ad-mono);
+  transform-origin: 50% 0;
+  transform: translateY(calc(-100% - 24px + var(--ad-peek, 0px)));
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease 0.45s;
+  pointer-events: none;
+  opacity: 0;
+}
+.ad-receipt.ad-left {
+  right: auto;
+  left: var(--ad-side, 48px);
+}
+.ad-receipt.ad-open {
+  transform: translateY(0);
+  pointer-events: auto;
+  opacity: 1;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.1));
+  transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease, filter 0.4s ease;
+}
+.ad-receipt.ad-printed {
+  cursor: pointer;
+}
+.ad-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--ad-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: none;
+  z-index: 2;
+  transition: all 0.15s;
+}
+.ad-receipt.ad-printed .ad-close {
+  display: block;
+}
+.ad-close:hover {
+  color: var(--ad-ink);
+  background: rgba(0, 0, 0, 0.05);
+}
+.ad-receipt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 8px;
+  background: radial-gradient(circle at 6px -2px, transparent 5px, var(--ad-paper) 5.5px) repeat-x;
+  background-size: 12px 8px;
+}
+.ad-brand {
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  font-size: 11.5px;
+}
+.ad-meta {
+  text-align: center;
+  color: var(--ad-muted);
+  margin: 2px 0 10px;
+}
+.ad-status {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.ad-status i {
+  flex: 1;
+  text-align: center;
+  font-style: normal;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  padding: 4px 0;
+  border-radius: 99px;
+  background: #EFECE3;
+  color: #A5A193;
+  transition: all 0.35s;
+}
+.ad-status i.ad-on {
+  background: var(--ad-ink);
+  color: #FFFFFF;
+}
+.ad-status i.ad-past {
+  background: #E2DFD6;
+  color: var(--ad-ink);
+  font-weight: 600;
+}
+.ad-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 3px 0;
+  border-bottom: 1px dashed #E4E0D4;
+}
+.ad-row span {
+  color: var(--ad-muted);
+}
+.ad-row b {
+  font-weight: 600;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ad-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.5px;
+  height: 26px;
+  margin: 12px 0 4px;
+}
+.ad-bars i {
+  display: block;
+  height: 100%;
+  background: var(--ad-ink);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s;
+}
+.ad-receipt.ad-printed .ad-bars i {
+  transform: scaleY(1);
+}
+.ad-thanks {
+  text-align: center;
+  color: var(--ad-muted);
+  letter-spacing: 0.2em;
+  font-size: 9.5px;
+}
+.ad-stamp {
+  position: absolute;
+  left: 50%;
+  margin-left: -54px;
+  bottom: 14px;
+  border: 2px solid #121211;
+  color: #121211;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font: 800 13px/1 var(--ad-mono);
+  letter-spacing: 0.14em;
+  opacity: 0;
+  transform: rotate(-11deg) scale(2.4);
+  mix-blend-mode: multiply;
+}
+.ad-stamp.ad-show {
+  animation: adStamp 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.25) forwards;
+}
+.ad-stamp.ad-bad {
+  border-color: #790F0B;
+  color: #790F0B;
+}
+@keyframes adStamp {
+  60% { opacity: 1; }
+  to {
+    opacity: 0.92;
+    transform: rotate(-11deg) scale(1);
+  }
+}
+.ad-receipt.ad-thud {
+  animation: adThud 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes adThud {
+  0% { transform: translateY(0); }
+  16% { transform: translateY(6px) rotate(0.7deg); }
+  42% { transform: translateY(-2px) rotate(-0.4deg); }
+  70% { transform: translateY(1px); }
+  100% { transform: translateY(0); }
+}
+
+@media (max-width: 760px) {
+  .ad-receipt {
+    right: var(--ad-side, 12px);
+  }
+  .ad-receipt.ad-left {
+    left: var(--ad-side, 12px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ad-strobe {
+    animation: none;
+  }
+  .ad-receipt {
+    transition-duration: 0.01s;
+  }
+}
