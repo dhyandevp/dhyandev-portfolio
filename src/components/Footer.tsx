@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
             <a
               href={profile.linkedinUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="me noopener noreferrer"
               className="hover:text-[#121211] transition-colors"
             >
               LinkedIn
@@ -34,7 +34,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
             <a
               href={profile.githubUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="me noopener noreferrer"
               className="hover:text-[#121211] transition-colors"
             >
               GitHub
@@ -43,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
             <a
               href={profile.linktreeUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="hover:text-[#121211] transition-colors"
             >
               Links
@@ -54,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
                 <a
                   href={profile.instagramUrl}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="me noopener noreferrer"
                   className="hover:text-[#121211] transition-colors"
                 >
                   Instagram

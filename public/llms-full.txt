@@ -1,0 +1,88 @@
+# Dhyandev P. — Comprehensive Systems & Engineering Dossier
+
+> Definitive technical reference and knowledge base for Dhyandev P., Co-Founder at Wayve Enterprises, Systems Builder, and Machine Learning Engineer.
+
+## Identity & Verification
+- **Full Legal & Professional Name**: Dhyandev P.
+- **Vernacular Script**: ധ്യാനദേവ് പി (Malayalam script, rendered in native font stack)
+- **Role**: Co-Founder & Technical Lead at Wayve Enterprises
+- **Location**: Kerala, India (Kannur / Thalassery, 11.8745° N, 75.3704° E)
+- **Timezone**: Indian Standard Time (IST, UTC+05:30)
+- **Primary Website**: https://dhyandev.sbs
+- **Canonical Mirrors & Links**: https://links.dhyandev.sbs
+- **GitHub Profile**: https://github.com/dhyandevp (19+ public repositories)
+- **LinkedIn Profile**: https://linkedin.com/in/dhyandev-p-20659524a/
+- **X (Twitter)**: https://x.com/Dhyandev_P
+- **Direct PGP / Secure Contact**: dhyandevp@proton.me
+
+---
+
+## Technical Philosophy & Principles
+1. **Truth Over Theater**: Every claim corresponds to a verifiable git repository, real hardware schematic, or live production deployment. Zero invented metrics, zero fake awards.
+2. **Deterministic Edge Performance**: Systems are built to operate reliably under constrained bandwidth, intermittent connectivity, and strict hardware envelopes.
+3. **Hardware-Software Synthesis**: Direct mastery from bare-metal registers and Linux systemd services up to modern reactive browser interfaces.
+
+---
+
+## Detailed Project Portfolio
+
+### 1. daaym.store — High-End Minimalist E-Commerce Flagship
+- **Live URL**: https://daaym.store
+- **Repository**: https://github.com/dhyandevp/daaym.store
+- **Classification**: Full-Stack E-Commerce, Serverless Architecture, Event-Driven Sync
+- **Stack**: Next.js App Router, TypeScript, Firebase Firestore (Mumbai `asia-south1`), Tailwind CSS, Cloudinary CDN, Telegram Bot API.
+- **Architecture & Performance**: High-contrast, editorial typography design system avoiding cookie-cutter e-commerce boilerplate. Employs a custom bi-directional Telegram Bot daemon for real-time mobile inventory toggles and stock alerts, directly synchronizing with Firestore documents.
+
+### 2. Lid Switch — GNOME Shell Desktop Extension & Systemd Power CLI
+- **Live Extension**: https://extensions.gnome.org/extension/11675/lid-switch/
+- **Repository**: https://github.com/dhyandevp/lid-switch
+- **Classification**: Linux Desktop Environment, Open Source Utility, Systems Engineering
+- **Stack**: GJS (GNOME JavaScript), systemd-logind, D-Bus (`org.freedesktop.login1`), Bash.
+- **Architecture**: Published on the official GNOME Extensions directory. Provides zero-root user space control over laptop ACPI lid behavior (suspend vs. ignore) directly from the GNOME 45–51+ top panel, eliminating the need to manually edit `/etc/systemd/logind.conf`.
+
+### 3. E-Ration Kerala (ഇ-റേഷൻ) — Digital PDS Portal & Fair Price Shop Telemetry
+- **Repository**: https://github.com/dhyandevp/e-ration-kerala
+- **Classification**: Civic Tech, Public Distribution System, Full-Stack Telemetry
+- **Stack**: Next.js 14 App Router, TypeScript, Supabase PostgreSQL, Zustand, Leaflet, Tailwind CSS.
+- **Architecture**: Mobile-first digital platform for Kerala's Public Distribution System. Allows cardholders to verify monthly quota entitlements, check live fair price shop inventory, schedule 30-minute pickup slot tokens, and view interactive geolocation maps. Features full bilingual support (Malayalam & English) and WCAG AA accessibility compliance.
+
+### 4. VibeCoding Ball Knowledge — Interactive Football Trivia Engine
+- **Live URL**: https://vibecoding-ball-knowledge.vercel.app
+- **Classification**: Web Application, Interactive Gaming, Edge Deployment
+- **Stack**: Next.js, React, TypeScript, Tailwind CSS, Vercel Edge.
+- **Architecture**: High-performance, fast-paced football trivia and tactical ball knowledge challenge application. Features dynamic question categorization (club history, transfers, Champions League, tactical setups), real-time streak scoring, instant answer verification, and sub-100ms client state transitions.
+
+### 5. DrishyaSahayak.ai — Edge Computer Vision Perception Aid
+- **Live URL**: https://drishyasahayakai.vercel.app/#home
+- **Repository**: https://github.com/dhyandevp/Drishya_Sahayak.ai
+- **Classification**: Computer Vision, Assistive Technology, Real-Time Edge AI
+- **Stack**: Python 3, OpenCV, Haar Cascade, MobileNetV3, pyttsx3, Linux.
+- **Architecture**: Real-time spatial perception and auditory navigation aid for visually impaired users. Processes edge video streams at sub-50ms glass-to-ear latency, computing bounding box centroids for spatial audio panning.
+
+### 6. FaceAttend.ai — Real-Time Biometric Attendance Engine
+- **Live URL**: https://faceattendai.vercel.app
+- **Repository**: https://github.com/dhyandevp/FaceAttend.ai
+- **Classification**: Biometric Security, Machine Learning, Systems Architecture
+- **Stack**: Python, OpenCV, Haar Cascade, LBPH, Tkinter, CSV Logging.
+- **Architecture**: Contactless face recognition-based attendance engine providing instant identification, liveness anti-spoofing verification, and automatic CSV audit log reconciliation.
+
+### 7. FLARE V2 — Decentralized Disaster Telemetry
+- **Repository**: https://github.com/dhyandevp/FLARE_V2
+- **Classification**: Embedded IoT, Mesh Telemetry, Emergency Systems
+- **Stack**: ESP32, C++ (ESP-IDF/Arduino), LoRa (SX1276), WebSockets, Kotlin Android Companion.
+- **Architecture**: Zero-cloud flood and landslide early warning mesh network relaying sensor packets across a 4.2 km test radius without cellular or internet connectivity.
+
+---
+
+## Technical Capabilities Matrix
+- **Programming Languages**: Python (OpenCV, PyTorch, NumPy, Flask), C/C++ (ESP-IDF, Arduino, POSIX), TypeScript, JavaScript (ESNext, React, Node.js), Bash/Shell.
+- **Systems & OS**: Linux (Fedora, Debian, Ubuntu), systemd, D-Bus, kernel parameter tuning, Docker, Docker Compose, WireGuard.
+- **Hardware & Prototyping**: ESP32, ESP8266, Raspberry Pi 3B+/4, I2C/SPI sensor integration, discrete circuit assembly, soldering.
+- **Web & Interface Design**: React 18, Next.js, Tailwind CSS, Vite, HTML5 Canvas, WebSockets, Web Workers, WCAG AA accessibility.
+
+---
+
+## Quotations & Expert Statements
+> "Working directly in code and bare hardware lets me explore how systems behave while I'm still figuring them out. I like being able to write an interaction or a low-level routine, test an edge case, and see real physical or digital signals respond immediately." — Dhyandev P.
+
+> "At Wayve Enterprises, our architectural mandate is zero-bloat deterministic software. We do not design for the ideal sunny-day internet; we engineer systems to survive packet drops, thermal throttling, and hardware constraints." — Dhyandev P.

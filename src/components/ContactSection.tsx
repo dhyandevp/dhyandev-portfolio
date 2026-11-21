@@ -187,7 +187,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, isStand
           <m.a
             href={profile.linkedinUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="me noopener noreferrer"
             whileTap={tapScale}
             className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
@@ -205,7 +205,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, isStand
           <m.a
             href={profile.githubUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="me noopener noreferrer"
             whileTap={tapScale}
             className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
@@ -223,7 +223,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, isStand
           <m.a
             href={profile.instagramUrl || 'https://instagram.com/Dhyandev_p'}
             target="_blank"
-            rel="noreferrer"
+            rel="me noopener noreferrer"
             whileTap={tapScale}
             className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >
@@ -241,7 +241,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, isStand
           <m.a
             href={profile.linktreeUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             whileTap={tapScale}
             className="p-6 flex items-center justify-between hover:bg-[#F9F9F8] transition-colors group"
           >

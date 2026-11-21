@@ -32,12 +32,67 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return cleaned;
   };
 
+  const ROUTE_METADATA: Record<string, { title: string; description: string; canonical: string }> = {
+    '/': {
+      title: 'Dhyandev P. — Creative Developer & Systems Engineer',
+      description: 'Portfolio of Dhyandev P: Machine Learning, Computer Vision, Linux Systems & Creative Engineering.',
+      canonical: 'https://dhyandev.sbs/'
+    },
+    '/about': {
+      title: 'About & Background — Dhyandev P. | Kerala, India',
+      description: 'Background, systems philosophy, and technical trajectory of Dhyandev P., Co-Founder at Wayve Enterprises based in Kerala, India.',
+      canonical: 'https://dhyandev.sbs/about'
+    },
+    '/projects': {
+      title: 'Verified Projects & Engineering Builds — Dhyandev P.',
+      description: '13 production builds across e-commerce flagships, GNOME extensions, civic PDS portals, IoT telemetry, and edge computer vision.',
+      canonical: 'https://dhyandev.sbs/projects'
+    },
+    '/specializations': {
+      title: 'Capabilities & Tooling Matrix — Dhyandev P.',
+      description: 'Comprehensive capabilities spanning edge machine perception, bare-metal server infrastructure, embedded IoT telemetry, and client-side engineering.',
+      canonical: 'https://dhyandev.sbs/specializations'
+    },
+    '/notes': {
+      title: 'Laboratory Logs & Technical Thinking — Dhyandev P.',
+      description: 'Documented technical logs on sub-50ms OpenCV perception loops, offline data reconciliation, local biometric verification, and resilient network topologies.',
+      canonical: 'https://dhyandev.sbs/notes'
+    },
+    '/contact': {
+      title: 'Contact & Collaboration — Dhyandev P. | Wayve Enterprises',
+      description: 'Transmit an inquiry to Dhyandev P. for technical contracting, computer vision architecture, full-stack systems engineering, and strategic advisory.',
+      canonical: 'https://dhyandev.sbs/contact'
+    },
+    '/resume': {
+      title: 'Resume & Hardware Terminal — Dhyandev P.',
+      description: 'Hardware console and verified curriculum vitae of Dhyandev P.: systems, machine learning, and embedded IoT experience.',
+      canonical: 'https://dhyandev.sbs/resume'
+    }
+  };
+
   const [path, setPath] = useState<string>(() => {
     if (typeof window === 'undefined') return '/';
     return normalizePath(window.location.pathname);
   });
 
   const [, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const meta = ROUTE_METADATA[path] || ROUTE_METADATA['/'];
+      document.title = meta.title;
+
+      const descTag = document.querySelector('meta[name="description"]');
+      if (descTag) {
+        descTag.setAttribute('content', meta.description);
+      }
+
+      const canonicalTag = document.querySelector('link[rel="canonical"]');
+      if (canonicalTag) {
+        canonicalTag.setAttribute('href', meta.canonical);
+      }
+    }
+  }, [path]);
 
   useEffect(() => {
     const handleUrlChange = () => {

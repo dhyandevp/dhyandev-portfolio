@@ -1,0 +1,32 @@
+# Dhyandev P. — Systems & Machine Learning Engineer
+
+> Portfolio and technical knowledge base of Dhyandev P., Co-Founder at Wayve Enterprises, Creative Developer, Systems and Machine Learning Engineer based in Kerala, India (Kannur / Thalassery).
+
+## Core Identity & Positioning
+- **Name**: Dhyandev P. (Malayalam: ധ്യാനദേവ് പി)
+- **Role**: Co-Founder at Wayve Enterprises · Systems & Machine Learning Engineer
+- **Specializations**: Applied Edge Computer Vision, Linux Systems & Kernel Utilities, Resilient Embedded IoT Hardware, Full-Stack E-Commerce & Web Platforms, Offline-First Progressive Web Applications (PWAs), Self-Hosted Homelab Infrastructure.
+- **Location**: Kerala, India (11.8745° N, 75.3704° E)
+- **Primary Domain**: https://dhyandev.sbs
+- **Interactive Directory**: https://links.dhyandev.sbs
+- **GitHub**: https://github.com/dhyandevp
+- **LinkedIn**: https://www.linkedin.com/in/dhyandev-p-20659524a/
+- **X / Twitter**: https://x.com/Dhyandev_P
+- **Direct Email**: dhyandevp@proton.me
+
+## Primary Verified Projects
+- [daaym.store](https://daaym.store): High-contrast minimalist e-commerce flagship store engineered with Next.js App Router, Firebase Firestore pinned to Mumbai (asia-south1), Cloudinary CDN image pipelines, and two-way Telegram Bot integration for real-time mobile inventory management.
+- [Lid Switch GNOME Extension](https://extensions.gnome.org/extension/11675/lid-switch/): Published Linux utility on official GNOME Extensions (GNOME 45–51+) providing instant zero-root control over laptop ACPI lid-close behavior and systemd power management.
+- [E-Ration Kerala (ഇ-റേഷൻ)](https://dhyandev.sbs/projects): Modern digital Public Distribution System (PDS) portal and fair price shop telemetry platform for Kerala with bilingual Malayalam/English interface, Supabase PostgreSQL, and Leaflet shop locator.
+- [VibeCoding Ball Knowledge](https://vibecoding-ball-knowledge.vercel.app): High-performance interactive football trivia and ball knowledge challenge engine with dynamic question routing, streak scoring, and Vercel edge deployment.
+- [DrishyaSahayak.ai](https://drishyasahayakai.vercel.app/#home): Assistive computer vision and real-time auditory perception aid operating at sub-50ms latency using quantized MobileNetV3 and spatial audio cues.
+- [FaceAttend.ai](https://faceattendai.vercel.app): Local-first biometric attendance verification system with ArcFace embeddings, Haar Cascade detection, liveness verification, and automated offline CSV reconciliation.
+- [FLARE V2](https://dhyandev.sbs/projects): Decentralized disaster telemetry and early warning system combining ESP32 LoRa mesh nodes with real-time browser topology maps.
+
+## Key Links & Documentation
+- [Full LLM Knowledge Base](https://dhyandev.sbs/llms-full.txt): Comprehensive technical specifications, hardware benchmarks, and architecture notes.
+- [About & Career Biography](https://dhyandev.sbs/about): Career trajectory, engineering principles, and systems background.
+- [Verified Repositories](https://dhyandev.sbs/projects): 13+ production builds across AI, systems, e-commerce, and embedded hardware.
+- [Capabilities Matrix](https://dhyandev.sbs/specializations): Technical matrix covering C/C++, Python, TypeScript, Linux systemd, and embedded hardware.
+- [Laboratory Logs](https://dhyandev.sbs/notes): Technical essays on latency optimization, biometric verification, and resilient networking.
+- [Contact & Transmission Intake](https://dhyandev.sbs/contact): Direct intake console for contracts, engineering collaboration, and advisory.

@@ -21,7 +21,7 @@ export const ProjectsPage: React.FC = () => {
               Verified Repositories & Engineering Artifacts
             </h1>
             <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans max-w-2xl">
-              12 production builds across IoT disaster telemetry, GNOME desktop extensions, on-premise biometric attendance,
+              13 production builds across e-commerce flagships, GNOME desktop extensions, civic PDS portals, IoT telemetry, on-premise biometric attendance,
               and discrete electronic hardware. Every card links to a verifiable source repository.
             </p>
           </m.div>

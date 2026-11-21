@@ -22,8 +22,8 @@ Combines cinematic creative art-direction (oversized typography, rich narrative 
 Web browsers across desktop, tablet, and mobile. Visitors scan quickly; first viewport must be memorable and technically credible.
 
 ## Capabilities and Constraints
-- Real projects: DrishyaSahayak.ai (assistive computer vision), FaceAttend.ai (real-time face recognition attendance), Poyi-Vaa (offline-first PWA for Thalassery/Kannur), ExpenseFlow (personal finance workflow), Entri Proctor (AI exam integrity dashboard), Linux Homelab / Self-Hosted infrastructure.
-- Real profiles: GitHub (dhyandevp), LinkedIn, Instagram (Dhyandev_p), Links (links.dhyandev.sbs), Email (dhyandev027@gmail.com).
+- Real projects: daaym.store (minimalist e-commerce with Telegram Bot inventory), Lid Switch (published GNOME extension for ACPI power management), E-Ration Kerala (bilingual digital PDS portal), VibeCoding Ball Knowledge (interactive football trivia engine), DrishyaSahayak.ai (assistive computer vision perception aid), FaceAttend.ai (real-time biometric attendance), FLARE V2 (decentralized LoRa disaster telemetry), Linux Homelab infrastructure.
+- Real profiles: GitHub (dhyandevp), LinkedIn, Instagram (Dhyandev_p), Links (links.dhyandev.sbs), Email (dhyandevp@proton.me).
 - No invented metrics, no fake user counts, no fake awards.
 - Malayalam script touch ("ധ്യാനദേവ്") with proper font stack.
 - Responsive across 360px, 390px, 768px, 1024px, 1440px+.
@@ -36,7 +36,7 @@ Web browsers across desktop, tablet, and mobile. Visitors scan quickly; first vi
 
 ## Evidence on Hand
 - GitHub profile: github.com/dhyandevp (19 public repos, verified projects)
-- Verified email: dhyandev027@gmail.com
+- Verified email: dhyandevp@proton.me
 - Verified location: Kerala, India (Kannur / Thalassery)
 
 ## Product Principles

@@ -1,4 +1,21 @@
+# Robots.txt for Dhyandev P. Portfolio (https://dhyandev.sbs)
 User-agent: *
 Allow: /
 
+# AI Search Discovery & Summarization Bots
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Discovery & AI Knowledge Files
 Sitemap: https://dhyandev.sbs/sitemap.xml
+# LLM Context: https://dhyandev.sbs/llms.txt
+# Comprehensive LLM Reference: https://dhyandev.sbs/llms-full.txt

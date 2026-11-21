@@ -44,14 +44,14 @@ export const Hero: React.FC<HeroProps> = ({ profile: _profile }) => {
           animate="visible"
           className="w-full pb-10 sm:pb-14 md:pb-18 border-b border-[#D6D5CF]/80"
         >
-          <div className="font-pixel font-bold text-[12vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-[#121211] tracking-tight leading-none select-none">
+          <h1 className="font-pixel font-bold text-[12vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-[#121211] tracking-tight leading-none select-none">
             Dhyandev P.
-          </div>
+          </h1>
         </m.div>
 
         {/* Value Proposition Statement with word-by-word mask reveal */}
         <div className="max-w-3xl pt-12 sm:pt-16 md:pt-20 mb-14 sm:mb-20">
-          <m.h1
+          <m.h2
             variants={wordMaskContainer}
             initial="hidden"
             animate="visible"
@@ -71,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({ profile: _profile }) => {
                 </m.span>
               </span>
             ))}
-          </m.h1>
+          </m.h2>
 
           {/* Focused Primary Actions */}
           <m.div
