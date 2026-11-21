@@ -123,12 +123,12 @@ export const featuredProjects: readonly Project[] = [
     id: "vibecoding-ball-knowledge",
     code: "PRJ-04",
     title: "VibeCoding Ball Knowledge",
-    subtitle: "Football Knowledge & Tactical Intelligence Platform",
+    subtitle: "AI Engineering Knowledge System & Anti-Slop Architecture System",
     category: "Full-Stack Systems",
-    summary: "Comprehensive football knowledge website and tactical trivia platform testing deep club history, iconic transfers, player statistics, and tactical awareness with real-time scoring and responsive web design.",
-    problemStatement: "Generic sports trivia apps are cluttered with ads, slow loading times, and lack nuanced football knowledge and tactical depth.",
-    contribution: "Engineered football knowledge base and trivia engine with dynamic quiz generation, streak tracking, instant answer verification, and optimized Vercel edge deployment.",
-    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+    summary: "A practical engineering knowledge system and architectural framework for building production software with AI without surrendering engineering judgment. Features 14 conceptual domains, the 10-stage AI Engineering Loop, anti-slop pattern detection, and security hardening protocols.",
+    problemStatement: "AI generates code faster than any human, but speed without architecture, verification, and security produces software that looks finished while being fundamentally broken.",
+    contribution: "Architected and built the full Next.js platform with modern Bauhaus design, interactive 10-stage AI Engineering Loop showcase, 14-pattern anti-slop catalog, context engineering specifications, and Vercel edge deployment.",
+    stack: ["Next.js 15", "TypeScript", "React", "CSS Modules", "Vercel Edge"],
     status: "DEPLOYED",
     year: "2026",
     image: "/images/vibecoding.webp",
@@ -136,9 +136,9 @@ export const featuredProjects: readonly Project[] = [
     liveUrl: "https://vibecoding-ball-knowledge.vercel.app",
     featured: true,
     metricsOrSpec: [
-      { label: "Platform", value: "Football Knowledge" },
-      { label: "Deployment", value: "Vercel Edge" },
-      { label: "Stack", value: "Next.js + TS" }
+      { label: "Framework", value: "10-Stage AI Loop" },
+      { label: "Anti-Slop", value: "14 Design Patterns" },
+      { label: "Deployment", value: "Vercel Edge" }
     ]
   },
   {

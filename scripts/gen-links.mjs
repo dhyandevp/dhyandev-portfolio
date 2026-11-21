@@ -15,7 +15,7 @@ const GROUPS = [
     id: 'build', n: '01', label: 'Build', pad: { x: 15, top: 461, w: 460 },
     wash: '#7A8236', tones: ['#5F6F2E', '#B7AE48', '#8A5A12'],
     leaves: [
-      { title: 'VibeCoding Ball Knowledge', sub: 'Football knowledge website', href: 'https://vibecoding-ball-knowledge.vercel.app' },
+      { title: 'VibeCoding Ball Knowledge', sub: 'AI engineering knowledge system', href: 'https://vibecoding-ball-knowledge.vercel.app' },
       { title: 'Drishya Sahayak', sub: 'AI accessibility assistant', href: 'https://drishyasahayakai.vercel.app/#home' },
       { title: 'FaceAttend.AI', sub: 'Attendance recognition', href: 'https://faceattendai.vercel.app' },
     ],

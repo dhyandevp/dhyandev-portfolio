@@ -46,11 +46,11 @@
 - **Stack**: Next.js 14 App Router, TypeScript, Supabase PostgreSQL, Zustand, Leaflet, Tailwind CSS.
 - **Architecture**: A modern e-commerce and digital ordering platform for Kerala Government's Public Distribution System (PDS). Allows cardholders to verify monthly quota entitlements, check live Fair Price Shop inventory, order doorstep delivery, schedule 30-minute pickup slot tokens, and view interactive geolocation maps. Features full bilingual support (Malayalam & English) and WCAG AA accessibility compliance.
 
-### 4. VibeCoding Ball Knowledge — Football Knowledge & Tactical Intelligence Platform
+### 4. VibeCoding Ball Knowledge — AI-Assisted Software Engineering Knowledge System
 - **Live URL**: https://vibecoding-ball-knowledge.vercel.app
-- **Classification**: Web Application, Football Knowledge Platform, Interactive Archives
-- **Stack**: Next.js, React, TypeScript, Tailwind CSS, Vercel Edge.
-- **Architecture**: Comprehensive football knowledge website and tactical intelligence platform. Features dynamic question categorization (club history, iconic transfers, Champions League, tactical setups), real-time streak scoring, instant answer verification, deep football archives, and sub-100ms client state transitions deployed on Vercel Edge.
+- **Classification**: Web Application, AI Engineering Knowledge Platform, Anti-Slop Architectural System
+- **Stack**: Next.js 15, React, TypeScript, CSS Modules, Vercel Edge.
+- **Architecture**: A practical engineering knowledge system and architectural framework for building production-grade software with AI without surrendering engineering judgment. Formulates the 10-stage AI Engineering Loop (Understand → Specify → Architect → Plan → Implement → Test → Review → Verify → Ship → Observe), a 14-pattern anti-slop catalog, context engineering specifications (PRD, rules.md, architecture.md, schema.md), and OWASP GenAI Top 10 security hardening protocols.
 
 ### 5. DrishyaSahayak.ai — Edge Computer Vision Perception Aid
 - **Live URL**: https://drishyasahayakai.vercel.app/#home
