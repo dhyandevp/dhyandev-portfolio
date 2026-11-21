@@ -24,54 +24,29 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
     : projects.filter((p) => p.category === selectedCategory);
 
   return (
-    <section id="projects" className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
+    <section id="projects" className="w-full pt-10 sm:pt-14 pb-20 sm:pb-28 border-b border-hairline bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Section Heading & Category Filter Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={standardViewport}
-            variants={revealVariant}
-            className="max-w-2xl"
-          >
-            <h2 className="font-sans font-bold text-3xl sm:text-4xl text-black tracking-tight mb-3">
-              Production systems, edge pipelines, and hardware instruments.
-            </h2>
-            <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-sans">
-              Real-world engineering executed across computer vision, decentralized disaster telemetry,
-              GNOME desktop extensions, hardware state machines, and high-performance full-stack web platforms.
-            </p>
-          </m.div>
-
-          {/* Filter Badges with whileTap */}
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={standardViewport}
-            variants={revealVariant}
-            className="flex flex-wrap items-center gap-1.5 font-mono text-xs"
-          >
-            <span className="text-ink-faint mr-1 flex items-center gap-1 text-[11px]">
-              <SlidersHorizontal className="w-3 h-3" /> FILTER:
-            </span>
-            {categories.map((cat) => (
-              <m.button
-                key={cat}
-                type="button"
-                whileTap={tapScale}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 text-[11px] font-medium transition-colors ${
-                  selectedCategory === cat
-                    ? 'bg-black text-white'
-                    : 'bg-[#F4F4F4] text-black hover:bg-[#EAEAEA]'
-                }`}
-                aria-pressed={selectedCategory === cat}
-              >
-                {cat}
-              </m.button>
-            ))}
-          </m.div>
+        {/* Category Filter Controls */}
+        <div className="flex flex-wrap items-center gap-2 font-mono text-xs mb-12 sm:mb-16">
+          <span className="text-ink-faint mr-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+            <SlidersHorizontal className="w-3.5 h-3.5" /> FILTER:
+          </span>
+          {categories.map((cat) => (
+            <m.button
+              key={cat}
+              type="button"
+              whileTap={tapScale}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors cursor-pointer select-none ${
+                selectedCategory === cat
+                  ? 'bg-black text-white shadow-xs'
+                  : 'bg-white/80 border border-[#D6D5CF] text-[#121211] hover:bg-white hover:border-[#121211]'
+              }`}
+              aria-pressed={selectedCategory === cat}
+            >
+              {cat}
+            </m.button>
+          ))}
         </div>
 
         {/* Responsive Grid: 1 col (<640px), 2 cols (640-1024px tablet), 3 cols (>1024px desktop) */}

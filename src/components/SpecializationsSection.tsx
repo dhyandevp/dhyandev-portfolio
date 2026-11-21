@@ -5,24 +5,8 @@ import { revealVariant, standardViewport } from '../lib/motion';
 
 export const SpecializationsSection: React.FC = () => {
   return (
-    <section id="specializations" className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
+    <section id="specializations" className="w-full pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-hairline bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
-          className="max-w-3xl mb-12"
-        >
-          <h2 className="font-sans font-bold text-3xl sm:text-4xl text-black tracking-tight mb-3">
-            Engineered for performance, resilience, and operational clarity.
-          </h2>
-          <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-sans">
-            Specializing in end-to-end technical execution across full-stack systems, edge artificial
-            intelligence pipelines, and self-hosted server deployments.
-          </p>
-        </m.div>
-
         {/* 3-Column Detailed Matrix */}
         <div className="grid grid-cols-1 md:grid-cols-3 border border-hairline divide-y md:divide-y-0 md:divide-x divide-hairline bg-white/90 backdrop-blur-sm">
           {specializations.map((spec) => (

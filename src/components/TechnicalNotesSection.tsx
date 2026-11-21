@@ -6,23 +6,8 @@ import { revealVariant, standardViewport, tapScale } from '../lib/motion';
 
 export const TechnicalNotesSection: React.FC = () => {
   return (
-    <section id="notes" className="w-full py-16 md:py-24 border-b border-hairline bg-transparent content-visibility-auto">
+    <section id="notes" className="w-full pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-hairline bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <m.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={standardViewport}
-          variants={revealVariant}
-          className="max-w-2xl mb-12"
-        >
-          <h2 className="font-sans font-bold text-3xl sm:text-4xl text-black tracking-tight mb-3">
-            Empirical insights & system architectures.
-          </h2>
-          <p className="text-sm sm:text-base text-ink-muted leading-relaxed font-sans">
-            Notes from hands-on testing: optimizing inference loops, ensuring offline data integrity,
-            and managing bare-metal network topologies.
-          </p>
-        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {technicalNotes.map((note) => (

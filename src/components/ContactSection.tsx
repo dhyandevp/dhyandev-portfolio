@@ -24,9 +24,10 @@ const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 
 interface ContactSectionProps {
   readonly profile: DeveloperProfile;
+  readonly isStandalonePage?: boolean;
 }
 
-export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
+export const ContactSection: React.FC<ContactSectionProps> = ({ profile, isStandalonePage = false }) => {
   const [copiedProton, setCopiedProton] = useState(false);
   const protonEmail = profile.protonEmail || 'dhyandevp@proton.me';
 
@@ -58,23 +59,31 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
   return (
     <section
       id="reachout"
-      className="w-full py-20 md:py-32 border-b border-hairline bg-transparent content-visibility-auto relative"
+      className={`w-full border-b border-hairline bg-transparent content-visibility-auto relative ${
+        isStandalonePage ? 'pt-20 sm:pt-28 md:pt-36 pb-20 md:pb-32' : 'py-20 md:py-32'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Header Row: Headline & Bio */}
-        <div className="mb-12 lg:mb-16">
+        <div className="mb-14 lg:mb-20">
           <m.div
             initial="hidden"
             whileInView="visible"
             viewport={standardViewport}
             variants={revealVariant}
-            className="max-w-4xl space-y-6"
+            className="max-w-3xl space-y-5"
           >
-            <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.1]">
-              Let's build something exceptional together.
-            </h2>
-            <p className="text-base sm:text-lg text-[#555555] leading-relaxed font-sans">
-              As Co-Founder of Wayve Enterprises, I'm available for technical contracting, computer vision architecture,
+            {isStandalonePage ? (
+              <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.08]">
+                Let&apos;s build something exceptional together.
+              </h1>
+            ) : (
+              <h2 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-[#121211] tracking-tight leading-[1.08]">
+                Let&apos;s build something exceptional together.
+              </h2>
+            )}
+            <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans max-w-2xl">
+              As Co-Founder of Wayve Enterprises, I&apos;m available for technical contracting, computer vision architecture,
               full-stack systems engineering, and strategic advisory. Transmit an inquiry through the console below or connect directly.
             </p>
           </m.div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { m } from 'motion/react';
-import { Sparkles, Asterisk, ChevronsRight, ExternalLink, ArrowRight, Linkedin } from 'lucide-react';
+import { Sparkles, Asterisk, ChevronsRight, ArrowRight } from 'lucide-react';
 import { DeveloperProfile } from '../types/portfolio';
 
 import { heroTokens, specializations } from '../data/portfolioData';
@@ -13,28 +13,11 @@ import {
 } from '../lib/motion';
 import { useRouter } from '../lib/router';
 
-const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-    aria-hidden="true"
-  >
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
-
 interface HeroProps {
   readonly profile: DeveloperProfile;
 }
 
-export const Hero: React.FC<HeroProps> = ({ profile }) => {
+export const Hero: React.FC<HeroProps> = ({ profile: _profile }) => {
   const { navigate, path } = useRouter();
   const isResumeOpen = path === '/resume' || path === '/printer' || path === '/cv';
 
@@ -51,86 +34,28 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
     }
   };
 
-  const instagramHref = profile.instagramUrl || 'https://instagram.com/Dhyandev_p';
-
   return (
     <section className="w-full bg-transparent relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-16 sm:pt-20 pb-0">
-        {/* 1. Metadata Tag Row Above Name */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-20 sm:pt-28 md:pt-32 pb-0">
+        {/* The Iconic Colossal Pixel Typography Name */}
         <m.div
           variants={revealVariant}
           initial="hidden"
           animate="visible"
-          className="w-full flex justify-end mb-3 sm:mb-4"
+          className="w-full pb-10 sm:pb-14 md:pb-18 border-b border-[#D6D5CF]/80"
         >
-          <div className="text-[11px] sm:text-xs font-sans uppercase tracking-widest font-semibold text-[#121211]">
-            CO-FOUNDER @ WAYVE ENTERPRISES
-          </div>
-        </m.div>
-
-        {/* 2. The Iconic Colossal Pixel Typography Name + Social Badges (At the Top) */}
-        <m.div
-          variants={revealVariant}
-          initial="hidden"
-          animate="visible"
-          className="w-full pb-8 sm:pb-12 md:pb-16 border-b border-[#D6D5CF]/80 flex flex-wrap items-center gap-3 sm:gap-6"
-        >
-          <div className="font-pixel font-bold text-[11.5vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-[#121211] tracking-tight leading-none select-none">
+          <div className="font-pixel font-bold text-[12vw] sm:text-7xl md:text-8xl lg:text-[9.5rem] text-[#121211] tracking-tight leading-none select-none">
             Dhyandev P.
           </div>
-
-          <div className="flex items-center gap-2">
-            {/* LinkedIn Badge Button beside name */}
-            <m.a
-              href={profile.linkedinUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-9 h-9 sm:w-10 sm:h-10 border border-[#121211] rounded-full flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
-              aria-label="LinkedIn profile of Dhyandev P."
-              title="LinkedIn profile"
-            >
-              <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-            </m.a>
-
-            {/* Instagram Badge Button */}
-            <m.a
-              href={instagramHref}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-9 h-9 sm:w-10 sm:h-10 border border-[#121211] rounded-full flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
-              aria-label="Instagram profile of Dhyandev P."
-              title="Instagram profile (@Dhyandev_p)"
-            >
-              <InstagramIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-            </m.a>
-
-            {/* Linktree Badge Button */}
-            <m.a
-              href={profile.linktreeUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.05 }}
-              className="w-9 h-9 sm:w-10 sm:h-10 border border-[#121211] rounded-full flex items-center justify-center text-[#121211] hover:bg-[#121211] hover:text-white transition-colors"
-              aria-label="Links profile of Dhyandev P."
-              title="Links profile (links.dhyandev.sbs)"
-            >
-              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
-            </m.a>
-          </div>
         </m.div>
 
-        {/* 3. Value Proposition Statement with word-by-word mask reveal */}
-        <div className="max-w-3xl pt-10 sm:pt-14 mb-12 sm:mb-16">
+        {/* Value Proposition Statement with word-by-word mask reveal */}
+        <div className="max-w-3xl pt-12 sm:pt-16 md:pt-20 mb-14 sm:mb-20">
           <m.h1
             variants={wordMaskContainer}
             initial="hidden"
             animate="visible"
-            className="font-sans text-2xl sm:text-3xl md:text-[36px] font-normal leading-[1.32] tracking-tight"
+            className="font-sans text-2xl sm:text-3xl md:text-[36px] font-normal leading-[1.38] sm:leading-[1.42] tracking-tight"
           >
             {heroTokens.map((token, idx) => (
               <span key={idx} className="inline-block overflow-hidden mr-[0.28em] align-top">
@@ -148,26 +73,13 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
             ))}
           </m.h1>
 
-          {/* Quick Action Badges */}
+          {/* Focused Primary Actions */}
           <m.div
             variants={revealVariant}
             initial="hidden"
             animate="visible"
-            className="mt-6 flex flex-wrap items-center gap-3"
+            className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
           >
-            <m.a
-              href="/resume"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate('/resume');
-              }}
-              whileTap={tapScale}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
-              className="px-6 py-2.5 bg-black text-white font-sans text-xs sm:text-[13px] font-semibold tracking-wider hover:bg-neutral-800 transition-colors duration-150 inline-flex items-center shadow-xs cursor-pointer rounded-full select-none"
-            >
-              <span>RESUME</span>
-            </m.a>
             <m.a
               href="/projects"
               onClick={(e) => {
@@ -177,34 +89,23 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
               whileTap={tapScale}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
-              className="px-5 py-2.5 border border-[#D6D5CF] bg-[#E5E5E1]/80 text-[#121211] font-sans text-xs sm:text-[13px] font-medium hover:bg-[#D8D8D4] hover:border-black transition-colors duration-150 inline-flex items-center gap-2 shadow-xs cursor-pointer rounded-full select-none"
+              className="px-6 py-3 bg-[#121211] text-[#F4F4F2] font-sans text-xs sm:text-[13px] font-semibold tracking-wide hover:bg-neutral-800 transition-colors duration-150 inline-flex items-center gap-2 shadow-xs cursor-pointer rounded-full select-none"
             >
-              <span>Find projects</span>
+              <span>Explore Projects</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </m.a>
             <m.a
-              href={instagramHref}
-              target="_blank"
-              rel="noreferrer"
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/about');
+              }}
               whileTap={tapScale}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
-              className="px-5 py-2.5 border border-[#D6D5CF] bg-[#E5E5E1]/80 text-[#121211] font-sans text-xs sm:text-[13px] font-medium hover:bg-[#D8D8D4] hover:border-black transition-colors duration-150 inline-flex items-center gap-1.5 shadow-xs cursor-pointer rounded-full select-none"
+              className="px-6 py-3 border border-[#D6D5CF] bg-white/80 text-[#121211] font-sans text-xs sm:text-[13px] font-medium hover:bg-white hover:border-[#121211] transition-colors duration-150 inline-flex items-center shadow-xs cursor-pointer rounded-full select-none"
             >
-              <InstagramIcon className="w-3.5 h-3.5" />
-              <span>Instagram</span>
-            </m.a>
-            <m.a
-              href={profile.linktreeUrl}
-              target="_blank"
-              rel="noreferrer"
-              whileTap={tapScale}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
-              className="px-5 py-2.5 border border-[#D6D5CF] bg-[#E5E5E1]/80 text-[#121211] font-sans text-xs sm:text-[13px] font-medium hover:bg-[#D8D8D4] hover:border-black transition-colors duration-150 inline-flex items-center gap-1.5 shadow-xs cursor-pointer rounded-full select-none"
-            >
-              <span>Links</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Background & Bio</span>
             </m.a>
           </m.div>
         </div>

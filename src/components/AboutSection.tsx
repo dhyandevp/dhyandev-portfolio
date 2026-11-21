@@ -98,7 +98,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile: _profile })
   };
 
   return (
-    <section id="about" className="w-full pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-[#D6D5CF]/80 bg-transparent relative">
+    <section id="about" className="w-full pt-20 sm:pt-28 md:pt-36 pb-24 sm:pb-32 border-b border-[#D6D5CF]/80 bg-transparent relative">
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         
         {/* 1. Header & Headline */}
@@ -107,15 +107,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile: _profile })
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="max-w-2xl mx-auto mb-10 text-left"
+          className="max-w-2xl mx-auto mb-12 sm:mb-16 text-left"
         >
-          <span className="block font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#73736C] mb-4">
-            ABOUT
-          </span>
-
-          <h2 className="font-sans font-bold text-3xl sm:text-4xl md:text-[46px] text-[#121211] tracking-tight leading-[1.14]">
+          <h1 className="font-sans font-bold text-3xl sm:text-4xl md:text-[48px] text-[#121211] tracking-tight leading-[1.14]">
             I&apos;m Dhyandev, a 16-year-old developer & systems builder in Kerala, India.
-          </h2>
+          </h1>
         </m.div>
 
         {/* 2. Narrative Bio */}
@@ -124,7 +120,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile: _profile })
           whileInView="visible"
           viewport={standardViewport}
           variants={revealVariant}
-          className="max-w-2xl mx-auto space-y-5 text-[15px] sm:text-base text-[#575651] leading-relaxed font-sans mb-14 sm:mb-18"
+          className="max-w-2xl mx-auto space-y-7 text-base sm:text-[17px] text-[#4A4944] leading-[1.75] font-sans mb-18 sm:mb-24"
         >
           <p>
             I&apos;m 16 years old, based in Kerala, India. Working directly in code and bare hardware lets me
@@ -148,9 +144,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ profile: _profile })
         </m.div>
 
         {/* 3. Floating Photo Collage (Off the clock) */}
-        <Suspense fallback={<div className="w-full max-w-4xl mx-auto aspect-[4/3] my-10 sm:my-16" />}>
-          <FloatingPhotoCollage />
-        </Suspense>
+        <div className="my-16 sm:my-24">
+          <Suspense fallback={<div className="w-full max-w-4xl mx-auto aspect-[4/3] my-10 sm:my-16" />}>
+            <FloatingPhotoCollage />
+          </Suspense>
+        </div>
 
         {/* 4. Career Milestones Table */}
         <m.div
