@@ -64,6 +64,11 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const targetPath = normalizePath(to);
 
+    if (targetPath === '/links' || targetPath === '/linktree') {
+      window.location.href = '/links/';
+      return;
+    }
+
     if (targetPath === path) {
       scrollToTop();
       return;

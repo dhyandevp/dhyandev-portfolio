@@ -240,7 +240,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile }) => {
               <Globe className="w-5 h-5 text-black" />
               <div>
                 <span className="block font-sans font-bold text-sm text-black">Links</span>
-                <span className="block font-sans text-xs text-[#6D6C66]">links.dhyandev.sbs</span>
+                <span className="block font-sans text-xs text-[#6D6C66]">dhyandev.sbs/links</span>
               </div>
             </div>
             <ArrowUpRight className="w-4 h-4 text-ink-faint group-hover:text-black transition-colors" />

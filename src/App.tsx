@@ -40,7 +40,7 @@ const RouteView: React.FC = () => {
       case '/links':
       case '/linktree':
         if (typeof window !== 'undefined') {
-          window.location.replace('https://links.dhyandev.sbs');
+          window.location.href = '/links/';
         }
         return null;
       default:

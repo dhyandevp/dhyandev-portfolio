@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "gen:links": "node scripts/gen-links.mjs",
+    "dev": "npm run gen:links && vite",
+    "build": "npm run gen:links && tsc && vite build",
     "preview": "vite preview",
     "deploy": "npm run build && wrangler deploy"
   },

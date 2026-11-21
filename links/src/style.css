@@ -1,0 +1,324 @@
+/* Quiet October: raw linen paper, muted kōyō colours, one soft maple tree. */
+:root {
+  --bg: #f4f1ea;
+  --paper: #fbf8f1;
+  --ink: #2b1a10;
+  --muted: #6a5849;
+  --hair: rgba(43, 26, 16, 0.2);
+  --grain: 0.5;
+
+  --bark: #4a3426;
+  --bark-line: #a08064;
+  --sun: #ecc79c;
+  --sun-dot: #c98a5a;
+  --wash: 0.94;
+  --wash-halo: 0.24;
+  --mound: #ddd2bd;
+  --mound-dark: rgba(74, 52, 38, 0.16);
+  --stone: #a69d8d;
+  --lantern: #f1c777;
+  --alive: #6b7a2c;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "JetBrains Mono", "Geist Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #090807;
+  --paper: #141210;
+  --ink: #f5ece0;
+  --muted: #b8a692;
+  --hair: rgba(245, 236, 224, 0.22);
+  --grain: 0.22;
+  --bark: #8a6a52;
+  --bark-line: #c4a184;
+  --sun: #6a3f2b;
+  --sun-dot: #a2603c;
+  --wash: 0.72;
+  --wash-halo: 0.16;
+  --mound: #1c1612;
+  --mound-dark: rgba(0, 0, 0, 0.55);
+  --stone: #5f564a;
+  --lantern: #f1c777;
+  --alive: #a8b85a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #090807;
+    --paper: #141210;
+    --ink: #f5ece0;
+    --muted: #b8a692;
+    --hair: rgba(245, 236, 224, 0.22);
+    --grain: 0.22;
+    --bark: #8a6a52;
+    --bark-line: #c4a184;
+    --sun: #6a3f2b;
+    --sun-dot: #a2603c;
+    --wash: 0.72;
+    --wash-halo: 0.16;
+    --mound: #1c1612;
+    --mound-dark: rgba(0, 0, 0, 0.55);
+    --stone: #5f564a;
+    --lantern: #f1c777;
+    --alive: #a8b85a;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+/* paper grain: one tiny inline SVG noise tile, no network request */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 60;
+  background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px;
+  font-family: var(--mono); font-size: 12px; transition: top 0.2s var(--ease);
+}
+.skip:focus { top: 12px; }
+a { color: inherit; }
+
+/* ------------------------------------------------ header / footer */
+.top {
+  display: flex; align-items: center; gap: 8px 18px; flex-wrap: wrap;
+  width: min(100%, 1100px); margin: 0 auto; padding: 0 24px; min-height: 64px;
+}
+.id { display: flex; align-items: center; }
+.top h1 { margin: 0; font: 600 25px/1 var(--serif); letter-spacing: -0.01em; }
+.role { margin: 0; font: italic 14px/1.3 var(--serif); color: var(--muted); }
+.top-actions {
+  margin: 0 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.status {
+  margin: 0; display: inline-flex; align-items: center; gap: 8px;
+  font: 11px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+  border: 1px solid var(--hair); background: var(--paper); border-radius: 999px; padding: 8px 12px;
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 31px;
+  padding: 0 12px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--hair);
+  border-radius: 999px;
+  font: 10.5px/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.15s var(--ease);
+}
+.theme-toggle:hover {
+  border-color: var(--ink);
+  transform: translateY(-1px);
+}
+.theme-toggle:active {
+  transform: translateY(0) scale(0.96);
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.theme-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+}
+:root .sun-icon { display: none; }
+:root .moon-icon { display: inline-flex; }
+:root[data-theme="dark"] .sun-icon { display: inline-flex; }
+:root[data-theme="dark"] .moon-icon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sun-icon { display: inline-flex; }
+  :root:not([data-theme="light"]) .moon-icon { display: none; }
+}
+.dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--alive); }
+.dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--alive); animation: ping 2.6s ease-out infinite; }
+@keyframes ping { from { transform: scale(1); opacity: 0.5; } to { transform: scale(2.4); opacity: 0; } }
+
+.foot {
+  height: 28px; display: grid; place-items: center;
+  font: 10.5px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+}
+.foot p { margin: 0; }
+
+/* ------------------------------------------------ the stage (desktop and wide tablet) */
+.tree { flex: 1; display: grid; place-items: center; padding: 0 16px; }
+
+.stage {
+  /* the whole tree always fits the screen height; it never shrinks below 880px wide */
+  --sw: clamp(880px, min(100vw - 32px, (100svh - 104px) * 1.428571), 1100px);
+  position: relative;
+  width: var(--sw);
+  aspect-ratio: 1000 / 700;
+  container-type: inline-size;
+}
+.art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.groups, .group, .group ul { display: contents; }
+.group ul { list-style: none; margin: 0; padding: 0; }
+.vine, .go { display: none; }
+
+/* leaves */
+.slot {
+  position: absolute;
+  left: calc(var(--x) * 0.1%);
+  top: calc(var(--y) * 0.142857%);
+  width: 13.6%;
+  aspect-ratio: 136 / 102;
+  translate: -50% -50%;
+  margin: 0;
+  list-style: none;
+}
+.leaf {
+  position: absolute; inset: 0; display: block;
+  color: var(--lt); text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.3s var(--ease);
+}
+.swayer { position: absolute; inset: 0; display: block; }
+.shape {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
+  rotate: var(--r);                       /* tilt applies to the leaf shape only ... */
+  translate: var(--lean, 0px) 0;
+  transition: translate 0.5s var(--ease);
+  filter: drop-shadow(0 3px 4px rgba(43, 26, 16, 0.22));
+}
+.leaf-fill { fill: var(--lf, var(--f)); stroke: var(--s); stroke-width: 1.1; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill 0.25s; }
+.leaf-vein { fill: none; stroke: var(--s); stroke-width: 1; stroke-linecap: round; opacity: 0.35; vector-effect: non-scaling-stroke; }
+.leaf-stem { fill: none; stroke: var(--s); stroke-width: 2.2; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.leaf:hover, .leaf:focus-visible, .leaf.hot { --lf: var(--fh); }
+
+.txt {                                    /* ... the text layer never rotates */
+  position: absolute; left: 19%; width: 62%; top: 34%; height: 33%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; pointer-events: none;
+}
+.title {
+  font-size: clamp(9.5px, 1.1cqw, 14px);
+  font-weight: 650; line-height: 1.12; letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.sub { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.leaf:focus-visible { outline: none; }
+.leaf:focus-visible::after { content: ""; position: absolute; inset: -2px; border: 2px solid var(--ink); border-radius: 18px; }
+
+/* group labels: small paper tags attached under their canopy */
+.glabel {
+  position: absolute;
+  left: calc(var(--x) * 0.1%);
+  top: calc(var(--y) * 0.142857%);
+  translate: var(--tx) 0;
+  margin: 0; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+  padding: 3px 10px 3px 8px; border-radius: 999px; border: 1px solid var(--hair); background: var(--paper);
+  font: 600 clamp(9px, 1cqw, 11px)/1.3 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink);
+}
+.glabel::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--w); flex: none; }
+.glabel b { color: var(--muted); font-weight: 700; }
+
+.stage.hovering .leaf:not(.hot) { opacity: 0.55; }
+
+/* hover preview */
+.peek {
+  position: fixed; z-index: 40; pointer-events: none; translate: -50% -100%;
+  background: var(--ink); color: var(--bg);
+  font: 10px/1 var(--mono); letter-spacing: 0.06em; padding: 6px 9px; border-radius: 6px; white-space: nowrap;
+  opacity: 0; transition: opacity 0.15s;
+}
+.peek.show { opacity: 1; }
+.spark { position: fixed; z-index: 50; pointer-events: none; width: 10px; height: 8px; border-radius: 50% 0 50% 0; background: var(--c, #c45a1c); }
+
+/* falling leaves */
+.fall { position: absolute; inset: 0; overflow: hidden; pointer-events: none; display: none; }
+.anim .fall { display: block; }
+.fl { position: absolute; top: 0; width: 24px; height: 18px; opacity: 0; }
+.fl svg { width: 100%; height: 100%; overflow: visible; }
+.fl .leaf-fill { stroke-width: 1; }
+.fl .leaf-vein { display: none; }
+
+/* growth start state (only when JS will animate) */
+.anim #sun, .anim .pad, .anim .limb, .anim .slot, .anim .glabel, .anim #ground { opacity: 0; }
+.anim #grow-rect { transform: scaleY(0); }
+
+/* ------------------------------------------------ narrow screens: the tree becomes a vine */
+@media (max-width: 919px) {
+  .top { padding: 14px 16px; gap: 10px 14px; }
+  .top-actions { margin-left: 0; width: 100%; justify-content: flex-end; }
+  .status { margin-left: 0; }
+  .tree { display: block; padding: 0; }
+  .stage { width: 100%; aspect-ratio: auto; container-type: normal; }
+  .art, .fall, .anim .fall { display: none; }
+  .groups { display: block; width: min(100%, 560px); margin: 0 auto; padding: 8px 16px 28px 20px; }
+
+  .group { display: block; position: relative; margin: 0 0 30px; padding-left: 32px; }
+  .vine {
+    display: block; position: absolute; left: 9px; top: 16px; bottom: -20px; width: 4px;
+    border-radius: 2px; background: var(--bark); transform-origin: top;
+  }
+  .glabel {
+    position: relative; left: auto; top: auto; translate: none;
+    padding: 6px 14px 6px 10px; margin: 0 0 14px; font-size: 12px;
+  }
+  .glabel::after {
+    content: ""; position: absolute; left: -30px; top: 50%; width: 14px; height: 14px; translate: 0 -50%;
+    border-radius: 50%; background: var(--w); border: 2px solid var(--bg);
+  }
+
+  .group ul { display: block; margin: 0; padding: 0; list-style: none; }
+  .slot { position: relative; left: auto; top: auto; width: auto; aspect-ratio: auto; translate: none; margin: 0 0 12px; }
+  .slot::before { content: ""; position: absolute; left: -23px; top: 50%; width: 23px; height: 3px; background: var(--bark); }
+  .leaf {
+    position: relative; inset: auto; display: flex; align-items: center; gap: 10px;
+    min-height: 64px; padding: 10px 18px; background: var(--f);
+    border: 1.5px solid var(--s); border-radius: 28px 90px 28px 90px;
+  }
+  .leaf:hover, .leaf.hot, .leaf:active { background: var(--fh); }
+  .swayer, .shape { display: none; }
+  .txt { position: static; width: auto; height: auto; flex: 1; align-items: flex-start; text-align: left; }
+  .title { font-size: 15px; text-wrap: wrap; }
+  .sub { position: static; width: auto; height: auto; clip-path: none; white-space: normal; margin-top: 2px;
+         font: 10.5px/1.3 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; }
+  .go { display: block; font: 13px/1 var(--mono); }
+  .leaf:focus-visible::after { border-radius: 30px 92px 30px 92px; inset: -4px; }
+  .anim .vine { transform: scaleY(0); }
+}
+
+@media (prefers-contrast: more) {
+  :root { --hair: rgba(43, 26, 16, 0.65); }
+  .leaf-vein { opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

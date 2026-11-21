@@ -1,0 +1,162 @@
+{
+ "W": 1000,
+ "H": 700,
+ "LEAF": {
+  "w": 136,
+  "h": 102
+ },
+ "GROUPS": [
+  {
+   "id": "build",
+   "pad": {
+    "x": 15,
+    "top": 461,
+    "w": 460,
+    "h": 134,
+    "bottom": 595
+   },
+   "leaves": [
+    {
+     "title": "VibeCoding Ball Knowledge",
+     "x": 99,
+     "y": 528,
+     "fill": "#5f6f2e",
+     "ink": "#FFF6E4",
+     "ratio": 5.15
+    },
+    {
+     "title": "Drishya Sahayak",
+     "x": 245,
+     "y": 528,
+     "fill": "#b7ae48",
+     "ink": "#2B1A10",
+     "ratio": 7.28
+    },
+    {
+     "title": "FaceAttend.AI",
+     "x": 391,
+     "y": 528,
+     "fill": "#8a5a12",
+     "ink": "#FFF6E4",
+     "ratio": 5.51
+    }
+   ]
+  },
+  {
+   "id": "me",
+   "pad": {
+    "x": 15,
+    "top": 251,
+    "w": 460,
+    "h": 134,
+    "bottom": 385
+   },
+   "leaves": [
+    {
+     "title": "Portfolio",
+     "x": 99,
+     "y": 318,
+     "fill": "#e0a93b",
+     "ink": "#2B1A10",
+     "ratio": 7.88
+    },
+    {
+     "title": "Google Developer",
+     "x": 245,
+     "y": 318,
+     "fill": "#d49a3a",
+     "ink": "#2B1A10",
+     "ratio": 6.74
+    },
+    {
+     "title": "Email",
+     "x": 391,
+     "y": 318,
+     "fill": "#e7bb57",
+     "ink": "#2B1A10",
+     "ratio": 9.26
+    }
+   ]
+  },
+  {
+   "id": "code",
+   "pad": {
+    "x": 525,
+    "top": 336,
+    "w": 460,
+    "h": 134,
+    "bottom": 470
+   },
+   "leaves": [
+    {
+     "title": "GitHub",
+     "x": 609,
+     "y": 403,
+     "fill": "#b34a12",
+     "ink": "#FFF6E4",
+     "ratio": 5.01
+    },
+    {
+     "title": "LinkedIn",
+     "x": 755,
+     "y": 403,
+     "fill": "#a8401e",
+     "ink": "#FFF6E4",
+     "ratio": 5.72
+    },
+    {
+     "title": "X",
+     "x": 901,
+     "y": 403,
+     "fill": "#b0511a",
+     "ink": "#FFF6E4",
+     "ratio": 4.84
+    }
+   ]
+  },
+  {
+   "id": "off",
+   "pad": {
+    "x": 197,
+    "top": 46,
+    "w": 606,
+    "h": 134,
+    "bottom": 180
+   },
+   "leaves": [
+    {
+     "title": "Instagram (main)",
+     "x": 281,
+     "y": 113,
+     "fill": "#8e2f2a",
+     "ink": "#FFF6E4",
+     "ratio": 7.55
+    },
+    {
+     "title": "Instagram (private)",
+     "x": 427,
+     "y": 113,
+     "fill": "#a33a2f",
+     "ink": "#FFF6E4",
+     "ratio": 6.1
+    },
+    {
+     "title": "Pinterest",
+     "x": 573,
+     "y": 113,
+     "fill": "#9a3c2b",
+     "ink": "#FFF6E4",
+     "ratio": 6.4
+    },
+    {
+     "title": "Spotify",
+     "x": 719,
+     "y": 113,
+     "fill": "#7d2f33",
+     "ink": "#FFF6E4",
+     "ratio": 8.41
+    }
+   ]
+  }
+ ]
+}
