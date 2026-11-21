@@ -102,8 +102,8 @@ export const dhyandevResume: ResumeData = {
     {
       id: 'eration',
       title: 'E-Ration Kerala',
-      subtitle: 'Digital PDS Portal',
-      summary: 'Modern mobile-first portal with Supabase PostgreSQL, bilingual Malayalam/English interface, and dealer tablet fulfillment.',
+      subtitle: 'Govt Ration E-Commerce Portal',
+      summary: 'Bilingual e-commerce and digital ordering platform for Kerala Government Ration with Supabase PostgreSQL, doorstep delivery, and dealer fulfillment.',
       linkText: 'See it live',
       liveUrl: 'https://github.com/dhyandevp/e-ration-kerala',
       image: '/images/eration_kerala.webp'

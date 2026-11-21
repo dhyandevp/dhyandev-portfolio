@@ -59,10 +59,10 @@ export const featuredProjects: readonly Project[] = [
     title: "daaym.store",
     subtitle: "High-End Minimalist E-Commerce Flagship",
     category: "Full-Stack Systems",
-    summary: "High-contrast minimalist e-commerce flagship store with Next.js App Router, Firebase Firestore pinned to Mumbai (asia-south1), Cloudinary image optimization, and custom Telegram Bot integration for live inventory management.",
-    problemStatement: "Traditional e-commerce templates are bulky and require complicated backend dashboards for simple stock updates.",
-    contribution: "Engineered anti-boxy editorial design system, automated product description generation, and two-way Telegram Bot for mobile inventory updates.",
-    stack: ["Next.js", "TypeScript", "Firebase Firestore", "Tailwind CSS", "Telegram Bot API"],
+    summary: "High-contrast minimalist e-commerce flagship store engineered with Next.js App Router, Firebase Firestore pinned to Mumbai (asia-south1), Cloudinary CDN image optimization, and real-time inventory synchronization with mobile admin alerts.",
+    problemStatement: "Traditional e-commerce templates are bulky and require complicated backend dashboards for quick stock updates.",
+    contribution: "Engineered anti-boxy editorial design system, automated product description generation, Cloudinary asset pipeline, and real-time Telegram Bot inventory sync.",
+    stack: ["Next.js", "TypeScript", "Firebase Firestore", "Tailwind CSS", "Cloudinary"],
     status: "PRODUCTION",
     year: "2026",
     image: "/images/daaym_store.webp",
@@ -71,7 +71,7 @@ export const featuredProjects: readonly Project[] = [
     featured: true,
     metricsOrSpec: [
       { label: "Server", value: "Mumbai (asia-south1)" },
-      { label: "Inventory", value: "Telegram Bot Sync" },
+      { label: "Design", value: "Minimalist Editorial" },
       { label: "Delivery", value: "Cloudinary CDN" }
     ]
   },
@@ -101,11 +101,11 @@ export const featuredProjects: readonly Project[] = [
     id: "e-ration-kerala",
     code: "PRJ-03",
     title: "E-Ration Kerala (ഇ-റേഷൻ)",
-    subtitle: "Digital PDS Portal & Fair Price Shop Telemetry",
+    subtitle: "E-Commerce & Digital Ordering Portal for Kerala Government Ration",
     category: "Full-Stack Systems",
-    summary: "A modern, mobile-first digital platform for the Public Distribution System (PDS) in Kerala. Enables ration cardholders to verify monthly quota entitlements, check local stock at Fair Price Shops, order doorstep delivery or schedule 30-minute pickup slot tokens, with dealer fulfillment dashboard.",
-    problemStatement: "Beneficiaries face long queues and uncertainty about ration item availability at local fair price shops.",
-    contribution: "Architected Next.js 14 App Router portal with Supabase PostgreSQL, bilingual Malayalam/English interface, Leaflet shop discovery, and dealer tablet fulfillment dashboard.",
+    summary: "A modern e-commerce and digital ordering platform for Kerala Government's Public Distribution System (PDS). Enables ration cardholders to browse stock, order doorstep delivery, schedule 30-minute pickup slot tokens, and verify monthly quota entitlements with dealer fulfillment dashboard.",
+    problemStatement: "Beneficiaries face long queues, manual ration shop visits, and uncertainty about government ration item availability.",
+    contribution: "Architected Next.js 14 e-commerce ration ordering portal with Supabase PostgreSQL, bilingual Malayalam/English interface, doorstep delivery ordering, Leaflet shop discovery, and dealer fulfillment dashboard.",
     stack: ["Next.js 14", "TypeScript", "Tailwind CSS", "Supabase", "Zustand", "Leaflet"],
     status: "PROTOTYPE",
     year: "2026",
@@ -114,7 +114,7 @@ export const featuredProjects: readonly Project[] = [
     liveUrl: "https://github.com/dhyandevp/e-ration-kerala",
     featured: true,
     metricsOrSpec: [
-      { label: "Compliance", value: "WCAG AA" },
+      { label: "Portal Type", value: "Govt E-Commerce" },
       { label: "i18n", value: "Malayalam & English" },
       { label: "Database", value: "Supabase PostgreSQL" }
     ]
@@ -123,11 +123,11 @@ export const featuredProjects: readonly Project[] = [
     id: "vibecoding-ball-knowledge",
     code: "PRJ-04",
     title: "VibeCoding Ball Knowledge",
-    subtitle: "Interactive Football Trivia & Tactical Knowledge Engine",
+    subtitle: "Football Knowledge & Tactical Intelligence Platform",
     category: "Full-Stack Systems",
-    summary: "Fast-paced interactive football trivia and tactical ball knowledge challenge engine testing club history, transfers, player stats, and tactical setups with real-time scoring and responsive web design.",
-    problemStatement: "Generic sports trivia apps are cluttered with ads, slow loading times, and shallow question pools.",
-    contribution: "Engineered high-performance web trivia engine with dynamic quiz generation, streak tracking, instant answer feedback, and optimized Vercel edge deployment.",
+    summary: "Comprehensive football knowledge website and tactical trivia platform testing deep club history, iconic transfers, player statistics, and tactical awareness with real-time scoring and responsive web design.",
+    problemStatement: "Generic sports trivia apps are cluttered with ads, slow loading times, and lack nuanced football knowledge and tactical depth.",
+    contribution: "Engineered football knowledge base and trivia engine with dynamic quiz generation, streak tracking, instant answer verification, and optimized Vercel edge deployment.",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
     status: "DEPLOYED",
     year: "2026",
@@ -136,8 +136,8 @@ export const featuredProjects: readonly Project[] = [
     liveUrl: "https://vibecoding-ball-knowledge.vercel.app",
     featured: true,
     metricsOrSpec: [
+      { label: "Platform", value: "Football Knowledge" },
       { label: "Deployment", value: "Vercel Edge" },
-      { label: "Gameplay", value: "Realtime Scoring" },
       { label: "Stack", value: "Next.js + TS" }
     ]
   },

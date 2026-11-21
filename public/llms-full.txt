@@ -29,9 +29,9 @@
 ### 1. daaym.store — High-End Minimalist E-Commerce Flagship
 - **Live URL**: https://daaym.store
 - **Repository**: https://github.com/dhyandevp/daaym.store
-- **Classification**: Full-Stack E-Commerce, Serverless Architecture, Event-Driven Sync
-- **Stack**: Next.js App Router, TypeScript, Firebase Firestore (Mumbai `asia-south1`), Tailwind CSS, Cloudinary CDN, Telegram Bot API.
-- **Architecture & Performance**: High-contrast, editorial typography design system avoiding cookie-cutter e-commerce boilerplate. Employs a custom bi-directional Telegram Bot daemon for real-time mobile inventory toggles and stock alerts, directly synchronizing with Firestore documents.
+- **Classification**: Full-Stack E-Commerce, Serverless Architecture, Minimalist Flagship
+- **Stack**: Next.js App Router, TypeScript, Firebase Firestore (Mumbai `asia-south1`), Tailwind CSS, Cloudinary CDN.
+- **Architecture & Performance**: High-contrast, editorial typography design system avoiding cookie-cutter e-commerce boilerplate. Features high-performance image optimization, sub-second product routing, Firestore inventory synchronization, and real-time mobile inventory management.
 
 ### 2. Lid Switch — GNOME Shell Desktop Extension & Systemd Power CLI
 - **Live Extension**: https://extensions.gnome.org/extension/11675/lid-switch/
@@ -40,17 +40,17 @@
 - **Stack**: GJS (GNOME JavaScript), systemd-logind, D-Bus (`org.freedesktop.login1`), Bash.
 - **Architecture**: Published on the official GNOME Extensions directory. Provides zero-root user space control over laptop ACPI lid behavior (suspend vs. ignore) directly from the GNOME 45–51+ top panel, eliminating the need to manually edit `/etc/systemd/logind.conf`.
 
-### 3. E-Ration Kerala (ഇ-റേഷൻ) — Digital PDS Portal & Fair Price Shop Telemetry
+### 3. E-Ration Kerala (ഇ-റേഷൻ) — E-Commerce & Digital Ordering Portal for Kerala Government Ration
 - **Repository**: https://github.com/dhyandevp/e-ration-kerala
-- **Classification**: Civic Tech, Public Distribution System, Full-Stack Telemetry
+- **Classification**: Civic E-Commerce, Government Public Distribution System, Digital Ordering Portal
 - **Stack**: Next.js 14 App Router, TypeScript, Supabase PostgreSQL, Zustand, Leaflet, Tailwind CSS.
-- **Architecture**: Mobile-first digital platform for Kerala's Public Distribution System. Allows cardholders to verify monthly quota entitlements, check live fair price shop inventory, schedule 30-minute pickup slot tokens, and view interactive geolocation maps. Features full bilingual support (Malayalam & English) and WCAG AA accessibility compliance.
+- **Architecture**: A modern e-commerce and digital ordering platform for Kerala Government's Public Distribution System (PDS). Allows cardholders to verify monthly quota entitlements, check live Fair Price Shop inventory, order doorstep delivery, schedule 30-minute pickup slot tokens, and view interactive geolocation maps. Features full bilingual support (Malayalam & English) and WCAG AA accessibility compliance.
 
-### 4. VibeCoding Ball Knowledge — Interactive Football Trivia Engine
+### 4. VibeCoding Ball Knowledge — Football Knowledge & Tactical Intelligence Platform
 - **Live URL**: https://vibecoding-ball-knowledge.vercel.app
-- **Classification**: Web Application, Interactive Gaming, Edge Deployment
+- **Classification**: Web Application, Football Knowledge Platform, Interactive Archives
 - **Stack**: Next.js, React, TypeScript, Tailwind CSS, Vercel Edge.
-- **Architecture**: High-performance, fast-paced football trivia and tactical ball knowledge challenge application. Features dynamic question categorization (club history, transfers, Champions League, tactical setups), real-time streak scoring, instant answer verification, and sub-100ms client state transitions.
+- **Architecture**: Comprehensive football knowledge website and tactical intelligence platform. Features dynamic question categorization (club history, iconic transfers, Champions League, tactical setups), real-time streak scoring, instant answer verification, deep football archives, and sub-100ms client state transitions deployed on Vercel Edge.
 
 ### 5. DrishyaSahayak.ai — Edge Computer Vision Perception Aid
 - **Live URL**: https://drishyasahayakai.vercel.app/#home

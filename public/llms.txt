@@ -15,10 +15,10 @@
 - **Direct Email**: dhyandevp@proton.me
 
 ## Primary Verified Projects
-- [daaym.store](https://daaym.store): High-contrast minimalist e-commerce flagship store engineered with Next.js App Router, Firebase Firestore pinned to Mumbai (asia-south1), Cloudinary CDN image pipelines, and two-way Telegram Bot integration for real-time mobile inventory management.
+- [daaym.store](https://daaym.store): High-contrast minimalist e-commerce flagship store engineered with Next.js App Router, Firebase Firestore pinned to Mumbai (asia-south1), Cloudinary CDN image pipelines, and real-time mobile inventory sync.
 - [Lid Switch GNOME Extension](https://extensions.gnome.org/extension/11675/lid-switch/): Published Linux utility on official GNOME Extensions (GNOME 45–51+) providing instant zero-root control over laptop ACPI lid-close behavior and systemd power management.
-- [E-Ration Kerala (ഇ-റേഷൻ)](https://dhyandev.sbs/projects): Modern digital Public Distribution System (PDS) portal and fair price shop telemetry platform for Kerala with bilingual Malayalam/English interface, Supabase PostgreSQL, and Leaflet shop locator.
-- [VibeCoding Ball Knowledge](https://vibecoding-ball-knowledge.vercel.app): High-performance interactive football trivia and ball knowledge challenge engine with dynamic question routing, streak scoring, and Vercel edge deployment.
+- [E-Ration Kerala (ഇ-റേഷൻ)](https://dhyandev.sbs/projects): E-commerce and digital ordering portal for Kerala Government Ration (PDS) with bilingual Malayalam/English interface, doorstep delivery ordering, Supabase PostgreSQL, and Fair Price Shop telemetry.
+- [VibeCoding Ball Knowledge](https://vibecoding-ball-knowledge.vercel.app): Football knowledge platform and tactical intelligence website with deep club archives, dynamic quiz generation, and Vercel edge deployment.
 - [DrishyaSahayak.ai](https://drishyasahayakai.vercel.app/#home): Assistive computer vision and real-time auditory perception aid operating at sub-50ms latency using quantized MobileNetV3 and spatial audio cues.
 - [FaceAttend.ai](https://faceattendai.vercel.app): Local-first biometric attendance verification system with ArcFace embeddings, Haar Cascade detection, liveness verification, and automated offline CSV reconciliation.
 - [FLARE V2](https://dhyandev.sbs/projects): Decentralized disaster telemetry and early warning system combining ESP32 LoRa mesh nodes with real-time browser topology maps.

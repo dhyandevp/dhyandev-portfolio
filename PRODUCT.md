@@ -22,7 +22,7 @@ Combines cinematic creative art-direction (oversized typography, rich narrative 
 Web browsers across desktop, tablet, and mobile. Visitors scan quickly; first viewport must be memorable and technically credible.
 
 ## Capabilities and Constraints
-- Real projects: daaym.store (minimalist e-commerce with Telegram Bot inventory), Lid Switch (published GNOME extension for ACPI power management), E-Ration Kerala (bilingual digital PDS portal), VibeCoding Ball Knowledge (interactive football trivia engine), DrishyaSahayak.ai (assistive computer vision perception aid), FaceAttend.ai (real-time biometric attendance), FLARE V2 (decentralized LoRa disaster telemetry), Linux Homelab infrastructure.
+- Real projects: daaym.store (high-end minimalist e-commerce flagship), Lid Switch (published GNOME extension for ACPI power management), E-Ration Kerala (e-commerce & digital ordering portal for Kerala Government Ration), VibeCoding Ball Knowledge (football knowledge & tactical platform), DrishyaSahayak.ai (assistive computer vision perception aid), FaceAttend.ai (real-time biometric attendance), FLARE V2 (decentralized LoRa disaster telemetry), Linux Homelab infrastructure.
 - Real profiles: GitHub (dhyandevp), LinkedIn, Instagram (Dhyandev_p), Links (links.dhyandev.sbs), Email (dhyandevp@proton.me).
 - No invented metrics, no fake user counts, no fake awards.
 - Malayalam script touch ("ധ്യാനദേവ്") with proper font stack.
